@@ -22,7 +22,7 @@ MODE=-thumb
 ONCE_FLAGS =--combine  -fwhole-program
 CTUNING =-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 -ffunction-sections -fno-inline-small-functions -fno-split-wide-types \
--fno-tree-scev-cprop -Wl,--relax,--gc-sections
+-fno-tree-scev-cprop -Wl,--relax,--gc-sections -g
 INCLUDE_DIR=					\
 		-I.				\
 		-I./ehal			\
@@ -40,10 +40,10 @@ LDFLAGS=
 # Also... pio0 brings together the API sinse it gets included for any pio
 # usage.
 
-PIO=	$(SPECIFIC_PATH)/pio_slow.c		\
-	$(SPECIFIC_PATH)/pio_specific.h		\
+PIO=	$(SPECIFIC_PATH)/port_slow.c		\
+	$(SPECIFIC_PATH)/port_specific.h	\
 	$(SPECIFIC_PATH)/lpc210x_gnuarm.h	\
-	$(GENERIC_PATH)/pio.h
+	$(GENERIC_PATH)/port.h
 
 # TODO: complete me ...
 SPIM=
