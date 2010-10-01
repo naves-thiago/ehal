@@ -42,6 +42,7 @@ PPIO=					\
 	$(SPECIFIC_PATH)/port.c		\
 	$(SPECIFIC_PATH)/port_specific.h\
 	$(SPECIFIC_PATH)/pin.c		\
+	$(SPECIFIC_PATH)/pin_specific.h	\
 	$(GENERIC_PATH)/port.h		\
 	$(GENERIC_PATH)/pin.h
 

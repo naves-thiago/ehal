@@ -15,6 +15,6 @@ extern void	port_get_pullup	(u08 p, port_t mask, port_t val);
 extern void	port_set_dir	(u08 p, port_t mask, port_t dir);
 extern port_t	port_get_dir	(u08 p, port_t mask, port_t dir);
 
-extern bool	port_validate	(u08 p);
+extern u08	port_validate	(u08 p);
 
 #endif

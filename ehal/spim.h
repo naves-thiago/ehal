@@ -7,12 +7,9 @@
 #include "queue.h"
 
 extern void	spim_init		(u08 id);
-extern u08	spim_cfg_freq		(u08 id, u32 f);
-extern u08	spim_cfg_cpufreq	(u08 id, u32 f);
+extern u32	spim_cfg_freq		(u08 id, u32 f, u32 fcpu);
 
-extern void	spimi_xmit		(u08 id, spi_t *buff, u08 size);
-extern void	spimi_set_callback	(u08 id, void (*fn)(void *buff));
-
-/* methods form queue itself. they will operate on the spim->queue */
+extern void	spim_xmit		(u08 id, spi_t *buff, u08 size);
+extern void	spim_set_callback	(u08 id, void (*fn)(void *buff));
 
 #endif

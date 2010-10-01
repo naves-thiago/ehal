@@ -8,7 +8,7 @@ struct pin_t {
 	u08 pin:4;
 };
 
-#define pin_shift(x)	(P ## x = (1<<x))
+#define pin_shift(x)	P ## x = (1<<x)
 
 enum pin_name {
 	pin_shift(0),
@@ -19,6 +19,6 @@ enum pin_name {
 	pin_shift(5),
 	pin_shift(6),
 	pin_shift(7),
-}
+};
 
 #endif
