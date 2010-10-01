@@ -1,22 +1,18 @@
-/** @defgroup SPIM
- * @{
- */
-
+/** @file */
 #ifndef __SPIM_H_
 #define __SPIM_H_
 
+#include "types.h"
 #include "spim_specific.h"
+#include "queue.h"
 
-/** @param n -  n spim number, @param freq - is the spi frequency, @param
- * cpol - is the polarity @param cpha - is the phase. */
-#define spim_init( n, freq, cpol, cpha )	\
-	 GLUE( spim, GLUE( n, _init( freq, cpol, cpha )) )
+extern void	spim_init		(u08 id);
+extern u08	spim_cfg_freq		(u08 id, u32 f);
+extern u08	spim_cfg_cpufreq	(u08 id, u32 f);
 
-/** @param n - is the spim number, @param data - is the data with spi_t
- * type. @return spi_t with the slave response. */
-#define spim_xmit( n, data )			\
-	 GLUE( spim, GLUE( n, _xmit( data ) ) )
+extern void	spimi_xmit		(u08 id, spi_t *buff, u08 size);
+extern void	spimi_set_callback	(u08 id, void (*fn)(void *buff));
+
+/* methods form queue itself. they will operate on the spim->queue */
 
 #endif
-
-/** @} */ /* group SPIM */
