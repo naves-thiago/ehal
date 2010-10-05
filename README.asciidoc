@@ -28,8 +28,10 @@ But before that we need to...
 == Planned Architectures and MCUs ==
 
 |===========================================================================
-|avr:		|	attinys 25, 45, 85, 2313.
-			atmegas: 8, 16, 32, 88, 48, 168, 128
+|avr:		|	attiny: 25, 45, 85, 2313
+|avr:		|	atmegax: 8, 16, 32, 128
+|avr:		|	atmegax8: 48, 88, 168
+|avr:		|	atmegax4: 164p, 324p, 644p
 |msp430:	|	?
 |hcs08		|	?
 |8051		|	?

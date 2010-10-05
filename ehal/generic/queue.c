@@ -10,8 +10,7 @@ void queue_init (struct queue *q,
 	q->ocupied = 0;
 }
 
-unsigned char 
-queue_ocupied (struct queue *q)
+unsigned char queue_ocupied (struct queue *q)
 {
 	return q->ocupied;
 }

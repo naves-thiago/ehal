@@ -7,37 +7,31 @@
 #if defined (__AVR_ATtiny25__)	\
 	|| (__AVR_ATtiny45__)	\
 	|| (__AVR_ATtiny85__)
-#define PORT_SIZE 1
+#define PORT_NUM 1
+#define UART_NUM 0
 
 #elif defined (__AVR_ATmega8__)	\
 	|| (__AVR_ATmega88__)	\
 	|| (__AVR_ATmega168__)	\
 	|| (__AVR_ATmega328__)
-#define PORT_SIZE 4
+#define PORT_NUM 4
+#define UART_NUM 1
 
 #elif defined (__AVR_ATmega16__)\
 	|| (__AVR_ATmega32__)
-#define PORT_SIZE 4
+#define PORT_NUM 4
+#define UART_NUM 1
 
 #elif defined (__AVR_ATmega164P__)
-#define PORT_SIZE 4
+#define PORT_NUM 4
+#define UART_NUM 2
 
 #elif defined (_AVR_IOM128_H_)
-#define PORT_SIZE 7
+#define PORT_NUM 7
 
 #endif
 
-struct port_mem_block {
-	volatile u08 read;
-	volatile u08 dir;
-	volatile u08 write;
-};
-
 struct spi_mem_block {
-	volatile u08 dummy;
-};
-
-struct uart_mem_block {
 	volatile u08 dummy;
 };
 

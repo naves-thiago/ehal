@@ -4,14 +4,11 @@ CP=cp
 AVR_INCLUDE_INSTALL=$(which avr-gcc)
 AVR_INSTALL_LIB_DIR=$(shell dirname $(shell which avr-gcc))/../avr/lib/
 
-.PHONY: all doc clean avr all-avr all-avr-clean
+.PHONY: all doc clean avr
 
 all: avr lpc21xx
 	@echo
 	@echo done!
-
-doc:
-	make -C doc -f Makefile all
 
 clean: avr-clean
 
@@ -25,9 +22,15 @@ avr:
 	make -f Makefile.avr ARCH=avr MCU=attiny25		$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=attiny25 install 	$(OUTPUT)
 	# mega
+	make -f Makefile.avr ARCH=avr MCU=atmega164p clean	$(OUTPUT)
+	make -f Makefile.avr ARCH=avr MCU=atmega164p		$(OUTPUT)
+	make -f Makefile.avr ARCH=avr MCU=atmega164p install 	$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega88 clean	$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega88		$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega88 install 	$(OUTPUT)
+	make -f Makefile.avr ARCH=avr MCU=atmega168 clean	$(OUTPUT)
+	make -f Makefile.avr ARCH=avr MCU=atmega168		$(OUTPUT)
+	make -f Makefile.avr ARCH=avr MCU=atmega168 install 	$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega128 clean	$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega128		$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega128 install 	$(OUTPUT)

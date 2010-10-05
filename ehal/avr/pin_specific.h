@@ -1,5 +1,5 @@
-#ifndef __PIN_H_
-#define __PIN_H_
+#ifndef __PIN_SPECIFIC_H_
+#define __PIN_SPECIFIC_H_
 
 #include "types.h"
 
@@ -7,6 +7,8 @@ struct pin_t {
 	u08 port:4;
 	u08 pin:4;
 };
+
+#define PIN_SIZE 8
 
 #define pin_shift(x)	P ## x = (1<<x)
 

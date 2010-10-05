@@ -38,18 +38,24 @@ LDFLAGS=
 # Also... pio0 brings together the API sinse it gets included for any pio
 # usage.
 
-PPIO=					\
+PIO=					\
 	$(SPECIFIC_PATH)/port.c		\
 	$(SPECIFIC_PATH)/port_specific.h\
-	$(SPECIFIC_PATH)/pin.c		\
 	$(SPECIFIC_PATH)/pin_specific.h	\
 	$(GENERIC_PATH)/port.h		\
 	$(GENERIC_PATH)/pin.h
+
+UART_X8=				\
+	$(SPECIFIC_PATH)/uartx8.c	\
+	$(SPECIFIC_PATH)/uart_specific.c\
+	$(GENERIC_PATH)/uart.h
 
 SPIM=					\
 	$(SPECIFIC_PATH)/spim.c		\
 	$(SPECIFIC_PATH)/spim_specific.h\
 	$(GENERIC_PATH)/spim.h
+
+
 
 # TODO: complete me ...
 USI_SRC=
@@ -66,34 +72,41 @@ DMA=
 # MCU resources
 
 ifeq ($(MCU),attiny25)
-RESOURCES=$(PPIO)
+RESOURCES+=$(PIO)
 else
-
 ifeq ($(MCU),atmega8)
-RESOURCES=$(PPIO)
-RESOURCES=$(SPIM)
+RESOURCES+=$(PIO)
+RESOURCES+=$(SPIM)
 else
-
 ifeq ($(MCU),atmega88)
-RESOURCES=$(PPIO)
-RESOURCES=$(SPIM)
+RESOURCES+=$(PIO)
+RESOURCES+=$(SPIM)
+else
+ifeq ($(MCU),atmega168)
+RESOURCES+=$(PIO)
+RESOURCES+=$(SPIM)
 else
 
 ifeq ($(MCU),atmega16)
-RESOURCES=$(PPIO)
-RESOURCES=$(SPIM)
+RESOURCES+=$(PIO)
+RESOURCES+=$(SPIM)
 else
 
 ifeq ($(MCU),atmega32)
-RESOURCES=$(PPIO)
-RESOURCES=$(SPIM)
+RESOURCES+=$(PIO)
+RESOURCES+=$(SPIM)
 else
 
 ifeq ($(MCU),atmega128)
-RESOURCES=$(PPIO)
-RESOURCES=$(SPIM)
+RESOURCES+=$(PIO)
+RESOURCES+=$(SPIM)
+else
+
+ifeq ($(MCU),atmega164p)
+RESOURCES+=$(PIO) $(SPECIFIC_PATH)/uart_x8.c $(GENERIC_PATH)/uart.h
 else # Don't have port for this one...
-	@echo unsuported mcu!
+endif
+endif
 endif
 endif
 endif
@@ -102,7 +115,8 @@ endif
 endif
 
 # .c + .h
-RESOURCES+=	$(GENERIC_PATH)/types.h
+RESOURCES+=	$(GENERIC_PATH)/types.h \
+		$(SPECIFIC_PATH)/config.h
 # .h only
 INC=$(filter %.h, $(RESOURCES))
 # .c only
