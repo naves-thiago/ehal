@@ -15,24 +15,33 @@ struct uart_mem_block {
 	volatile u08 udr;
 };
 
+struct uart {
+};
+
+struct queue tx[2];
+struct queue rx[2];
+
+uart_fn on_txempty;
+uart_fn on_rxfull;
+
 struct uart_mem_block *uart_mem_block[] = {
 	UART(0),
 	UART(1),
 };
 
-static struct queue tx[UART_NUM];
-static struct queue rx[UART_NUM];
 
-/* callbacks */
-static uart_fn on_txempty = 0;
-static uart_fn on_rxfull = 0;
+void uart_set_on_rxfull (u08 id, uart_fn f)
+{
+	on_rxfull = f;
+}
 
 void uart_init (u08 id)
 {
 	uart_mem_block[id]->ucsra = (1<<U2X0);
-	uart_mem_block[id]->ucsrb = (1<<RXEN0) | (1<<TXEN0)|(1<<RXCIE0);
+	uart_mem_block[id]->ucsrb = (1<<RXEN0)
+		|(1<<TXEN0)
+		|(1<<RXCIE0);
 	uart_mem_block[id]->ucsrc = 3<<UCSZ00;
-
 }
 
 #define ENTRY(_baud, _fcpu) B ## _baud:		\
@@ -53,6 +62,7 @@ void uart_set_baud (u08 id, u08 baud, u32 fcpu)
 	case ENTRY(115200, fcpu); break;
 	}
 }
+#undef ENTRY
 
 struct queue *uart_gettx (u08 id)
 {
@@ -66,9 +76,15 @@ struct queue *uart_getrx (u08 id)
 
 ISR(USART0_RX_vect)
 {
-	u08 tmp;
-	// throw older away.
-	if (queue_full (&rx[0]) && on_rxfull)
-		on_rxfull(&rx[0]);
 	queue_enq (&rx[0], UDR0);
+	if (queue_full (&rx[0]) && on_rxfull)
+		on_rxfull (&rx[0]);
+}
+
+ISR(USART0_TX_vect)
+{
+	u08 v;
+	if (!queue_deq (&tx[0], &v)){
+		UDR0 = v;
+	}
 }

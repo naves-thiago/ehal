@@ -12,6 +12,8 @@ enum uart_baud_rate {
 /* callback funtion */
 typedef void (*uart_fn)(struct queue *q);
 
+struct uart;
+
 void	uart_init	(u08 id);
 u08	uart_validate	(u08 id);
 void	uart_set_baud	(u08 id, u08 baud, u32 fcpu);
@@ -29,5 +31,6 @@ void	uart_send		(u08 id);
 /* "events" for uart. For disabling, set as NULL. */
 void	uart_set_on_txempty	(u08 id, uart_fn callback);
 void	uart_set_on_rxfull	(u08 id, uart_fn callback);
+void	uart_set_on_foundchar	(u08 id, uart_fn callback, char c);
 
 #endif

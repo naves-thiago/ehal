@@ -37,7 +37,7 @@ void pin_setvalue (struct pin_t p, u08 v)
 
 u08 pin_get_val (struct pin_t p)
 {
-	return (port_get (p.port) & p.pin) ? 1 : 0;
+	return (port_read (p.port) & p.pin) ? 1 : 0;
 }
 
 /* dir */
