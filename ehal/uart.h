@@ -18,17 +18,19 @@ void	uart_init	(u08 id);
 u08	uart_validate	(u08 id);
 void	uart_set_baud	(u08 id, u08 baud, u32 fcpu);
 u32	uart_get_baud	(u08 id, u32 fcpu);
-u08	uart_cfg_bits	(u08 id, u08); /* default of init is 8. */
+void	uart_set_nbits	(u08 id, u08); /* default of init is 8. */
+u08	uart_get_nbits	(u08 id);
 
-/* return a valid queue or NULL, also note that there will be one tx and one
- * rx per uart. so uart_validade also validate the number of queue pairs */
+void	uart_set_rxbuff	(u08 id, u08 *buff, u08 sz);
+void	uart_set_txbuff	(u08 id, u08 *buff, u08 sz);
+
 struct queue *uart_gettx	(u08 id);
 struct queue *uart_getrx	(u08 id);
 
 /* sends the data in the tx buffer. */
 void	uart_send		(u08 id);
 
-/* "events" for uart. For disabling, set as NULL. */
+/* "events" for uart. For disabling, set the callback to NULL. */
 void	uart_set_on_txempty	(u08 id, uart_fn callback);
 void	uart_set_on_rxfull	(u08 id, uart_fn callback);
 void	uart_set_on_foundchar	(u08 id, uart_fn callback, char c);

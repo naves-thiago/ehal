@@ -46,9 +46,10 @@ PIO=					\
 	$(GENERIC_PATH)/pin.h
 
 UART_X8=				\
-	$(SPECIFIC_PATH)/uartx8.c	\
-	$(SPECIFIC_PATH)/uart_specific.c\
-	$(GENERIC_PATH)/uart.h
+	$(SPECIFIC_PATH)/uart_x8.c	\
+	$(GENERIC_PATH)/uart.h		\
+	$(GENERIC_PATH)/generic/queue.c	\
+	$(GENERIC_PATH)/queue.h		\
 
 SPIM=					\
 	$(SPECIFIC_PATH)/spim.c		\
@@ -103,7 +104,8 @@ RESOURCES+=$(SPIM)
 else
 
 ifeq ($(MCU),atmega164p)
-RESOURCES+=$(PIO) $(SPECIFIC_PATH)/uart_x8.c $(GENERIC_PATH)/uart.h
+RESOURCES+=$(PIO)
+RESOURCES+=$(UART_X8)
 else # Don't have port for this one...
 endif
 endif

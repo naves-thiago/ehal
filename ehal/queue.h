@@ -13,10 +13,7 @@ struct queue {
 	unsigned char ocupied;
 };
 
-/** @brief gets a buffer and its size. Works for static and dinamic
- * @arg q - struct queue
- * @arg buff - ptr to buffer
- * @arg sz - sizeof buffer */
+/** @brief set user defined buffer to be the queue buffer. */
 void
 queue_init	(struct queue *q,
 		unsigned char *buff,
