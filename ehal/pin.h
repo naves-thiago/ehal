@@ -2,7 +2,7 @@
  * @defgroup pin pin
  * FIXME: Broken example tag
  * @{
- * @example pin_example.c */
+ * @example pinex.c */
 #ifndef __PIN_H_
 #define __PIN_H_
 
