@@ -18,24 +18,11 @@ struct uart_mem_block *uart_mem_block[] = {
 	UART(1),
 };
 
-struct uart {
-	struct queue tx;
-	struct queue rx;
-	uart_fn on_txempty;
-	uart_fn on_rxfull;
-	uart_fn on_foundchar;
-};
+volatile u08 *uart_tx;
+volatile u08 uart_txsz;
 
-struct queue tx[2];
-struct queue rx[2];
-
-uart_fn on_txempty[2];
-uart_fn on_rxfull[2];
-
-void uart_set_on_rxfull (u08 id, uart_fn f)
-{
-	on_rxfull[id] = f;
-}
+volatile u08 *uart_rx;
+volatile u08 uart_rxsz;
 
 void uart_init (u08 id)
 {
@@ -43,6 +30,7 @@ void uart_init (u08 id)
 	uart_mem_block[id]->ucsra = (1<<U2X0);
 	uart_mem_block[id]->ucsrb = (1<<RXEN0)
 		| (1<<TXEN0)
+		| (1<<TXCIE0)
 		| (1<<RXCIE0);
 }
 
@@ -66,59 +54,45 @@ void uart_set_baud (u08 id, u08 baud, u32 fcpu)
 }
 #undef ENTRY
 
-struct queue *uart_gettx (u08 id)
+u32 uart_get_baud (u08 id, u32 fcpu)
 {
-	return &tx[id];
+	return 0;
 }
 
-struct queue *uart_getrx (u08 id)
+void uart_send (u08 id, u08 *buff, u08 sz)
 {
-	return &rx[id];
+	uart_tx = buff;
+	uart_txsz = sz;
+	uart_mem_block[id]->udr = *buff;
 }
 
-void uart_set_rxbuff (u08 id, u08 *buff, u08 sz)
+void uart_recv (u08 id, u08 *buff, u08 sz)
 {
-	queue_init (uart_getrx (id), buff, sz);
+	uart_rx = buff;
+	uart_rxsz = sz;
 }
 
-void uart_set_txbuff (u08 id, u08 *buff, u08 sz)
+u08 uart_txdone (u08 id)
 {
-	queue_init (uart_gettx (id), buff, sz);
+	return uart_txsz == 0;
+}
+
+u08 uart_rxdone (u08 id)
+{
+	return uart_rxsz == 0;
 }
 
 ISR(USART0_RX_vect)
 {
-	queue_enq (&rx[0], UDR0);
-	if (queue_full (&rx[0]) && on_rxfull[0])
-		on_rxfull[0] (&rx[0]);
+	if (!uart_rxdone (0)){
+		uart_rxsz--;
+		*(uart_rx++) = UDR0;
+	}
 }
 
 ISR(USART0_TX_vect)
 {
-	u08 v;
-	if (!queue_deq (&tx[0], &v)){
-		UDR0 = v;
-	}
-}
-
-ISR(USART1_RX_vect)
-{
-	queue_enq (&rx[1], UDR1);
-	if (queue_full (&rx[1]) && on_rxfull[1])
-		on_rxfull[1] (&rx[1]);
-}
-
-ISR(USART1_TX_vect)
-{
-	u08 v;
-	if (!queue_deq (&tx[0], &v)){
-		UDR1 = v;
-	}
-}
-
-void uart_send(u08 id)
-{
-	u08 v;
-	queue_deq (&tx[id], &v);
-	uart_mem_block[id]->udr = v;
+	uart_tx++;
+	if( uart_txsz-- )
+		UDR0 = *uart_tx;
 }

@@ -40,6 +40,7 @@ LDFLAGS=
 
 PIO=					\
 	$(SPECIFIC_PATH)/port.c		\
+	$(GENERIC_PATH)/generic/pin.c	\
 	$(SPECIFIC_PATH)/port_specific.h\
 	$(SPECIFIC_PATH)/pin_specific.h	\
 	$(GENERIC_PATH)/port.h		\
