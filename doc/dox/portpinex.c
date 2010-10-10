@@ -1,5 +1,5 @@
-/* Example of user defined functions using ehal, for better performance use
- * native commands of your MCU target. */
+/* example of a hd44780U low level driver using the port and pin modules.
+ * TODO: remove <util/delay.h> & _delay_ms(1) */
 #include "ehal/port.h"
 #include "ehal/pin.h"
 #include "hd44780.h"
