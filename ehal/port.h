@@ -33,6 +33,7 @@ port_t	port_get_pullup	(u08 id);
 void	port_set_dir	(u08 id, port_t mask, port_t dir);
 port_t	port_get_dir	(u08 id);
 
+/** @brief For runtime validation of a given port. return 1 if valid. */
 u08	port_is_valid	(u08 id);
 
 #endif /* __PORT_H_ */

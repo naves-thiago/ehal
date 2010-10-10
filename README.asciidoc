@@ -25,14 +25,20 @@ But before that we need to...
 - Find people to help with the project.
 ...
 
+== Abstracted Interfaces Done ==
+- port
+- pin
+- uart
+
 == Planned Architectures and MCUs ==
 
 |===========================================================================
-|avr:		|	attiny: 25, 45, 85, 2313
+|avr:		|	attinyx5: 25, 45, 85
+|avr:		|	attiny2313
 |avr:		|	atmegax: 8, 16, 32, 128
 |avr:		|	atmegax8: 48, 88, 168
 |avr:		|	atmegax4: 164p, 324p, 644p
-|msp430:	|	?
+|msp430:	|	G2231
 |hcs08		|	?
 |8051		|	?
 |arm7:		|	lpc2101 to lpc2106, str711fr2, ...
