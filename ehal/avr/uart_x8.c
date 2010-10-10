@@ -3,26 +3,45 @@
 #include "config.h"
 #include "uart.h"
 
+#define UART_NUM 2
+#define UART_WITH_TXDONE_CALLBACK
+#define UART_WITH_RXDONE_CALLBACK
+#define UART_WITH_FOUNDC_CALLBACK
+
 struct uart_mem_block {
 	volatile u08 ucsra;
 	volatile u08 ucsrb;
 	volatile u08 ucsrc;
-	volatile u08 ubrrl;
-	volatile u08 ubrrh;
+	volatile u08 pad[1];
+	volatile u16 ubrr;
 	volatile u08 udr;
 };
 
 #define UART(n)	(struct uart_mem_block *)&UCSR ## n ## A
-struct uart_mem_block *uart_mem_block[] = {
+volatile struct uart_mem_block *uart_mem_block[] = {
 	UART(0),
 	UART(1),
 };
 
-volatile u08 *uart_tx;
-volatile u08 uart_txsz;
+u08 *uart_tx[UART_NUM];
+u08 uart_txsz[UART_NUM];
+u08 uart_txcur[UART_NUM];
 
-volatile u08 *uart_rx;
-volatile u08 uart_rxsz;
+u08 *uart_rx[UART_NUM];
+u08 uart_rxsz[UART_NUM];
+u08 uart_rxcur[UART_NUM];
+
+/* Array of function pointers. One fp for each uart. */
+#ifdef UART_WITH_RXDONE_CALLBACK
+u08 (*uart_rxdone_cb[UART_NUM])(u08 *buff, u08 sz);
+#endif
+#ifdef UART_WITH_TXDONE_CALLBACK
+u08 (*uart_txdone_cb[UART_NUM])(u08 *buff, u08 sz);
+#endif
+#ifdef UART_WITH_FOUNDC_CALLBACK
+u08 (*uart_foundc_cb[UART_NUM])(u08 *buff, u08 sz);
+char uart_foundc_c[UART_NUM];
+#endif
 
 void uart_init (u08 id)
 {
@@ -34,13 +53,11 @@ void uart_init (u08 id)
 		| (1<<RXCIE0);
 }
 
-#define ENTRY(_baud, _fcpu) B ## _baud:		\
-	ubrr = _fcpu/(8UL*_baud) - 1;		\
-	uart_mem_block[id]->ubrrl = ubrr >> 8;	\
-	uart_mem_block[id]->ubrrh = ubrr
+#define ENTRY(_baud, _fcpu) B ## _baud:	\
+	uart_mem_block[id]->ubrr = _fcpu/(8UL*_baud) - 1;
+
 void uart_set_baud (u08 id, u08 baud, u32 fcpu)
 {
-	u32 ubrr;
 	switch(baud){
 	case ENTRY(   300, fcpu); break;
 	case ENTRY(  1200, fcpu); break;
@@ -54,6 +71,7 @@ void uart_set_baud (u08 id, u08 baud, u32 fcpu)
 }
 #undef ENTRY
 
+/* dummy function. */
 u32 uart_get_baud (u08 id, u32 fcpu)
 {
 	return 0;
@@ -61,38 +79,76 @@ u32 uart_get_baud (u08 id, u32 fcpu)
 
 void uart_send (u08 id, u08 *buff, u08 sz)
 {
-	uart_tx = buff;
-	uart_txsz = sz;
+	uart_tx[id] = buff;
+	uart_txsz[id] = sz;
 	uart_mem_block[id]->udr = *buff;
 }
 
 void uart_recv (u08 id, u08 *buff, u08 sz)
 {
-	uart_rx = buff;
-	uart_rxsz = sz;
+	uart_rx[id] = buff;
+	uart_rxsz[id] = sz;
+	uart_rxcur[id] = 0;
+}
+
+void uart_set_foundc_cb (u08 id, void (*uart_fn)(u08 *buff, u08 sz), char c)
+{
+	uart_foundc_cb[id] = uart_fn;
+	uart_foundc_c[id] = c;
 }
 
 u08 uart_txdone (u08 id)
 {
-	return uart_txsz == 0;
+	return uart_txsz[id] == uart_txcur[id];
 }
 
 u08 uart_rxdone (u08 id)
 {
-	return uart_rxsz == 0;
+	return uart_rxsz[id] == uart_rxcur[id];
 }
 
 ISR(USART0_RX_vect)
 {
 	if (!uart_rxdone (0)){
-		uart_rxsz--;
-		*(uart_rx++) = UDR0;
+		uart_rx[0][uart_rxcur[0]] = uart_mem_block[0]->udr;
+		uart_rxcur[0]++;
+#ifdef UART_WITH_FOUNDC_CALLBACK
+		if ((uart_rx[0][uart_rxcur[0]-1] == uart_foundc_c[0])
+			       && uart_foundc_cb[0]){
+			uart_foundc_cb[0] (uart_rx[0], uart_rxcur[0]-1);
+		}
+#endif
 	}
+#ifdef UART_WITH_RXDONE_CALLBACK
+	else if (uart_rxdone_cb[0]){
+		uart_rxdone_cb[0] (uart_rx[0], uart_rxcur[0]);
+	}
+#endif
 }
 
 ISR(USART0_TX_vect)
 {
-	uart_tx++;
-	if( uart_txsz-- )
-		UDR0 = *uart_tx;
+	uart_tx[0]++;
+	if( uart_txsz[0]-- )
+		UDR0 = *uart_tx[0];
+}
+
+ISR(USART1_RX_vect)
+{
+	if (!uart_rxdone (1)){
+		uart_rx[1][uart_rxcur[1]] = uart_mem_block[1]->udr;
+		uart_rxcur[1]++;
+	}
+#ifdef UART_WITH_RXDONE_CALLBACK
+	else if (uart_rxdone_cb[1]) {
+		uart_rxdone_cb[1] (uart_rx[1], uart_rxsz[1]);
+	}
+#endif
+}
+
+ISR(USART1_TX_vect)
+{
+	uart_tx[1]++;
+	if( uart_txsz[1]-- )
+		uart_mem_block[1]->udr = *uart_tx[1];
 }

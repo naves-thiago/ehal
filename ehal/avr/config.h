@@ -37,6 +37,5 @@ struct spi_mem_block {
 
 /* defined in config.c */
 extern struct port_mem_block *port_mem_block[];
-extern struct uart_mem_block *uart_mem_block[];
 
 #endif	/* __CONFIG_H_ */

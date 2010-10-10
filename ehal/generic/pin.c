@@ -24,7 +24,7 @@ void pin_low (struct pin_t p)
 	port_write (p.port, 1<<p.pin, 0);
 }
 
-void pin_setvalue (struct pin_t p, u08 v)
+void pin_set_val (struct pin_t p, u08 v)
 {
 	if (v) port_write (p.port, 1<<p.pin, 1<<p.pin);
 	else port_write (p.port, 1<<p.pin, 0);
@@ -57,7 +57,7 @@ u08 pin_get_dir (struct pin_t p);
 /* pullup */
 void pin_pullup (struct pin_t p);
 void pin_nopullup (struct pin_t p);
-void pin_setpullup (struct pin_t p, u08 v);
-u08 pin_getpullup (struct pin_t p);
+void pin_set_pullup (struct pin_t p, u08 v);
+u08 pin_get_pullup (struct pin_t p);
 
 
