@@ -31,6 +31,7 @@ port_t	port_get_pullup	(u08 id);
 /** Change the port direction, 1 for In, 0 for Out, the arguments are the
  * same as the @see port_write function. */
 void	port_set_dir	(u08 id, port_t mask, port_t dir);
+/** Get the port direction. */
 port_t	port_get_dir	(u08 id);
 
 /** @brief For runtime validation of a given port. return 1 if valid. */
