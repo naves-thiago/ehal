@@ -15,14 +15,9 @@ With that, it will be possible create a driver only once and reuse it in any
 of the supported hardware by the ehal. This second step and is getting
 planed.
 
-The Gedriv - Generic eHAL Driver. ( Uh! nested acronyms :-) )
-
-But before that we need to...
-
 == Roadmap ==
 
-=== Getting ready to Launch 0.1, with pin, port and uart working for some
-avrs. ===
+=== Getting ready to Launch 0.1, with pin, port and uart on some avrs
 
 - Finish ARCH and MCU independent building process.
 - Create the abstract interfaces for MCU peripherals.
