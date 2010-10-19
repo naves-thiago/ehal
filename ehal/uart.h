@@ -17,10 +17,10 @@ enum uart_baud_rate {
 
 /** @brief Must be called before the other functions of the module.
  * @arg id - uart number. (0..n) */
-void	uart_init	(u08 id);
+void	uart_open	(u08 id);
 
 /** @brief Return true if id is valid. */
-u08	uart_is_valid	(u08 id);
+u08	uart_isvalid	(u08 id);
 
 /** @name config
  * @{ */
@@ -35,22 +35,30 @@ u32	uart_get_baud	(u08 id, u32 fcpu);
 
 /** @brief Set the number of bits of the uart "word", default is 8.
  * @note This might not exist in all platforms. */
-void	uart_set_nbits	(u08 id, u08 n); /* default of init is 8. */
+void	uart_setnbits	(u08 id, u08 n); /* default of init is 8. */
 
 /** @brief get the previous value. */
 u08	uart_get_nbits	(u08 id);
 /** @} */
 
+
 /** @name send/recv
  * @{ */
-/** @brief Send sz bytes of buff to the uart from buff.
+/** @brief Send sz bytes of buff to the uart from buff, non blocking.
  * @arg buff - ptr to array.
  * @arg sz - size of buff */
-void	uart_send	(u08 id, u08 *buff, u08 sz);
+void	uart_write	(u08 id, void *buff, u08 sz);
+
+/** @brief same as write, but blocking. */
+void	uart_writeb	(u08 id, void *buff, u08 sz);
+
 /** @brief Receive sz bytes from the uart, into buff.
  * @arg buff - ptr to array.
  * @arg sz - size of buff */
-void	uart_recv	(u08 id, u08 *buff, u08 sz);
+void	uart_read	(u08 id, void *buff, u08 sz);
+
+/** @brief Same as read, but blocking. */
+void	uart_readb	(u08 id, void *buff, u08 sz);
 
 /** @brief set a callback for when tx is completed.
  * @arg txcb - a funtion that will be called when done. */
@@ -70,6 +78,7 @@ void	uart_set_foundc_cb	(u08 id,
 /** @brief flag for transmission completed (buffer empty).
  * @return 1 if done, 0 otherwise. */
 u08	uart_txdone	(u08 id);
+
 /** @brief flag for receive completed (buffer full).
  * @return 1 if done, 0 otherwise. */
 u08	uart_rxdone	(u08 id);

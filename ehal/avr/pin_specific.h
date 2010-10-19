@@ -4,8 +4,8 @@
 #include "types.h"
 
 struct pin_t {
-	u08 port:4;
-	u08 pin:4;
+	u08 port;
+	u08 pin;
 };
 
 #define PIN_SIZE 8

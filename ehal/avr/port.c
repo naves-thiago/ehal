@@ -92,7 +92,7 @@ port_t port_get_dir (u08 p)
 	return port_mem_block[p]->dir;
 }
 
-u08 port_validate (u08 p)
+u08 port_is_valid (u08 p)
 {
 	return p < PORT_NUM;
 }

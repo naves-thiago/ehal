@@ -4,9 +4,6 @@
 #include "uart.h"
 
 #define UART_NUM 2
-#define UART_WITH_TXDONE_CALLBACK
-#define UART_WITH_RXDONE_CALLBACK
-#define UART_WITH_FOUNDC_CALLBACK
 
 struct uart_mem_block {
 	volatile u08 ucsra;
@@ -30,20 +27,15 @@ u08 uart_txcur[UART_NUM];
 u08 *uart_rx[UART_NUM];
 u08 uart_rxsz[UART_NUM];
 u08 uart_rxcur[UART_NUM];
+u08 flags;
 
 /* Array of function pointers. One fp for each uart. */
-#ifdef UART_WITH_RXDONE_CALLBACK
-u08 (*uart_rxdone_cb[UART_NUM])(u08 *buff, u08 sz);
-#endif
-#ifdef UART_WITH_TXDONE_CALLBACK
-u08 (*uart_txdone_cb[UART_NUM])(u08 *buff, u08 sz);
-#endif
-#ifdef UART_WITH_FOUNDC_CALLBACK
-u08 (*uart_foundc_cb[UART_NUM])(u08 *buff, u08 sz);
+void (*uart_rxdone_cb[UART_NUM])(u08 *buff, u08 sz);
+void (*uart_txdone_cb[UART_NUM])(u08 *buff, u08 sz);
+void (*uart_foundc_cb[UART_NUM])(u08 *buff, u08 sz);
 char uart_foundc_c[UART_NUM];
-#endif
 
-void uart_init (u08 id)
+void uart_open (u08 id)
 {
 	uart_mem_block[id]->ucsrc = 3<<UCSZ00;
 	uart_mem_block[id]->ucsra = (1<<U2X0);
@@ -54,7 +46,7 @@ void uart_init (u08 id)
 }
 
 #define ENTRY(_baud, _fcpu) B ## _baud:	\
-	uart_mem_block[id]->ubrr = _fcpu/(8UL*_baud) - 1;
+	uart_mem_block[id]->ubrr = _fcpu/(8UL*_baud) - 1
 
 void uart_set_baud (u08 id, u08 baud, u32 fcpu)
 {
@@ -77,14 +69,14 @@ u32 uart_get_baud (u08 id, u32 fcpu)
 	return 0;
 }
 
-void uart_send (u08 id, u08 *buff, u08 sz)
+void uart_write (u08 id, void *buff, u08 sz)
 {
 	uart_tx[id] = buff;
 	uart_txsz[id] = sz;
-	uart_mem_block[id]->udr = *buff;
+	uart_mem_block[id]->udr = *((u08 *)buff);
 }
 
-void uart_recv (u08 id, u08 *buff, u08 sz)
+void uart_read (u08 id, void *buff, u08 sz)
 {
 	uart_rx[id] = buff;
 	uart_rxsz[id] = sz;
@@ -112,18 +104,14 @@ ISR(USART0_RX_vect)
 	if (!uart_rxdone (0)){
 		uart_rx[0][uart_rxcur[0]] = uart_mem_block[0]->udr;
 		uart_rxcur[0]++;
-#ifdef UART_WITH_FOUNDC_CALLBACK
 		if ((uart_rx[0][uart_rxcur[0]-1] == uart_foundc_c[0])
 			       && uart_foundc_cb[0]){
 			uart_foundc_cb[0] (uart_rx[0], uart_rxcur[0]-1);
 		}
-#endif
 	}
-#ifdef UART_WITH_RXDONE_CALLBACK
 	else if (uart_rxdone_cb[0]){
 		uart_rxdone_cb[0] (uart_rx[0], uart_rxcur[0]);
 	}
-#endif
 }
 
 ISR(USART0_TX_vect)
@@ -139,11 +127,9 @@ ISR(USART1_RX_vect)
 		uart_rx[1][uart_rxcur[1]] = uart_mem_block[1]->udr;
 		uart_rxcur[1]++;
 	}
-#ifdef UART_WITH_RXDONE_CALLBACK
 	else if (uart_rxdone_cb[1]) {
 		uart_rxdone_cb[1] (uart_rx[1], uart_rxsz[1]);
 	}
-#endif
 }
 
 ISR(USART1_TX_vect)
