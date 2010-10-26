@@ -67,16 +67,6 @@ void	port_setdir	(u08 id, port_t mask, port_t val);
  * @arg id - port id. */
 port_t	port_getdir	(u08 id);
 
-/* TODO: Interrupts of ports */
-/** Set interrupt on Change.
- * @arg id - port id.
- * @arg mask - masks the bits that will be changed.
- * @arg val - the new values for the masked bits. */
-void	port_setint	(u08 id, port_t mask, port_t val);
-port_t	port_getint	(u08 id, port_t mask, port_t val);
-
-/**  */
-
 #endif /* __PORT_H_ */
 
 /** @} */ /* @defgroup port */
