@@ -13,9 +13,4 @@ typedef signed short int	s16;
 typedef signed long int		s32;
 typedef signed long long	s64;
 
-#define ARRAY_SIZE(x)	(sizeof(x) / sizeof(x[0]))
-
-#define GLUE2( x, y ) x ## y
-#define GLUE( x, y ) GLUE2( x, y )
-
 #endif

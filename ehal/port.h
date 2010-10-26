@@ -9,38 +9,73 @@
 #include "types.h"
 #include "port_specific.h"
 
-/** @brief for a mast with all pins from a port. */
+/** Mask with all pins. */
 #define ALL_PINS	((port_t)-1)
 
-/** @{ */
-/* Port Interface. */
-/** @brief write @a val from port @a id foreach bit from @a mask that is 1
+/** Put the port in a know state.
+ * Input, no pullup, no pulldown, no interrupt.
+ * @arg id - port id.
+ * @note check if it is valid before using any other function with
+ * @port_isvalid.
+ */
+void	port_init	(u08 id);
+
+/** Runtime validation of a port @a id. return 1 for a valid port.
+ * @arg id - port id.
+ */
+u08	port_isvalid	(u08 id);
+
+/** Set (HIGH/LOW)
  * @arg id - port id.
  * @arg mask - masks the bits that will be changed.
  * @arg val - the new values for the masked bits. */
 void	port_write	(u08 id, port_t mask, port_t val);
 
-/** @brief read the port value, all its pins.
- * @note The port must be an input or you'll get an undefined behaviour. */
+/** Read the port value, all its pins.
+ * @note The pins read must be in input state otherwise the behaviour is
+ * undefined. */
 port_t	port_read	(u08 id);
-/** @} */
 
 
-/** @brief set pullup, the arguments work like the port_write function. */
-void	port_set_pullup	(u08 id, port_t mask, port_t val);
+/** Set pullup, the arguments work like the port_write function.
+ * @arg id - port id.
+ * @arg mask - masks the bits that will be changed.
+ * @arg val - the new values for the masked bits. */
+void	port_setpullup	(u08 id, port_t mask, port_t val);
 
-/** @brief read the current position of the pullups. */
-port_t	port_get_pullup	(u08 id);
+/** Read the current the pullups.
+ * @arg id - port id.
+ */
+port_t	port_getpullup	(u08 id);
 
-/** Change the port direction, 1 for In, 0 for Out, the arguments are the
- * same as the @see port_write function. */
-void	port_set_dir	(u08 id, port_t mask, port_t dir);
+/** Set pull down, the arguments work like the port_write function.
+ * @arg id - port id.
+ * @arg mask - masks the bits that will be changed.
+ * @arg val - the new values for the masked bits. */
+void	port_setpulldn	(u08 id, port_t mask, port_t val);
 
-/** Get the port direction. */
-port_t	port_get_dir	(u08 id);
+/** Read the current position of the pullups. */
+port_t	port_getpulldn	(u08 id);
 
-/** @brief For runtime validation of a given port. return 1 if valid. */
-u08	port_is_valid	(u08 id);
+/** Change the port direction (IN/OUT).
+ * @arg id - port id.
+ * @arg mask - masks the bits that will be changed.
+ * @arg val - the new values for the masked bits. 1 - in, 0 - out. */
+void	port_setdir	(u08 id, port_t mask, port_t val);
+
+/** Get the port direction.
+ * @arg id - port id. */
+port_t	port_getdir	(u08 id);
+
+/* TODO: Interrupts of ports */
+/** Set interrupt on Change.
+ * @arg id - port id.
+ * @arg mask - masks the bits that will be changed.
+ * @arg val - the new values for the masked bits. */
+void	port_setint	(u08 id, port_t mask, port_t val);
+port_t	port_getint	(u08 id, port_t mask, port_t val);
+
+/**  */
 
 #endif /* __PORT_H_ */
 
