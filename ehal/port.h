@@ -44,8 +44,7 @@ port_t	port_read	(u08 id);
 void	port_setpullup	(u08 id, port_t mask, port_t val);
 
 /** Read the current the pullups.
- * @arg id - port id.
- */
+ * @arg id - port id. */
 port_t	port_getpullup	(u08 id);
 
 /** Set pull down, the arguments work like the port_write function.

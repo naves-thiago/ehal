@@ -1,6 +1,5 @@
 #include "types.h"
 #include "port_specific.h"
-#include "config.h"
 
 #define PORT_BIND_WITH_INDEX(BLOCK_START)\
 	(struct port_mem_block *)&PIN ## BLOCK_START
@@ -8,9 +7,9 @@
 /* Mapping of Port with port_ functions index.
  * The letters must be upper case. */
 struct port_mem_block {
-	volatile u08 read;
-	volatile u08 dir;
-	volatile u08 write;
+	volatile u08 read;	/* PINx */
+	volatile u08 dir;	/* DDRx */
+	volatile u08 write;	/* PORTx */
 };
 
 #if defined (__AVR_ATtiny25__)	\
@@ -19,7 +18,6 @@ struct port_mem_block {
 struct port_mem_block *port_mem_block[] = {
 	PORT_BIND_WITH_INDEX (B),
 };
-
 #elif defined (__AVR_ATmega8__)	\
 	|| defined (__AVR_ATmega48__)	\
 	|| defined (__AVR_ATmega88__)	\
@@ -44,7 +42,6 @@ struct port_mem_block *port_mem_block[] = {
 	PORT_BIND_WITH_INDEX (C),
 	PORT_BIND_WITH_INDEX (D),
 };
-
 #elif defined (__AVR_ATmega164P__)
 struct port_mem_block *port_mem_block[] = {
 	PORT_BIND_WITH_INDEX (A),
@@ -52,7 +49,6 @@ struct port_mem_block *port_mem_block[] = {
 	PORT_BIND_WITH_INDEX (C),
 	PORT_BIND_WITH_INDEX (D),
 };
-
 #elif defined (__AVR_ATmega128__)
 struct port_mem_block *port_mem_block[] = {
 	PORT_BIND_WITH_INDEX (A),
@@ -63,12 +59,22 @@ struct port_mem_block *port_mem_block[] = {
 	PORT_BIND_WITH_INDEX (F),
 	PORT_BIND_WITH_INDEX (G),
 };
-
 #else
 #error MCU not defined in ehal/avr/port.c
 #endif
 
 #define port_mask(p, m, v) do { p = ((p) & ~(m)) | ((v) & (m)); } while(0)
+
+void port_init (u08 id)
+{
+	return;
+}
+
+u08 port_isvalid (u08 p)
+{
+	return p < sizeof(port_mem_block);
+}
+
 void port_write (u08 p, port_t mask, port_t val )
 {
 	port_mask (port_mem_block[p]->write, mask, val);
@@ -79,20 +85,28 @@ port_t port_read (u08 p)
 	return port_mem_block[p]->read;
 }
 
-void port_set_pullup(u08 p, port_t mask, port_t up)
+void port_setpullup(u08 p, port_t mask, port_t up)
 	__attribute__ ((alias("port_write")));
 
-void port_set_dir (u08 p, port_t mask, port_t dir)
+port_t port_getpullup (u08 p)
+	__attribute__ ((alias("port_read")));
+
+void port_setdir (u08 p, port_t mask, port_t dir)
 {
 	port_mask (port_mem_block[p]->dir, mask, ~dir);
 }
 
-port_t port_get_dir (u08 p)
+port_t port_getdir (u08 p)
 {
 	return port_mem_block[p]->dir;
 }
 
-u08 port_is_valid (u08 p)
+void port_setpulldn(u08 p, port_t mask, port_t up)
 {
-	return p < PORT_NUM;
+	return;
+}
+
+port_t port_getpulldn (u08 p)
+{
+	return 0;
 }
