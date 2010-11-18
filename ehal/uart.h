@@ -28,7 +28,7 @@ u08	uart_isvalid	(u08 id);
  * @arg fcpu - the frequency that the cpu is currently running. */
 void	uart_setbaud	(u08 id, u08 baud);
 
-/** Check if set_baud got the right value.
+/** Check if uart_setbaud got the right value.
  * @return baud the mcu is actually using. */
 u32	uart_getbaud	(u08 id);
 
