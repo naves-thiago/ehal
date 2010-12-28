@@ -40,7 +40,7 @@ LDFLAGS=
 
 PIO=					\
 	$(SPECIFIC_PATH)/port.c		\
-	$(GENERIC_PATH)/generic/pin.c	\
+	$(GENERIC_PATH)/pin.c		\
 	$(SPECIFIC_PATH)/port_specific.h\
 	$(SPECIFIC_PATH)/pin_specific.h	\
 	$(GENERIC_PATH)/port.h		\
@@ -49,7 +49,7 @@ PIO=					\
 UART_X8=				\
 	$(SPECIFIC_PATH)/uart_x8.c	\
 	$(GENERIC_PATH)/uart.h		\
-	$(GENERIC_PATH)/generic/queue.c	\
+	$(GENERIC_PATH)/queue.c		\
 	$(GENERIC_PATH)/queue.h		\
 
 SPIM=					\
@@ -78,30 +78,30 @@ RESOURCES+=$(PIO)
 else
 ifeq ($(MCU),atmega8)
 RESOURCES+=$(PIO)
-RESOURCES+=$(SPIM)
+# RESOURCES+=$(SPIM)
 else
 ifeq ($(MCU),atmega88)
 RESOURCES+=$(PIO)
-RESOURCES+=$(SPIM)
+# RESOURCES+=$(SPIM)
 else
 ifeq ($(MCU),atmega168)
 RESOURCES+=$(PIO)
-RESOURCES+=$(SPIM)
+# RESOURCES+=$(SPIM)
 else
 
 ifeq ($(MCU),atmega16)
 RESOURCES+=$(PIO)
-RESOURCES+=$(SPIM)
+# RESOURCES+=$(SPIM)
 else
 
 ifeq ($(MCU),atmega32)
 RESOURCES+=$(PIO)
-RESOURCES+=$(SPIM)
+# RESOURCES+=$(SPIM)
 else
 
 ifeq ($(MCU),atmega128)
 RESOURCES+=$(PIO)
-RESOURCES+=$(SPIM)
+# RESOURCES+=$(SPIM)
 else
 
 ifeq ($(MCU),atmega164p)
@@ -118,8 +118,8 @@ endif
 endif
 
 # .c + .h
-RESOURCES+=	$(GENERIC_PATH)/types.h \
-		$(SPECIFIC_PATH)/config.h
+RESOURCES+=	$(GENERIC_PATH)/types.h
+
 # .h only
 INC=$(filter %.h, $(RESOURCES))
 # .c only
