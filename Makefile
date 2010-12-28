@@ -1,5 +1,8 @@
-# /dev/null to discard the log or a filename to store it.
-OUTPUT=
+# No output
+# OUTPUT = >>/dev/null
+# Makefile output
+OUTPUT =
+
 CP=cp
 AVR_INCLUDE_INSTALL=$(which avr-gcc)
 AVR_INSTALL_LIB_DIR=$(shell dirname $(shell which avr-gcc))/../avr/lib/
@@ -44,7 +47,7 @@ avr-clean:
 	make -f Makefile.avr ARCH=avr MCU=attiny25 clean	$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega8 clean		$(OUTPUT)
 
-############################ LPC21XX @###################################
+############################ LPC21XX ####################################
 
 lpc21xx:
 	@echo
