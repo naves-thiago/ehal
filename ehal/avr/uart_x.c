@@ -27,6 +27,7 @@ void uart_init (u08 id)
 		| (1<<TXCIE)
 		| (1<<RXCIE);
 	uart_setbaud (id, B9600);
+	sei ();
 }
 
 void uart_inittx (u08 id, u08 *buff, u08 sz)
