@@ -1,6 +1,5 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include "config.h"
 #include "uart.h"
 
 #define UART_NUM 2
