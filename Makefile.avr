@@ -46,6 +46,13 @@ PIO=					\
 	$(GENERIC_PATH)/port.h		\
 	$(GENERIC_PATH)/pin.h
 
+UART_X=					\
+	$(SPECIFIC_PATH)/uart_x.c	\
+	$(GENERIC_PATH)/uart.h		\
+	$(GENERIC_PATH)/queue.c		\
+	$(GENERIC_PATH)/queue.h		\
+
+
 UART_X8=				\
 	$(SPECIFIC_PATH)/uart_x8.c	\
 	$(GENERIC_PATH)/uart.h		\
@@ -78,6 +85,7 @@ RESOURCES+=$(PIO)
 else
 ifeq ($(MCU),atmega8)
 RESOURCES+=$(PIO)
+RESOURCES+=$(UART_X)
 # RESOURCES+=$(SPIM)
 else
 ifeq ($(MCU),atmega88)
