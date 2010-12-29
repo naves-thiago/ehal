@@ -1,4 +1,5 @@
 #include "pin.h"
+#include "port.h"
 
 struct pin_t pin_init (u08 port, u08 pin)
 {

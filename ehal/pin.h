@@ -3,12 +3,11 @@
  * @{
  * @example pinex.c */
 
-#ifndef __PIN_H_
-#define __PIN_H_
+#ifndef EHAL_PIN
+#define EHAL_PIN
 
 #include "types.h"
 #include "pin_specific.h"
-#include "port.h"
 
 #define PIN_ISOUT	0	/**< pin_getdir */
 #define PIN_ISIN	1	/**< pin_getdir */
