@@ -1,4 +1,5 @@
 #include "types.h"
+#include "port.h"
 #include "port_specific.h"
 
 #define PORT_BIND_WITH_INDEX(BLOCK_START)\
@@ -67,7 +68,7 @@ struct port_mem_block *port_mem_block[] = {
 
 void port_init (u08 id)
 {
-	return;
+	port_setdir (id, 0xFF, 0xFF);
 }
 
 u08 port_isvalid (u08 p)
