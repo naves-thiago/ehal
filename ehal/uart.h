@@ -29,6 +29,9 @@ struct queue *uart_gettxqueue (u08 id);
 void uart_setrxqueue (u08 id, struct queue *q);
 struct queue *uart_getrxqueue (u08 id);
 
+void uart_onrx_cb (u08 id, void (*nrx_cb)(void), u08 n);
+void uart_oncntrl_cb (u08 id, void (*nrx_cb)(void));
+
 /** Set the baud rate as close as possible to baud.
  * @param baud - a @ref uart_baud_rate constant.
  * @param fcpu - the frequency that the cpu is currently running. */
