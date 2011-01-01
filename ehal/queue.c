@@ -25,6 +25,11 @@ unsigned char queue_isempty (struct queue *q)
 	return q->ocupied == 0;
 }
 
+void queue_flush (struct queue *q)
+{
+	q->ocupied = 0;
+}
+
 unsigned char queue_peakfirst (struct queue *q, unsigned char *ret)
 {
 	if (queue_isempty( q )) return 1;

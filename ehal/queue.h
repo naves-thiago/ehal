@@ -37,6 +37,9 @@ unsigned char
 queue_deq	(struct queue *q,
 		unsigned char *ret);
 
+void
+queue_flush	(struct queue *q);
+
 /** same as before but without removing it */
 unsigned char
 queue_peaklast	(struct queue *q,
