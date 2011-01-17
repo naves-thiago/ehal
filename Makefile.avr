@@ -36,8 +36,6 @@ ALL_CFLAGS=-mmcu=$(MCU) $(CFLAGS) $(INCLUDE_DIR)
 LDFLAGS=
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
-# Also... pio0 brings together the API sinse it gets included for any pio
-# usage.
 
 PIO=					\
 	$(SPECIFIC_PATH)/port.c		\
@@ -56,6 +54,12 @@ UART_X=					\
 
 UART_X8=				\
 	$(SPECIFIC_PATH)/uart_x8.c	\
+	$(GENERIC_PATH)/uart.h		\
+	$(GENERIC_PATH)/queue.c		\
+	$(GENERIC_PATH)/queue.h		\
+
+UART_X4P=				\
+	$(SPECIFIC_PATH)/uart_x4p.c	\
 	$(GENERIC_PATH)/uart.h		\
 	$(GENERIC_PATH)/queue.c		\
 	$(GENERIC_PATH)/queue.h		\
@@ -83,47 +87,40 @@ DMA=
 
 ifeq ($(MCU),attiny25)
 RESOURCES+=$(PIO)
-else
+endif
 ifeq ($(MCU),atmega8)
 RESOURCES+=$(PIO)
-RESOURCES+=$(UART_X)
+# RESOURCES+=$(UART_X)
 # RESOURCES+=$(SPIM)
-else
+endif
 ifeq ($(MCU),atmega88)
 RESOURCES+=$(PIO)
+# RESOURCES+=$(UART_X8)
 # RESOURCES+=$(SPIM)
-else
+endif
 ifeq ($(MCU),atmega168)
 RESOURCES+=$(PIO)
+# RESOURCES+=$(UART_X8)
 # RESOURCES+=$(SPIM)
-else
-
+endif
 ifeq ($(MCU),atmega16)
 RESOURCES+=$(PIO)
+# RESOURCES+=$(UART_X)
 # RESOURCES+=$(SPIM)
-else
-
+endif
 ifeq ($(MCU),atmega32)
 RESOURCES+=$(PIO)
+# RESOURCES+=$(UART_X)
 # RESOURCES+=$(SPIM)
-else
-
+endif
 ifeq ($(MCU),atmega128)
 RESOURCES+=$(PIO)
+# RESOURCES+=$(UART_X)
 # RESOURCES+=$(SPIM)
-else
-
+endif
 ifeq ($(MCU),atmega164p)
 RESOURCES+=$(PIO)
-RESOURCES+=$(UART_X8)
-else # Don't have port for this one...
-endif
-endif
-endif
-endif
-endif
-endif
-endif
+# RESOURCES+=$(UART_X4P)
 endif
 
 # .c + .h
@@ -133,6 +130,7 @@ RESOURCES+=	$(GENERIC_PATH)/types.h
 INC=$(filter %.h, $(RESOURCES))
 # .c only
 SRC=$(filter %.c, $(RESOURCES))
+# one object file per MCU
 OBJ=$(SRC:%.c=%-$(MCU).o)
 
 .PHONY: all install clean
@@ -145,9 +143,6 @@ install:
 
 $(LIB): $(OBJ)
 	$(AR) rcs $@ $^
-
-%.elf: $(OBJ)
-	$(CC) $(ALL_CFLAGS) $(LDFLAGS) $^ $@
 
 %.o: $(RESOURCES)
 	$(CC) $(ALL_CFLAGS) -c -o $@ $<
