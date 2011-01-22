@@ -1,3 +1,6 @@
+#!/bin/bash
+# make clean && make; cat deps; find . -name '*.o'
+
 # Must have utils
 CC=avr-gcc
 AR=avr-ar
@@ -19,57 +22,48 @@ SPECIFIC_PATH=ehal/$(ARCH)
 CDEBUG =-gdwarf-2
 CWARN =-Wall -Wstrict-prototypes
 # optimization for compiling all the .c at the same time
-ONCE_FLAGS =--combine  -fwhole-program
-CTUNING =-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
+ONCE_FLAGS=--combine -fwhole-program
+CTUNING=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 -ffunction-sections -fno-inline-small-functions -fno-split-wide-types \
 -fno-tree-scev-cprop -Wl,--relax,--gc-sections
-INCLUDE_DIR=				\
-		-I.			\
-		-I./ehal		\
-		-I./$(SPECIFIC_PATH)
 
+INCLUDE_DIR=-I. -I./ehal -I./$(SPECIFIC_PATH)
 CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -Os $(CWARN) $(CSTANDARD) \
 $(CEXTRA) $(INCLUDE_DIR)
 
-ALL_CFLAGS=-mmcu=$(MCU) $(CFLAGS) $(INCLUDE_DIR)
+ALL_CFLAGS=-mmcu=$(MCU) $(CFLAGS)
 
 LDFLAGS=
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
-PIO=					\
+PORT=					\
 	$(SPECIFIC_PATH)/port.c		\
-	$(GENERIC_PATH)/pin.c		\
 	$(SPECIFIC_PATH)/port_specific.h\
-	$(SPECIFIC_PATH)/pin_specific.h	\
-	$(GENERIC_PATH)/port.h		\
-	$(GENERIC_PATH)/pin.h
-
+	$(GENERIC_PATH)/port.h
+PIN=					\
+	$(GENERIC_PATH)/pin.c		\
+	$(GENERIC_PATH)/pin.h		\
+	$(SPECIFIC_PATH)/pin_specific.h
 UART_X=					\
 	$(SPECIFIC_PATH)/uart_x.c	\
 	$(GENERIC_PATH)/uart.h		\
 	$(GENERIC_PATH)/queue.c		\
-	$(GENERIC_PATH)/queue.h		\
-
-
+	$(GENERIC_PATH)/queue.h
 UART_X8=				\
 	$(SPECIFIC_PATH)/uart_x8.c	\
 	$(GENERIC_PATH)/uart.h		\
 	$(GENERIC_PATH)/queue.c		\
-	$(GENERIC_PATH)/queue.h		\
-
+	$(GENERIC_PATH)/queue.h
 UART_X4P=				\
 	$(SPECIFIC_PATH)/uart_x4p.c	\
 	$(GENERIC_PATH)/uart.h		\
 	$(GENERIC_PATH)/queue.c		\
-	$(GENERIC_PATH)/queue.h		\
-
+	$(GENERIC_PATH)/queue.h
 SPIM=					\
 	$(SPECIFIC_PATH)/spim.c		\
 	$(SPECIFIC_PATH)/spim_specific.h\
 	$(GENERIC_PATH)/spim.h
-
-
 
 # TODO: complete me ...
 USI_SRC=
@@ -86,45 +80,53 @@ DMA=
 # MCU resources
 
 ifeq ($(MCU),attiny25)
-RESOURCES+=$(PIO)
+RESOURCES+=$(PORT)
+RESOURCES+=$(PIN)
 endif
 ifeq ($(MCU),atmega8)
-RESOURCES+=$(PIO)
+RESOURCES+=$(PORT)
+RESOURCES+=$(PIN)
 # RESOURCES+=$(UART_X)
 # RESOURCES+=$(SPIM)
 endif
 ifeq ($(MCU),atmega88)
-RESOURCES+=$(PIO)
+RESOURCES+=$(PORT)
+RESOURCES+=$(PIN)
 # RESOURCES+=$(UART_X8)
 # RESOURCES+=$(SPIM)
 endif
 ifeq ($(MCU),atmega168)
-RESOURCES+=$(PIO)
+RESOURCES+=$(PORT)
+RESOURCES+=$(PIN)
 # RESOURCES+=$(UART_X8)
 # RESOURCES+=$(SPIM)
 endif
 ifeq ($(MCU),atmega16)
-RESOURCES+=$(PIO)
+RESOURCES+=$(PORT)
+RESOURCES+=$(PIN)
 # RESOURCES+=$(UART_X)
 # RESOURCES+=$(SPIM)
 endif
 ifeq ($(MCU),atmega32)
-RESOURCES+=$(PIO)
+RESOURCES+=$(PORT)
+RESOURCES+=$(PIN)
 # RESOURCES+=$(UART_X)
 # RESOURCES+=$(SPIM)
 endif
 ifeq ($(MCU),atmega128)
-RESOURCES+=$(PIO)
+RESOURCES+=$(PORT)
+RESOURCES+=$(PIN)
 # RESOURCES+=$(UART_X)
 # RESOURCES+=$(SPIM)
 endif
 ifeq ($(MCU),atmega164p)
-RESOURCES+=$(PIO)
+RESOURCES+=$(PORT)
+RESOURCES+=$(PIN)
 # RESOURCES+=$(UART_X4P)
 endif
 
 # .c + .h
-RESOURCES+=	$(GENERIC_PATH)/types.h
+RESOURCES+= $(GENERIC_PATH)/types.h
 
 # .h only
 INC=$(filter %.h, $(RESOURCES))
@@ -135,17 +137,17 @@ OBJ=$(SRC:%.c=%-$(MCU).o)
 
 .PHONY: all install clean
 all: $(LIB)
+include deps
 
 install:
 	$(MKDIR) -p $(INC_INSTALL_DIR)
 	$(CP) $(LIB) $(LIB_INSTALL_DIR)
 	$(CP) $(INC) $(INC_INSTALL_DIR)
-
 $(LIB): $(OBJ)
 	$(AR) rcs $@ $^
-
-%.o: $(RESOURCES)
-	$(CC) $(ALL_CFLAGS) -c -o $@ $<
-
+%-$(MCU).o : %.c
+	$(CC) $(ALL_CFLAGS) -c $< -o $@
 clean:
 	$(RM) -f $(OBJ) $(LIB)
+makedepend:
+	avr-gcc -MM $(ALL_CFLAGS) `find ./ehal -name *.c` > deps

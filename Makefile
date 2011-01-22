@@ -9,14 +9,13 @@ AVR_INSTALL_LIB_DIR=$(shell dirname $(shell which avr-gcc))/../avr/lib/
 
 .PHONY: all doc clean avr
 
-all: avr lpc21xx
+all: avr
 	@echo
 	@echo done!
 
 clean: avr-clean
 
 ############################# AVR #######################################
-
 avr:
 	@echo
 	@echo building AVRs ...
@@ -30,11 +29,12 @@ avr:
 	make -f Makefile.avr ARCH=avr MCU=atmega128		$(OUTPUT)
 
 avr-clean:
+	make -f Makefile.avr ARCH=avr MCU=attiny25 clean	$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega8 clean		$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega164p clean	$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega88 clean	$(OUTPUT)
+	make -f Makefile.avr ARCH=avr MCU=atmega168 clean	$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega128 clean	$(OUTPUT)
-	make -f Makefile.avr ARCH=avr MCU=attiny25 clean	$(OUTPUT)
 
 ############################ LPC21XX ####################################
 # Still unsupported

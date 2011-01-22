@@ -1,0 +1,17 @@
+port_slow.o: ehal/lpc21xx/port_slow.c ehal/types.h \
+  ehal/lpc21xx/lpc210x_gnuarm.h ehal/lpc21xx/port_specific.h
+port.o: ehal/msp430/port.c
+rwl.o: ehal/rwl.c ehal/rwl.h ehal/cpu.h ehal/types.h \
+  ehal/avr/cpu_specific.h ehal/types.h
+pin.o: ehal/pin.c ehal/pin.h ehal/types.h ehal/avr/pin_specific.h \
+  ehal/types.h ehal/port.h ehal/avr/port_specific.h
+queue.o: ehal/queue.c ehal/queue.h
+uart_x4.o: ehal/avr/uart_x4.c ehal/uart.h ehal/tinytypes.h ehal/queue.h
+uart_x8.o: ehal/avr/uart_x8.c ehal/uart.h ehal/tinytypes.h
+uart_x4p.o: ehal/avr/uart_x4p.c
+spim.o: ehal/avr/spim.c ehal/avr/spim_specific.h ehal/types.h
+port.o: ehal/avr/port.c ehal/types.h ehal/port.h ehal/types.h \
+  ehal/avr/port_specific.h ehal/avr/port_specific.h
+uart_x.o: ehal/avr/uart_x.c ehal/cpu.h ehal/types.h \
+  ehal/avr/cpu_specific.h ehal/types.h ehal/uart.h ehal/tinytypes.h \
+  ehal/queue.h
