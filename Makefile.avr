@@ -137,7 +137,7 @@ OBJ=$(SRC:%.c=%-$(MCU).o)
 
 .PHONY: all install clean
 all: $(LIB)
-include deps
+include avr.deps
 
 install:
 	$(MKDIR) -p $(INC_INSTALL_DIR)
