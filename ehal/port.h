@@ -18,7 +18,7 @@
  * @port_isvalid. */
 void	port_init	(u08 id);
 
-/** Runtime validation of a port @a id. return 1 for a valid port.
+/** Runtime validation of id. return 0 for invalid port.
  * @param id - port id. */
 u08	port_isvalid	(u08 id);
 

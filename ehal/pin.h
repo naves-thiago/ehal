@@ -6,7 +6,7 @@
 #ifndef EHAL_PIN
 #define EHAL_PIN
 
-#include "types.h"
+#include "tinytypes.h"
 #include "pin_specific.h"
 
 #define PIN_ISOUT	0	/**< pin_getdir */
@@ -50,14 +50,12 @@ u08 pin_getdir (struct pin_t p);
 
 
 /* :TODO: These names are terrible... */
-void pin_setpullupon (struct pin_t p);
-void pin_setpullupoff (struct pin_t p);
-void pin_setpullup (struct pin_t p, u08 v);
+void pin_setpullup (struct pin_t p);
+void pin_clrpullup (struct pin_t p);
 u08 pin_getpullup (struct pin_t p);
 
-void pin_setpulldnon (struct pin_t p);
-void pin_setpulldnoff (struct pin_t p);
-void pin_setpulldn (struct pin_t p, u08 v);
+void pin_setpulldn (struct pin_t p);
+void pin_clrpulldn (struct pin_t p);
 u08 pin_getpullup (struct pin_t p);
 
 #endif /* __PIN_H_ */

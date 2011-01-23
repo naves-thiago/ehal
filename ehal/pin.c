@@ -30,13 +30,12 @@ void pin_setlow (struct pin_t p)
 
 void pin_setval (struct pin_t p, u08 v)
 {
-	if (v) port_write (p.port, 1<<p.pin, 1<<p.pin);
-	else port_write (p.port, 1<<p.pin, 0);
+	port_write (p.port, 1<<p.pin, v ? 1<<p.pin : 0);
 }
 
 u08 pin_getval (struct pin_t p)
 {
-	return (port_read (p.port) & p.pin) ? PIN_ISHIGH : PIN_ISLOW;
+	return (port_read (p.port) & (1<<p.pin)) ? PIN_ISHIGH : PIN_ISLOW;
 }
 
 /* dir */
@@ -52,16 +51,25 @@ void pin_setout (struct pin_t p)
 
 void pin_setdir (struct pin_t p, u08 v)
 {
-	if (v) port_setdir (p.port, 1<<p.pin, 1<<p.pin);
-	else port_setdir (p.port, 1<<p.pin, 0);
+	port_setdir (p.port, 1<<p.pin, v ? 1<<p.pin : 0);
 }
 
-u08 pin_getdir (struct pin_t p);
+u08 pin_getdir (struct pin_t p)
+{
+	return (port_getdir (p.port) & (1<<p.pin)) ? PIN_ISHIGH : PIN_ISLOW;
+}
 
-/* pullup */
-void pin_setpullupon (struct pin_t p);
-void pin_setpullupoff (struct pin_t p);
-void pin_setpullup (struct pin_t p, u08 v);
-u08 pin_getpullup (struct pin_t p);
+void pin_setpullup (struct pin_t p)
+{
+	port_setpullup (p.port, 1<<p.pin, 1<<p.pin);
+}
 
+void pin_setnopullup (struct pin_t p)
+{
+	port_setpullup (p.port, 1<<p.pin, 0);
+}
 
+u08 pin_getpullup (struct pin_t p)
+{
+	return (port_getpullup (p.port) & (1<<p.pin)) ? PIN_ISHIGH : PIN_ISLOW;
+}
