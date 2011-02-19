@@ -33,6 +33,16 @@ void pin_setval (struct pin_t p, u08 v)
 	port_write (p.port, 1<<p.pin, v ? 1<<p.pin : 0);
 }
 
+u08 pin_ishigh (struct pin_t p)
+{
+	return (port_read (p.port) & (1<<p.pin)) ? 1 : 0;
+}
+
+u08 pin_islow (struct pin_t p)
+{
+	return (port_read (p.port) & (1<<p.pin)) ? 0 : 1;
+}
+
 u08 pin_getval (struct pin_t p)
 {
 	return (port_read (p.port) & (1<<p.pin)) ? PIN_ISHIGH : PIN_ISLOW;

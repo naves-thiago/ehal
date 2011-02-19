@@ -17,46 +17,47 @@
 /** @return pin_t, where pin is a enum en_pin_number.
  * @note This function can return invalid pins, to make sure validate it
  * before using. */
-struct pin_t pin_init (u08 port, u08 pin);
+void *pin_init (u08 port, u08 pin);
 
 /** @return 1 ok, 0 for error. */
-u08 pin_isvalid (struct pin_t p);
+u08 pin_isvalid (void *p);
 
 /** PIN must be output, or you'll get an undefined behaviour */
-void pin_sethigh (struct pin_t p);
+void pin_sethigh (void *p);
 
 /** PIN must be output, or you'll get an undefined behaviour */
-void pin_setlow (struct pin_t p);
+void pin_setlow (void *p);
 
 /** PIN must be output, or you'll get an undefined behaviour */
-void pin_setval (struct pin_t p, u08 v);
+void pin_setval (void *p, u08 v);
 
-/** PIN must be input, or you'll get an undefined behaviour
- * @return PIN_HIGH for high, PIN_LOW for low */
-u08 pin_getval (struct pin_t p);
+/** true if pin is high */
+u08 pin_ishigh (void *p);
 
+/** true if pin is low */
+u08 pin_islow (void *p);
 
 /** set it to input. */
-void pin_setin (struct pin_t p);
+void pin_setin (void *p);
 
 /** set it to output. */
-void pin_setout (struct pin_t p);
+void pin_setout (void *p);
 
 /** set it to in if (v) or out if not. */
-void pin_setdir (struct pin_t p, u08 v);
+void pin_setdir (void *p, u08 v);
 
 /** @return 1 for in, 0 for out. */
-u08 pin_getdir (struct pin_t p);
+u08 pin_getdir (void *p);
 
 
 /* :TODO: These names are terrible... */
-void pin_setpullup (struct pin_t p);
-void pin_clrpullup (struct pin_t p);
-u08 pin_getpullup (struct pin_t p);
+void pin_setpullup (void *p);
+void pin_clrpullup (void *p);
+u08 pin_getpullup (void *p);
 
-void pin_setpulldn (struct pin_t p);
-void pin_clrpulldn (struct pin_t p);
-u08 pin_getpullup (struct pin_t p);
+void pin_setpulldn (void *p);
+void pin_clrpulldn (void *p);
+u08 pin_getpullup (void *p);
 
 #endif /* __PIN_H_ */
 /** @} */ /* defgroup pin */

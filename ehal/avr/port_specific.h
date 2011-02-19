@@ -1,8 +1,8 @@
-#ifndef __PIO_SPECIFIC_H
-#define __PIO_SPECIFIC_H
+#ifndef PORT_SPECIFIC_H
+#define PORT_SPECIFIC_H
 
 #include <avr/io.h>
-#include "types.h"
+#include "tinytypes.h"
 
 typedef u08 port_t;
 

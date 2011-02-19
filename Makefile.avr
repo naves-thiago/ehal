@@ -7,9 +7,10 @@ AR=avr-ar
 MKDIR=mkdir
 CP=cp -f
 RM=rm
+F_CPU=8000000
 
 # Final name
-LIB=libehal-$(MCU).a
+LIB=libehal-$(MCU)-$(F_CPU).a
 
 # Get the lib folder based on the toolchain location.
 LIB_INSTALL_DIR=$(shell dirname $(shell which $(CC)))/../avr/lib
@@ -31,7 +32,7 @@ INCLUDE_DIR=-I. -I./ehal -I./$(SPECIFIC_PATH)
 CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -Os $(CWARN) $(CSTANDARD) \
 $(CEXTRA) $(INCLUDE_DIR)
 
-ALL_CFLAGS=-mmcu=$(MCU) $(CFLAGS)
+ALL_CFLAGS=-mmcu=$(MCU) $(CFLAGS) -DF_CPU=$(F_CPU)
 
 LDFLAGS=
 
@@ -45,6 +46,9 @@ PIN=					\
 	$(GENERIC_PATH)/pin.c		\
 	$(GENERIC_PATH)/pin.h		\
 	$(SPECIFIC_PATH)/pin_specific.h
+UART_DEV_X=					\
+	$(SPECIFIC_PATH)/uart_dev_x.c	\
+	$(GENERIC_PATH)/uart.h
 UART_X=					\
 	$(SPECIFIC_PATH)/uart_x.c	\
 	$(GENERIC_PATH)/uart.h		\
@@ -85,13 +89,14 @@ RESOURCES+=$(PIN)
 endif
 ifeq ($(MCU),atmega8)
 RESOURCES+=$(PORT)
-RESOURCES+=$(PIN)
+# RESOURCES+=$(PIN)
+# RESOURCES+=$(UART_DEV_X)
 # RESOURCES+=$(UART_X)
 # RESOURCES+=$(SPIM)
 endif
 ifeq ($(MCU),atmega88)
 RESOURCES+=$(PORT)
-RESOURCES+=$(PIN)
+# RESOURCES+=$(PIN)
 # RESOURCES+=$(UART_X8)
 # RESOURCES+=$(SPIM)
 endif
@@ -133,7 +138,7 @@ INC=$(filter %.h, $(RESOURCES))
 # .c only
 SRC=$(filter %.c, $(RESOURCES))
 # one object file per MCU
-OBJ=$(SRC:%.c=%-$(MCU).o)
+OBJ=$(SRC:%.c=%-$(MCU)-$(F_CPU).o)
 
 .PHONY: all install clean
 all: $(LIB)
@@ -145,9 +150,9 @@ install:
 	$(CP) $(INC) $(INC_INSTALL_DIR)
 $(LIB): $(OBJ)
 	$(AR) rcs $@ $^
-%-$(MCU).o : %.c
+%-$(MCU)-$(F_CPU).o : %.c
 	$(CC) $(ALL_CFLAGS) -c $< -o $@
 clean:
 	$(RM) -f $(OBJ) $(LIB)
 makedepend:
-	avr-gcc -MM $(ALL_CFLAGS) `find ./ehal -name *.c` > deps
+	avr-gcc -MM $(ALL_CFLAGS) `find ./ehal -name *.c` > avr.deps

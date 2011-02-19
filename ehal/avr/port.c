@@ -1,64 +1,64 @@
-#include "types.h"
+#include <stdio.h>
+#include <avr/io.h>
 #include "port.h"
-#include "port_specific.h"
 
-#define PORT_BIND_WITH_INDEX(BLOCK_START)\
+#define BIND_INDEX_WITH_PORT(BLOCK_START)\
 	(struct port_mem_block *)&PIN ## BLOCK_START
 
 /* Mapping of Port with port_ functions index.
  * The letters must be upper case. */
 struct port_mem_block {
-	volatile u08 read;	/* PINx */
-	volatile u08 dir;	/* DDRx */
-	volatile u08 write;	/* PORTx */
+	volatile uint8_t read;	/* PINx */
+	volatile uint8_t dir;	/* DDRx */
+	volatile uint8_t write;	/* PORTx */
 };
 
 #if defined (__AVR_ATtiny25__)	\
 	|| (__AVR_ATtiny45__)	\
 	|| (__AVR_ATtiny85__)
 struct port_mem_block *port_mem_block[] = {
-	PORT_BIND_WITH_INDEX (B),
+	BIND_INDEX_WITH_PORT (B),
 };
 #elif defined (__AVR_ATmega8__)	\
 	|| defined (__AVR_ATmega48__)	\
 	|| defined (__AVR_ATmega88__)	\
 	|| defined (__AVR_ATmega168__)
 struct port_mem_block *port_mem_block[] = {
-	PORT_BIND_WITH_INDEX (B),
-	PORT_BIND_WITH_INDEX (C),
-	PORT_BIND_WITH_INDEX (D),
+	BIND_INDEX_WITH_PORT (B),
+	BIND_INDEX_WITH_PORT (C),
+	BIND_INDEX_WITH_PORT (D),
 };
 #elif	defined (__AVR_ATmega168P__)
 struct port_mem_block *port_mem_block[] = {
-	PORT_BIND_WITH_INDEX (B),
-	PORT_BIND_WITH_INDEX (C),
-	PORT_BIND_WITH_INDEX (D),
+	BIND_INDEX_WITH_PORT (B),
+	BIND_INDEX_WITH_PORT (C),
+	BIND_INDEX_WITH_PORT (D),
 };
 
 #elif defined (__AVR_ATmega16__)	\
 	|| defined (__AVR_ATmega32__)
 struct port_mem_block *port_mem_block[] = {
-	PORT_BIND_WITH_INDEX (A),
-	PORT_BIND_WITH_INDEX (B),
-	PORT_BIND_WITH_INDEX (C),
-	PORT_BIND_WITH_INDEX (D),
+	BIND_INDEX_WITH_PORT (A),
+	BIND_INDEX_WITH_PORT (B),
+	BIND_INDEX_WITH_PORT (C),
+	BIND_INDEX_WITH_PORT (D),
 };
 #elif defined (__AVR_ATmega164P__)
 struct port_mem_block *port_mem_block[] = {
-	PORT_BIND_WITH_INDEX (A),
-	PORT_BIND_WITH_INDEX (B),
-	PORT_BIND_WITH_INDEX (C),
-	PORT_BIND_WITH_INDEX (D),
+	BIND_INDEX_WITH_PORT (A),
+	BIND_INDEX_WITH_PORT (B),
+	BIND_INDEX_WITH_PORT (C),
+	BIND_INDEX_WITH_PORT (D),
 };
 #elif defined (__AVR_ATmega128__)
 struct port_mem_block *port_mem_block[] = {
-	PORT_BIND_WITH_INDEX (A),
-	PORT_BIND_WITH_INDEX (B),
-	PORT_BIND_WITH_INDEX (C),
-	PORT_BIND_WITH_INDEX (D),
-	PORT_BIND_WITH_INDEX (E),
-	PORT_BIND_WITH_INDEX (F),
-	PORT_BIND_WITH_INDEX (G),
+	BIND_INDEX_WITH_PORT (A),
+	BIND_INDEX_WITH_PORT (B),
+	BIND_INDEX_WITH_PORT (C),
+	BIND_INDEX_WITH_PORT (D),
+	BIND_INDEX_WITH_PORT (E),
+	BIND_INDEX_WITH_PORT (F),
+	BIND_INDEX_WITH_PORT (G),
 };
 #else
 #error MCU not defined in ehal/avr/port.c
@@ -66,48 +66,46 @@ struct port_mem_block *port_mem_block[] = {
 
 #define port_mask(p, m, v) do { p = ((p) & ~(m)) | ((v) & (m)); } while(0)
 
-void port_init (u08 id)
+void *port_get_from_id (int p)
 {
-	port_setdir (id, 0xFF, 0xFF);
+	if (p < sizeof(port_mem_block)/sizeof (*port_mem_block))
+		return port_mem_block[p];
+	return NULL;
 }
 
-u08 port_isvalid (u08 p)
+void *port_init (int id)
 {
-	return p < sizeof(port_mem_block);
+	void *p = port_get_from_id (id);
+	port_setdir (p, 0xFF, 0xFF);
+	return p;
 }
 
-void port_write (u08 p, port_t mask, port_t val )
+void port_write (void *_p, port_t mask, port_t val )
 {
-	port_mask (port_mem_block[p]->write, mask, val);
+	struct port_mem_block *p = _p;
+	port_mask (p->write, mask, val);
 }
 
-port_t port_read (u08 p)
+port_t port_read (void *_p)
 {
-	return port_mem_block[p]->read;
+	struct port_mem_block *p = _p;
+	return p->read;
 }
 
-void port_setpullup(u08 p, port_t mask, port_t up)
+void port_setdir (void *_p, port_t mask, port_t dir)
+{
+	struct port_mem_block *p = _p;
+	port_mask (p->dir, mask, ~dir);
+}
+
+port_t port_getdir (void *_p)
+{
+	struct port_mem_block *p = _p;
+	return p->dir;
+}
+
+void port_setpullup(void *_p, port_t mask, port_t up)
 	__attribute__ ((alias("port_write")));
 
-port_t port_getpullup (u08 p)
+port_t port_getpullup (void *_p)
 	__attribute__ ((alias("port_read")));
-
-void port_setdir (u08 p, port_t mask, port_t dir)
-{
-	port_mask (port_mem_block[p]->dir, mask, ~dir);
-}
-
-port_t port_getdir (u08 p)
-{
-	return port_mem_block[p]->dir;
-}
-
-void port_setpulldn(u08 p, port_t mask, port_t up)
-{
-	return;
-}
-
-port_t port_getpulldn (u08 p)
-{
-	return 0;
-}
