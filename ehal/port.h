@@ -8,6 +8,10 @@
 #include "tinytypes.h"
 #include "port_specific.h"
 
+#ifdef EHAL_GLOBAL
+#include "ehal_global.h"
+#endif
+
 /** Mask with all pins. */
 #define ALL_PINS	((port_t)-1)
 
