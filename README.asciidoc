@@ -6,7 +6,8 @@ Introduction
 
 + eHAL stands for embedded hardware abstraction layer. The idea is to create an
 API as simple as arduino's but versatile enought to run on many diferent MCUs
-ranging from 8 to 32 bits.
+ranging from 8 to 32 bits. It intends to be as simple and clear as possible and
+for the best portability is implemented in C.
 + This file contains a brief on the organization of this repository.
 + This project uses Doxygen for documentation. To generate the doxygen files
 run:
@@ -15,6 +16,8 @@ run:
 doxygen
 ----
 on the project root folder, a *pages/* folder will be created with the doc.
++ This doc is intended to be a manual and API reference, not a tutorial. For a
+tutorial, look at the tests
 
 Some Observations
 -----------------
@@ -24,9 +27,19 @@ You may use this lib linking your project against one of the generated .a files
 or copying the .c and .h files from eHAL.
 + The output is per MCU and is in the
 format: libehal-$(MCU)-$(F_CPU).a
++ Good practices: The identation is in TABs and the coding style is the
+K&R. VIM users can add this to their ~/.vimrc:
+----
+au filetype c set cindent
+au filetype c set incsearch
+au filetype c set cinoptions=:0,p0,t0
+au filetype c set cinwords=if,else,while,do,for,switch,case
+au filetype c set formatoptions=tcqr
+----
+NOTE: If source code is in other format, please folow the code format.
 
-
-== Planned Architectures ==
+Planned Architectures
+---------------------
 
 |==============================================================================
 |avr
@@ -96,17 +109,17 @@ port:
 	get_pulldown	(id : ptr) : int
 	onchange	(id : ptr, fn : fn_ptr, mask : int) : void
 timer: (unfinished)
-	init		(id : ptr) : void
+	init		(number : int) : ptr
 	isvalid		(id : ptr) : ptr
 pwm: (unfinished)
-	init		(id : ptr) : void
+	init		(number : int) : ptr
 	isvalid		(id : ptr) : ptr
 	set_freq	(id : ptr, freq : int) : void
 	get_freq	(id : ptr) : int
 	set_val		(id : ptr, val : float) : void
 	get_val		(id : ptr) : float
 uart: (unfinished)
-	init		(id : ptr) : void
+	init		(number : int) : ptr
 	isvalid		(id : ptr) : bool
 	set_baud	(id : ptr, baud : int) : void
 	get_baud	(id : ptr) : int
@@ -117,21 +130,24 @@ uart: (unfinished)
 	write		(id : ptr, buf : byte*, bufsz : int) : void
 	read		(id : ptr, buf : byte*, bufsz : int) : void
 i2c: (unfinished)
-	init		(id : ptr) : void
+	init		(number : int) : ptr
 	isvalid		(id : ptr) : bool
 	set_freq	(id : ptr, freq : int) : void
 	get_freq	(id : ptr, freq : int) : void
 	write		(id : ptr, buf : byte*, bufsz : int) : void
 	read		(id : ptr, buf : byte*, bufsz : int) : void
 spi: (unfinished)
+	init		(number : int) : ptr
 	init		(id : ptr) : void
 	isvalid		(id : ptr) : bool
 	set_freq	(id : ptr, freq : int) : void
 	get_freq	(id : ptr, freq : int) : void
 	write		(id : ptr, buf : byte*, bufsz : int) : void
 	read		(id : ptr, buf : byte*, bufsz : int) : void
-sleep: (unfinished)
-cpu: (unfinished)
+cpu/sleep: (unfinished)
+	init		(number : int) : ptr
 dma: (unfinished)
+	init		(number : int) : ptr
 rtc: (unfinished)
+	init		(number : int) : ptr
 ----
