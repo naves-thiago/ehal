@@ -1,49 +1,137 @@
-= eHAL =
-:Author: Marcelo Politzer Couto
-:Email: <mpolitzer.c@gmail.com>
-:Date: Wed Dec 29 17:19:51 BRST 2010
-:Author Initials: MPC
-:Revision: 0.1
+eHAL
+====
 
-== Introduction ==
+Introduction
+------------
 
-eHAL stands for Embedded Hardware Abstraction Layer, the goal of the project
-is to create a single simple to use hardware interfaces to the various
-architectures and MCUs available in the market.
++ eHAL stands for embedded hardware abstraction layer. The idea is to create an
+API as simple as arduino's but versatile enought to run on many diferent MCUs
+ranging from 8 to 32 bits.
++ This file contains a brief on the organization of this repository.
++ This project uses Doxygen for documentation. To generate the doxygen files
+run:
 
-With a common API, it will be possible create a driver only once and reuse it
-in any of the supported hardware by the eHAL reducing greatly the amount of
-time developing these secondary software and focusing on the final application.
+----
+doxygen
+----
+on the project root folder, a *pages/* folder will be created with the doc.
 
-The drivers based on eHAL will be developed in another repository, this one
-will have strictly the internal hardware abstraction.
+Some Observations
+-----------------
 
-== Roadmap ==
++ The Makefile generates .a files. This is the suffix for static libs of gcc.
+You may use this lib linking your project against one of the generated .a files
+or copying the .c and .h files from eHAL.
++ The output is per MCU and is in the
+format: libehal-$(MCU)-$(F_CPU).a
 
-- PORT
-- PIN
-- UART
-- SLEEP
-- CPU (Global Interruption control & low level functions for task switching)
-- SPI
-- I2C/TWI
-- integration with Mutex and read/write locks
-- add examples and tutorials
-- DMA
-- RTC
 
-== Planned Architectures and MCUs ==
+== Planned Architectures ==
 
-|===========================================================================
-|avr:		|	attinyx5: 25, 45, 85
-|		|	atmega8, atmega128
-|		|	atmegaxx: 16, 32
-|		|	atmegax8: 48, 88, 168
-|		|	atmegax4p: 164p, 324p, 644p
-|msp430:	|	G2231
-|hcs08		|	?
-|8051		|	?
-|arm7:		|	lpc2101 to lpc2106, str711fr2, ...
-|arm9:		|	?
-|arm-cortex-m3:	|	?
-|===========================================================================
+|==============================================================================
+|avr
+|msp430
+|hcs08
+|8051
+|arm7
+|arm9
+|arm-cortex-m3
+|==============================================================================
+
+Folders Organization:
+---------------------
+
+.EHAL
+*	Makefiles
+*	LICENCE
+*	README
+*	LOG
+*	Doxyfile
+*	dox/
+**		main.dox
+**		examples.dox
+*	ehal/
+**		<headers>
+**		portable/
+***			queue.c
+***			pin.c
+***			rwl.c
+***			mutex.c
+**		avr/
+***			port.c
+***			twi.c
+***			spi.c
+***			...
+**		lpc21xx/
+***			...
+**		lpc1768/
+***			...
+**		msp430/
+***			...
+**		...
+
+Modules
+-------
+Implement the folowing modules to support a new platform.
+
+.Functions unsuported by the hardware
+NOTE: If a function is impossible to do on some platform. A pulldown function on
+a device that don't have an internal pulldown resistor, don't implement a stub.
+It will only make harder to find the problem.
+
++ This API is still under development and might change. Browse the .h from
+the ehal folder for a more precise syntax.
+
+----
+port:
+	init		(number : int) : ptr
+	isvalid		(number : int) : ptr
+	write		(id : ptr, mask : int, value : int) : void
+	read		(id : ptr) : int
+	set_dir		(id : ptr, mask : int, value : int) : void
+	get_dir		(id : ptr) : int
+	set_pullup	(id : ptr, mask : int, value : int) : void
+	get_pullup	(id : ptr) : int
+	set_pulldown	(id : ptr, mask : int, value : int) : void
+	get_pulldown	(id : ptr) : int
+	onchange	(id : ptr, fn : fn_ptr, mask : int) : void
+timer: (unfinished)
+	init		(id : ptr) : void
+	isvalid		(id : ptr) : ptr
+pwm: (unfinished)
+	init		(id : ptr) : void
+	isvalid		(id : ptr) : ptr
+	set_freq	(id : ptr, freq : int) : void
+	get_freq	(id : ptr) : int
+	set_val		(id : ptr, val : float) : void
+	get_val		(id : ptr) : float
+uart: (unfinished)
+	init		(id : ptr) : void
+	isvalid		(id : ptr) : bool
+	set_baud	(id : ptr, baud : int) : void
+	get_baud	(id : ptr) : int
+	set_nbits	(id : ptr, nbits : int) : void
+	get_nbits	(id : ptr) : int
+	set_stopbits	(id : ptr) : void
+	get_stopbits	(id : ptr) : int
+	write		(id : ptr, buf : byte*, bufsz : int) : void
+	read		(id : ptr, buf : byte*, bufsz : int) : void
+i2c: (unfinished)
+	init		(id : ptr) : void
+	isvalid		(id : ptr) : bool
+	set_freq	(id : ptr, freq : int) : void
+	get_freq	(id : ptr, freq : int) : void
+	write		(id : ptr, buf : byte*, bufsz : int) : void
+	read		(id : ptr, buf : byte*, bufsz : int) : void
+spi: (unfinished)
+	init		(id : ptr) : void
+	isvalid		(id : ptr) : bool
+	set_freq	(id : ptr, freq : int) : void
+	get_freq	(id : ptr, freq : int) : void
+	write		(id : ptr, buf : byte*, bufsz : int) : void
+	read		(id : ptr, buf : byte*, bufsz : int) : void
+sleep: (unfinished)
+cpu: (unfinished)
+dma: (unfinished)
+rtc: (unfinished)
+----
