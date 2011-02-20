@@ -15,11 +15,11 @@
 /** Mask with all pins. */
 #define ALL_PINS	((port_t)-1)
 
-void *port_init (int p);
-void *port_isvalid (int p);
-void port_write (void *p, port_t mask, port_t val);
-void port_setdir (void *p, port_t mask, port_t val);
-port_t port_read (void *p);
+void *port_init (int id);
+void *port_isvalid (int id);
+void port_write (void *port, port_t mask, port_t val);
+void port_setdir (void *port, port_t mask, port_t val);
+port_t port_read (void *port);
 
 #endif /* __PORT_H_ */
 
