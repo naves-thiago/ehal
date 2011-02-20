@@ -22,9 +22,9 @@ tutorial, look at the tests
 Some Observations
 -----------------
 
-+ The Makefile generates .a files. This is the suffix for static libs of gcc.
-You may use this lib linking your project against one of the generated .a files
-or copying the .c and .h files from eHAL.
++ The Makefile generates .a files, that are suffix for static libs of gcc.
+You may use eHAL by linking your project against one of the generated .a files
+or copying the .c and .h files to your project and recompiling them there.
 + The output is per MCU and is in the
 format: libehal-$(MCU)-$(F_CPU).a
 + Good practices: The identation is in TABs and the coding style is the
@@ -36,7 +36,7 @@ au filetype c set cinoptions=:0,p0,t0
 au filetype c set cinwords=if,else,while,do,for,switch,case
 au filetype c set formatoptions=tcqr
 ----
-NOTE: If source code is in other format, please folow the code format.
+NOTE: If source code is in other format, please folow that code format.
 
 Planned Architectures
 ---------------------
