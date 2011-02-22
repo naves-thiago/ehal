@@ -26,26 +26,26 @@ avr:
 	# mega
 	make -f Makefile.avr ARCH=avr MCU=atmega8	all	$(OUTPUT)
 #	make -f Makefile.avr ARCH=avr MCU=atmega164p	all	$(OUTPUT)
-	make -f Makefile.avr ARCH=avr MCU=atmega88	all	$(OUTPUT)
+#	make -f Makefile.avr ARCH=avr MCU=atmega88	all	$(OUTPUT)
 #	make -f Makefile.avr ARCH=avr MCU=atmega168	all	$(OUTPUT)
 #	make -f Makefile.avr ARCH=avr MCU=atmega128	all	$(OUTPUT)
 avr-install:
 	# tiny
 #	make -f Makefile.avr ARCH=avr MCU=attiny25	install	$(OUTPUT)
 	# mega
-#	make -f Makefile.avr ARCH=avr MCU=atmega8	install	$(OUTPUT)
+	make -f Makefile.avr ARCH=avr MCU=atmega8	install	$(OUTPUT)
 #	make -f Makefile.avr ARCH=avr MCU=atmega164p	install	$(OUTPUT)
-	make -f Makefile.avr ARCH=avr MCU=atmega88	install	$(OUTPUT)
+#	make -f Makefile.avr ARCH=avr MCU=atmega88	install	$(OUTPUT)
 #	make -f Makefile.avr ARCH=avr MCU=atmega168	install	$(OUTPUT)
 #	make -f Makefile.avr ARCH=avr MCU=atmega128	install	$(OUTPUT)
 	
 avr-clean:
-	make -f Makefile.avr ARCH=avr MCU=attiny25	clean	$(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega8	clean	$(OUTPUT)
-	make -f Makefile.avr ARCH=avr MCU=atmega164p	clean	$(OUTPUT)
-	make -f Makefile.avr ARCH=avr MCU=atmega88	clean	$(OUTPUT)
-	make -f Makefile.avr ARCH=avr MCU=atmega168	clean	$(OUTPUT)
-	make -f Makefile.avr ARCH=avr MCU=atmega128	clean	$(OUTPUT)
+#	make -f Makefile.avr ARCH=avr MCU=attiny25	clean	$(OUTPUT)
+#	make -f Makefile.avr ARCH=avr MCU=atmega164p	clean	$(OUTPUT)
+#	make -f Makefile.avr ARCH=avr MCU=atmega88	clean	$(OUTPUT)
+#	make -f Makefile.avr ARCH=avr MCU=atmega168	clean	$(OUTPUT)
+#	make -f Makefile.avr ARCH=avr MCU=atmega128	clean	$(OUTPUT)
 
 ############################ LPC21XX ####################################
 # Still unsupported

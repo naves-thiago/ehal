@@ -13,24 +13,25 @@
 
 /** Possible baud rates. */
 enum uart_baud_rate {
-	B0,	B50,	B75,	B110,	B134,	B150,	B300,	B600,
 	B1200,	B1800,	B2400,	B4800,	B9600,	B19200,	B38400,	B115200,
 };
 
 void	*uart_init (int id);
-void	*uart_get_from_id (int id);
+void	*uart_isvalid (int id);
 
-void	uart_setbaud (void *u, u08 baud);
-u32	uart_getbaud (void *u);
+void	uart_setbaud (void *uart, u08 baud);
+u32	uart_getbaud (void *uart);
 
-void	uart_setnbits (void *u, u08 n);
-u08	uart_getnbits (void *u);
+void	uart_setnbits (void *uart, u08 n);
+u08	uart_getnbits (void *uart);
 
-void	uart_setstopbits(void *u, u08 stopbits);
-u08	uart_getstopbits (void *u);
+void	uart_setstopbits(void *uart, u08 stopbits);
+u08	uart_getstopbits (void *uart);
 
-int	uart_putc (void *u, char c);
-int	uart_getc (void *u);
+int	uart_write (void *uart, unsigned char *ptr, int sz);
+int	uart_read (void *uart, unsigned char *ptr, int sz);
+int	uart_putc (void *uart, char c);
+int	uart_getc (void *uart);
 
 #endif
 

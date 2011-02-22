@@ -18,6 +18,7 @@ INC_INSTALL_DIR=$(shell dirname $(shell which $(CC)))/../avr/include/ehal
 
 # Get folders from within ehal.
 GENERIC_PATH=ehal
+PORTABLE_PATH=ehal/portable
 SPECIFIC_PATH=ehal/$(ARCH)
 
 CDEBUG =-gdwarf-2
@@ -28,7 +29,8 @@ CTUNING=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 -ffunction-sections -fno-inline-small-functions -fno-split-wide-types \
 -fno-tree-scev-cprop -Wl,--relax,--gc-sections
 
-INCLUDE_DIR=-I. -I./ehal -I./$(SPECIFIC_PATH)
+INCLUDE_DIR=-I. -I./ehal -I./$(SPECIFIC_PATH) -I./$(GENERIC_PATH)\
+-I./$(GENERIC_PATH)/portable
 CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -Os $(CWARN) $(CSTANDARD) \
 $(CEXTRA) $(INCLUDE_DIR)
 
@@ -43,27 +45,33 @@ PORT=					\
 	$(SPECIFIC_PATH)/port_specific.h\
 	$(GENERIC_PATH)/port.h
 PIN=					\
-	$(GENERIC_PATH)/pin.c		\
-	$(GENERIC_PATH)/pin.h		\
+	$(PORTABLE_PATH)/pin.c		\
+	$(PORTABLE_PATH)/pin.h		\
 	$(SPECIFIC_PATH)/pin_specific.h
-UART_DEV_X=					\
+UART_DEV_X=				\
 	$(SPECIFIC_PATH)/uart_dev_x.c	\
 	$(GENERIC_PATH)/uart.h
-UART_X=					\
-	$(SPECIFIC_PATH)/uart_x.c	\
+UART_M8=				\
+	$(SPECIFIC_PATH)/uart_m8-getbaud.c	\
+	$(SPECIFIC_PATH)/uart_m8-init.c	\
+	$(SPECIFIC_PATH)/uart_m8-isvalid.c	\
+	$(SPECIFIC_PATH)/uart_m8-read.c	\
+	$(SPECIFIC_PATH)/uart_m8-setbaud.c	\
+	$(SPECIFIC_PATH)/uart_m8-write.c	\
+	$(SPECIFIC_PATH)/uart_m8-getbaud.c	\
 	$(GENERIC_PATH)/uart.h		\
-	$(GENERIC_PATH)/queue.c		\
-	$(GENERIC_PATH)/queue.h
-UART_X8=				\
+	$(PORTABLE_PATH)/queue.c		\
+	$(PORTABLE_PATH)/queue.h
+#UART_X8=				\
 	$(SPECIFIC_PATH)/uart_x8.c	\
 	$(GENERIC_PATH)/uart.h		\
-	$(GENERIC_PATH)/queue.c		\
-	$(GENERIC_PATH)/queue.h
+	$(PORTABLE_PATH)/queue.c		\
+	$(PORTABLE_PATH)/queue.h
 UART_X4P=				\
 	$(SPECIFIC_PATH)/uart_x4p.c	\
 	$(GENERIC_PATH)/uart.h		\
-	$(GENERIC_PATH)/queue.c		\
-	$(GENERIC_PATH)/queue.h
+	$(PORTABLE_PATH)/queue.c		\
+	$(PORTABLE_PATH)/queue.h
 SPIM=					\
 	$(SPECIFIC_PATH)/spim.c		\
 	$(SPECIFIC_PATH)/spim_specific.h\
@@ -89,9 +97,9 @@ RESOURCES+=$(PIN)
 endif
 ifeq ($(MCU),atmega8)
 RESOURCES+=$(PORT)
+RESOURCES+=$(UART_M8)
 # RESOURCES+=$(PIN)
 # RESOURCES+=$(UART_DEV_X)
-# RESOURCES+=$(UART_X)
 # RESOURCES+=$(SPIM)
 endif
 ifeq ($(MCU),atmega88)
@@ -131,7 +139,7 @@ RESOURCES+=$(PIN)
 endif
 
 # .c + .h
-RESOURCES+= $(GENERIC_PATH)/types.h
+RESOURCES+= $(GENERIC_PATH)/tinytypes.h
 
 # .h only
 INC=$(filter %.h, $(RESOURCES))
@@ -142,17 +150,17 @@ OBJ=$(SRC:%.c=%-$(MCU)-$(F_CPU).o)
 
 .PHONY: all install clean
 all: $(LIB)
-include avr.deps
 
-install:
+install: all
 	$(MKDIR) -p $(INC_INSTALL_DIR)
 	$(CP) $(LIB) $(LIB_INSTALL_DIR)
 	$(CP) $(INC) $(INC_INSTALL_DIR)
+
 $(LIB): $(OBJ)
 	$(AR) rcs $@ $^
+
 %-$(MCU)-$(F_CPU).o : %.c
 	$(CC) $(ALL_CFLAGS) -c $< -o $@
+
 clean:
 	$(RM) -f $(OBJ) $(LIB)
-makedepend:
-	avr-gcc -MM $(ALL_CFLAGS) `find ./ehal -name *.c` > avr.deps

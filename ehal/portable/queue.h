@@ -2,52 +2,42 @@
 #ifndef EHAL_QUEUE
 #define EHAL_QUEUE
 
+#include <stdbool.h>
+#include <stdint.h>
+
 struct queue {
 	unsigned char *buff;	/**< your buffer goes here. */
-	unsigned char sz;	/**< number of elements in buff */
-	unsigned char s;	/**< start, index of first element */
-	unsigned char ocupied;	/**< number of ocupied bytes */
+	uint8_t sz;	/**< number of elements in buff */
+	uint8_t s;	/**< start, index of first element */
+	uint8_t ocupied;	/**< number of ocupied bytes */
 };
 
 /** set user defined buffer to be the queue buffer. */
-void
-queue_init	(struct queue *q,
+void queue_init	(struct queue *q,
 		unsigned char *buff,
-		unsigned char sz);
+		int sz);
 
 /** returns how many bytes are in the queue. */
-unsigned char
-queue_ocupied	(struct queue *q);
+int queue_ocupied	(struct queue *q);
 
 /** returns non-zero if queue is full */
-unsigned char
-queue_isfull	(struct queue *q);
+bool queue_isfull	(struct queue *q);
 
 /** returns non-zero if queue is empty */
-unsigned char
-queue_isempty	(struct queue *q);
+bool queue_isempty	(struct queue *q);
 
-/** put data in the queue, return zero when success */
-unsigned char
-queue_enq	(struct queue *q,
-		unsigned char data);
+/** put data in the queue, return true for success */
+bool queue_enq	(struct queue *q, unsigned char data);
 
 /** cp first element in the queue to *ret and remove it from queue */
-unsigned char
-queue_deq	(struct queue *q,
-		unsigned char *ret);
+bool queue_deq	(struct queue *q, unsigned char *ret);
 
-void
-queue_flush	(struct queue *q);
+void queue_flush	(struct queue *q);
 
 /** same as before but without removing it */
-unsigned char
-queue_peaklast	(struct queue *q,
-		unsigned char *ret);
+bool queue_peaklast	(struct queue *q, unsigned char *ret);
 
 /** same as before but for the first element */
-unsigned char
-queue_peakfirst	(struct queue *q,
-		unsigned char *ret);
+bool queue_peakfirst	(struct queue *q, unsigned char *ret);
 
 #endif		/* #ifndef __QUEUE_H_ */
