@@ -51,17 +51,28 @@ PIN=					\
 UART_DEV_X=				\
 	$(SPECIFIC_PATH)/uart_dev_x.c	\
 	$(GENERIC_PATH)/uart.h
-UART_M8=				\
-	$(SPECIFIC_PATH)/uart_m8-getbaud.c	\
-	$(SPECIFIC_PATH)/uart_m8-init.c	\
-	$(SPECIFIC_PATH)/uart_m8-isvalid.c	\
-	$(SPECIFIC_PATH)/uart_m8-read.c	\
-	$(SPECIFIC_PATH)/uart_m8-setbaud.c	\
-	$(SPECIFIC_PATH)/uart_m8-write.c	\
-	$(SPECIFIC_PATH)/uart_m8-getbaud.c	\
-	$(GENERIC_PATH)/uart.h		\
-	$(PORTABLE_PATH)/queue.c		\
+QUEUE=					\
+	$(PORTABLE_PATH)/queue_init.c	\
+	$(PORTABLE_PATH)/queue_deq.c		\
+	$(PORTABLE_PATH)/queue_enq.c		\
+	$(PORTABLE_PATH)/queue_flush.c		\
+	$(PORTABLE_PATH)/queue_init.c		\
+	$(PORTABLE_PATH)/queue_isempty.c		\
+	$(PORTABLE_PATH)/queue_isfull.c		\
+	$(PORTABLE_PATH)/queue_ocupied.c		\
+	$(PORTABLE_PATH)/queue_peakfirst.c	\
+	$(PORTABLE_PATH)/queue_peaklast.c	\
 	$(PORTABLE_PATH)/queue.h
+UART_M8=					\
+	$(SPECIFIC_PATH)/m8-uart_getbaud.c	\
+	$(SPECIFIC_PATH)/m8-uart_init.c		\
+	$(SPECIFIC_PATH)/m8-uart_isvalid.c	\
+	$(SPECIFIC_PATH)/m8-uart_read.c		\
+	$(SPECIFIC_PATH)/m8-uart_setbaud.c	\
+	$(SPECIFIC_PATH)/m8-uart_write.c	\
+	$(SPECIFIC_PATH)/m8-uart_getbaud.c	\
+	$(GENERIC_PATH)/uart.h			\
+	$(QUEUE)
 #UART_X8=				\
 	$(SPECIFIC_PATH)/uart_x8.c	\
 	$(GENERIC_PATH)/uart.h		\
