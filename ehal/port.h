@@ -20,9 +20,14 @@ void *port_init (int id);
 void port_write (void *port, port_t mask, port_t val);
 port_t port_read (void *port);
 
-void port_setpullup (void *port, port_t mask, port_t val);
 void port_setdir (void *port, port_t mask, port_t val);
 port_t port_getdir (void *port);
+
+void port_setpullup (void *port, port_t mask, port_t val);
+port_t port_getpullup (void *port);
+
+void port_setpulldown (void *port, port_t mask, port_t val);
+port_t port_getpulldown (void *port);
 
 #endif /* EHAL_PORT_H */
 

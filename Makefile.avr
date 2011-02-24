@@ -46,7 +46,11 @@ LDFLAGS=
 
 
 PORT=					\
-	$(SPECIFIC_PATH)/port.c		\
+	$(SPECIFIC_PATH)/port_init.c	\
+	$(SPECIFIC_PATH)/port_write.c	\
+	$(SPECIFIC_PATH)/port_read.c	\
+	$(SPECIFIC_PATH)/port_setdir.c	\
+	$(SPECIFIC_PATH)/port_getdir.c	\
 	$(SPECIFIC_PATH)/port_specific.h\
 	$(GENERIC_PATH)/port.h
 PIN=					\
