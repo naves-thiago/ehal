@@ -5,5 +5,5 @@
 port_t port_getdir (void *_p)
 {
 	struct port_mem_block *p = _p;
-	return p->dir;
+	return ~p->dir;
 }
