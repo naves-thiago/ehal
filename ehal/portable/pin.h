@@ -6,58 +6,54 @@
 #ifndef EHAL_PIN
 #define EHAL_PIN
 
+#include <stdbool.h>
+#include <stdint.h>
 #include "tinytypes.h"
-#include "pin_specific.h"
+#include "port.h"
 
-#define PIN_ISOUT	0	/**< pin_getdir */
-#define PIN_ISIN	1	/**< pin_getdir */
-#define PIN_ISLOW	0	/**< pin_getval */
-#define PIN_ISHIGH	1	/**< pin_getval */
+struct pin_t {
+	void *port;
+	u08 pin;
+};
 
 /** @return pin_t, where pin is a enum en_pin_number.
  * @note This function can return invalid pins, to make sure validate it
  * before using. */
-void *pin_init (u08 port, u08 pin);
+struct pin_t pin_init (int port, int pin);
 
-/** @return 1 ok, 0 for error. */
-u08 pin_isvalid (void *p);
+/** set the pin to high state. */
+void pin_sethigh (struct pin_t p);
 
-/** PIN must be output, or you'll get an undefined behaviour */
-void pin_sethigh (void *p);
-
-/** PIN must be output, or you'll get an undefined behaviour */
-void pin_setlow (void *p);
-
-/** PIN must be output, or you'll get an undefined behaviour */
-void pin_setval (void *p, u08 v);
+/** set the pin to low state. */
+void pin_setlow (struct pin_t p);
 
 /** true if pin is high */
-u08 pin_ishigh (void *p);
+bool pin_ishigh (struct pin_t p);
 
 /** true if pin is low */
-u08 pin_islow (void *p);
+bool pin_islow (struct pin_t p);
 
 /** set it to input. */
-void pin_setin (void *p);
+void pin_setin (struct pin_t p);
 
 /** set it to output. */
-void pin_setout (void *p);
-
-/** set it to in if (v) or out if not. */
-void pin_setdir (void *p, u08 v);
+void pin_setout (struct pin_t p);
 
 /** @return 1 for in, 0 for out. */
-u08 pin_getdir (void *p);
+bool pin_isin (struct pin_t p);
+
+/** @return 0 for in, 1 for out. */
+bool pin_isout (struct pin_t p);
 
 
 /* :TODO: These names are terrible... */
-void pin_setpullup (void *p);
-void pin_clrpullup (void *p);
-u08 pin_getpullup (void *p);
+void pin_setpullup (struct pin_t p);
+void pin_clrpullup (struct pin_t p);
+bool pin_getpullup (struct pin_t p);
 
-void pin_setpulldn (void *p);
-void pin_clrpulldn (void *p);
-u08 pin_getpullup (void *p);
+void pin_setpulldn (struct pin_t p);
+void pin_clrpulldn (struct pin_t p);
+bool pin_getpullup (struct pin_t p);
 
 #endif /* __PIN_H_ */
 /** @} */ /* defgroup pin */

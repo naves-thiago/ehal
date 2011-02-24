@@ -16,10 +16,13 @@
 #define ALL_PINS	((port_t)-1)
 
 void *port_init (int id);
-void *port_isvalid (int id);
+
 void port_write (void *port, port_t mask, port_t val);
-void port_setdir (void *port, port_t mask, port_t val);
 port_t port_read (void *port);
+
+void port_setpullup (void *port, port_t mask, port_t val);
+void port_setdir (void *port, port_t mask, port_t val);
+port_t port_getdir (void *port);
 
 #endif /* __PORT_H_ */
 

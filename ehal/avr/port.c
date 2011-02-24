@@ -109,3 +109,6 @@ void port_setpullup(void *_p, port_t mask, port_t up)
 
 port_t port_getpullup (void *_p)
 	__attribute__ ((alias("port_read")));
+
+port_t port_ishigh (void *_p)
+	__attribute__ ((alias("port_getdir")));

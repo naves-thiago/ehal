@@ -7,13 +7,18 @@ AR=avr-ar
 MKDIR=mkdir
 CP=cp -f
 RM=rm
+
+ifndef $F_CPU
 F_CPU=8000000
+endif
 
 # Final name
 LIB=libehal-$(MCU)-$(F_CPU).a
 
 # Get the lib folder based on the toolchain location.
+# Where to put .a
 LIB_INSTALL_DIR=$(shell dirname $(shell which $(CC)))/../avr/lib
+# Where to put .h
 INC_INSTALL_DIR=$(shell dirname $(shell which $(CC)))/../avr/include/ehal
 
 # Get folders from within ehal.
@@ -24,7 +29,6 @@ SPECIFIC_PATH=ehal/$(ARCH)
 CDEBUG =-gdwarf-2
 CWARN =-Wall -Wstrict-prototypes
 # optimization for compiling all the .c at the same time
-ONCE_FLAGS=--combine -fwhole-program
 CTUNING=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 -ffunction-sections -fno-inline-small-functions -fno-split-wide-types \
 -fno-tree-scev-cprop -Wl,--relax,--gc-sections
@@ -40,14 +44,25 @@ LDFLAGS=
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
+
 PORT=					\
 	$(SPECIFIC_PATH)/port.c		\
 	$(SPECIFIC_PATH)/port_specific.h\
 	$(GENERIC_PATH)/port.h
 PIN=					\
-	$(PORTABLE_PATH)/pin.c		\
-	$(PORTABLE_PATH)/pin.h		\
-	$(SPECIFIC_PATH)/pin_specific.h
+	$(PORTABLE_PATH)/pin_init.c	\
+	$(PORTABLE_PATH)/pin_ishigh.c	\
+	$(PORTABLE_PATH)/pin_isin.c	\
+	$(PORTABLE_PATH)/pin_islow.c	\
+	$(PORTABLE_PATH)/pin_isout.c	\
+	$(PORTABLE_PATH)/pin_isvalid.c	\
+	$(PORTABLE_PATH)/pin_sethigh.c	\
+	$(PORTABLE_PATH)/pin_setlow.c	\
+	$(PORTABLE_PATH)/pin_setin.c	\
+	$(PORTABLE_PATH)/pin_setout.c	\
+	$(PORTABLE_PATH)/pin_setpullup.c\
+	$(PORTABLE_PATH)/pin_setout.c	\
+	$(PORTABLE_PATH)/pin.h
 UART_DEV_X=				\
 	$(SPECIFIC_PATH)/uart_dev_x.c	\
 	$(GENERIC_PATH)/uart.h
@@ -60,8 +75,8 @@ QUEUE=					\
 	$(PORTABLE_PATH)/queue_isempty.c		\
 	$(PORTABLE_PATH)/queue_isfull.c		\
 	$(PORTABLE_PATH)/queue_ocupied.c		\
-	$(PORTABLE_PATH)/queue_peakfirst.c	\
-	$(PORTABLE_PATH)/queue_peaklast.c	\
+	$(PORTABLE_PATH)/queue_peekfirst.c	\
+	$(PORTABLE_PATH)/queue_peeklast.c	\
 	$(PORTABLE_PATH)/queue.h
 UART_M8=					\
 	$(SPECIFIC_PATH)/m8-uart_getbaud.c	\
@@ -109,13 +124,13 @@ endif
 ifeq ($(MCU),atmega8)
 RESOURCES+=$(PORT)
 RESOURCES+=$(UART_M8)
-# RESOURCES+=$(PIN)
+RESOURCES+=$(PIN)
 # RESOURCES+=$(UART_DEV_X)
 # RESOURCES+=$(SPIM)
 endif
 ifeq ($(MCU),atmega88)
 RESOURCES+=$(PORT)
-# RESOURCES+=$(PIN)
+RESOURCES+=$(PIN)
 # RESOURCES+=$(UART_X8)
 # RESOURCES+=$(SPIM)
 endif
