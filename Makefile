@@ -9,13 +9,13 @@ AVR_INSTALL_LIB_DIR=$(shell dirname $(shell which avr-gcc))/../avr/lib/
 
 .PHONY: all doc clean avr
 
-all: avr
+all: avr msp430
 	@echo
 	@echo done!
 
-install: avr-install
+install: avr-install msp430-install
 
-clean: avr-clean
+clean: avr-clean msp430-clean
 
 ############################# AVR #######################################
 avr-depend:
@@ -58,6 +58,16 @@ avr-clean:
 #	make -f Makefile.avr ARCH=avr MCU=atmega88	clean	$(OUTPUT)
 #	make -f Makefile.avr ARCH=avr MCU=atmega168	clean	$(OUTPUT)
 #	make -f Makefile.avr ARCH=avr MCU=atmega128	clean	$(OUTPUT)
+
+############################ MSP430  ####################################
+msp430:
+	make -f Makefile.msp430 MCU=msp430x2012 ARCH=msp430 all $(OUTPUT)
+
+msp430-install:
+	make -f Makefile.msp430 MCU=msp430x2012 ARCH=msp430 install $(OUTPUT)
+
+msp430-clean:
+	make -f Makefile.msp430 MCU=msp430x2012 ARCH=msp430 clean $(OUTPUT)
 
 ############################ LPC21XX ####################################
 # Still unsupported
