@@ -63,7 +63,7 @@ void *port_init (unsigned int id)
 	void *p;
 	if (id < sizeof(port_mem_block)/sizeof (*port_mem_block))
 		p = port_mem_block[id];
-	else 
+	else
 		return NULL;
 	port_setdir (p, 0xFF, 0xFF);
 	return p;
