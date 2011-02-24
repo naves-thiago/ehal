@@ -1,5 +1,9 @@
-#ifndef TINYTYPES_H
-#define TINYTYPES_H
+#ifndef EHAL_TINYTYPES_H
+#define EHAL_TINYTYPES_H
+
+#ifdef EHAL_GLOBAL
+#include "ehal_global.h"
+#endif
 
 #include <stdbool.h>
 #include <inttypes.h>

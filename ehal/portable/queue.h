@@ -1,6 +1,10 @@
 /** @file Queue module of unsigned chars. */
-#ifndef EHAL_QUEUE
-#define EHAL_QUEUE
+#ifndef EHAL_QUEUE_H
+#define EHAL_QUEUE_H
+
+#ifdef EHAL_GLOBAL
+#include "ehal_global.h"
+#endif
 
 #include <stdbool.h>
 #include <stdint.h>

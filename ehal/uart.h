@@ -5,8 +5,12 @@
  * @example uartex.c
  */
 
-#ifndef EHAL_UART
-#define EHAL_UART
+#ifndef EHAL_UART_H
+#define EHAL_UART_H
+
+#ifdef EHAL_GLOBAL
+#include "ehal_global.h"
+#endif
 
 #include <stdio.h>
 #include "tinytypes.h"

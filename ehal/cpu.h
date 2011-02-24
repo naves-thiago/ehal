@@ -2,8 +2,8 @@
  * @defgroup cpu cpu
  * @{
  */
-#ifndef EHAL_CPU
-#define EHAL_CPU
+#ifndef EHAL_CPU_H
+#define EHAL_CPU_H
 /* cpu_specific should contain:
  * (8 bits example)
  *
@@ -11,6 +11,11 @@
  * #define	CPU_TYPE	unsigned char
  * #define	CPU_FREQ	8000000L
  */
+
+#ifdef EHAL_GLOBAL
+#include "ehal_global.h"
+#endif
+
 #include "tinytypes.h"
 #include "cpu_specific.h"
 

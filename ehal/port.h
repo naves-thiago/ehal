@@ -2,8 +2,8 @@
  * @defgroup port port
  * @{
  * @example portpinex.c */
-#ifndef EHAL_PORT
-#define EHAL_PORT
+#ifndef EHAL_PORT_H
+#define EHAL_PORT_H
 
 #include "tinytypes.h"
 #include "port_specific.h"
@@ -24,6 +24,6 @@ void port_setpullup (void *port, port_t mask, port_t val);
 void port_setdir (void *port, port_t mask, port_t val);
 port_t port_getdir (void *port);
 
-#endif /* __PORT_H_ */
+#endif /* EHAL_PORT_H */
 
 /** @} */ /* @defgroup port */

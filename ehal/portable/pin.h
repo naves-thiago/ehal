@@ -3,8 +3,12 @@
  * @{
  * @example pinex.c */
 
-#ifndef EHAL_PIN
-#define EHAL_PIN
+#ifndef EHAL_PIN_H
+#define EHAL_PIN_H
+
+#ifdef EHAL_GLOBAL
+#include "ehal_global.h"
+#endif
 
 #include <stdbool.h>
 #include <stdint.h>
