@@ -66,10 +66,10 @@ Folders Organization:
 *	ehal/
 **		<headers>
 **		portable/
-***			queue.c
-***			pin.c
-***			rwl.c
-***			mutex.c
+***			queue_init.c
+***			...
+***			pin_init.c
+***			...
 **		avr/
 ***			port.c
 ***			twi.c
@@ -101,12 +101,12 @@ port:
 	isvalid		(number : int) : ptr
 	write		(id : ptr, mask : int, value : int) : void
 	read		(id : ptr) : int
-	set_dir		(id : ptr, mask : int, value : int) : void
-	get_dir		(id : ptr) : int
-	set_pullup	(id : ptr, mask : int, value : int) : void
-	get_pullup	(id : ptr) : int
-	set_pulldown	(id : ptr, mask : int, value : int) : void
-	get_pulldown	(id : ptr) : int
+	setdir		(id : ptr, mask : int, value : int) : void
+	getdir		(id : ptr) : int
+	setpullup	(id : ptr, mask : int, value : int) : void
+	getpullup	(id : ptr) : int
+	setpulldown	(id : ptr, mask : int, value : int) : void
+	getpulldown	(id : ptr) : int
 	onchange	(id : ptr, fn : fn_ptr, mask : int) : void
 timer: (unfinished)
 	init		(number : int) : ptr
@@ -114,34 +114,34 @@ timer: (unfinished)
 pwm: (unfinished)
 	init		(number : int) : ptr
 	isvalid		(id : ptr) : ptr
-	set_freq	(id : ptr, freq : int) : void
-	get_freq	(id : ptr) : int
-	set_val		(id : ptr, val : float) : void
-	get_val		(id : ptr) : float
+	setfreq		(id : ptr, freq : int) : void
+	getfreq		(id : ptr) : int
+	setval		(id : ptr, val : float) : void
+	getval		(id : ptr) : float
 uart: (unfinished)
 	init		(number : int) : ptr
 	isvalid		(id : ptr) : bool
-	set_baud	(id : ptr, baud : int) : void
-	get_baud	(id : ptr) : int
-	set_nbits	(id : ptr, nbits : int) : void
-	get_nbits	(id : ptr) : int
-	set_stopbits	(id : ptr) : void
-	get_stopbits	(id : ptr) : int
+	setbaud		(id : ptr, baud : int) : void
+	getbaud		(id : ptr) : int
+	setnbits	(id : ptr, nbits : int) : void
+	getnbits	(id : ptr) : int
+	setstopbits	(id : ptr) : void
+	getstopbits	(id : ptr) : int
 	write		(id : ptr, buf : byte*, bufsz : int) : void
 	read		(id : ptr, buf : byte*, bufsz : int) : void
 i2c: (unfinished)
 	init		(number : int) : ptr
 	isvalid		(id : ptr) : bool
-	set_freq	(id : ptr, freq : int) : void
-	get_freq	(id : ptr, freq : int) : void
+	setfreq		(id : ptr, freq : int) : void
+	getfreq		(id : ptr, freq : int) : void
 	write		(id : ptr, buf : byte*, bufsz : int) : void
 	read		(id : ptr, buf : byte*, bufsz : int) : void
 spi: (unfinished)
 	init		(number : int) : ptr
 	init		(id : ptr) : void
 	isvalid		(id : ptr) : bool
-	set_freq	(id : ptr, freq : int) : void
-	get_freq	(id : ptr, freq : int) : void
+	setfreq		(id : ptr, freq : int) : void
+	getfreq		(id : ptr, freq : int) : void
 	write		(id : ptr, buf : byte*, bufsz : int) : void
 	read		(id : ptr, buf : byte*, bufsz : int) : void
 cpu/sleep: (unfinished)
