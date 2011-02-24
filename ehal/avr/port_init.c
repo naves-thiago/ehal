@@ -58,7 +58,7 @@ struct port_mem_block *port_mem_block[] = {
 
 #define port_mask(p, m, v) do { p = ((p) & ~(m)) | ((v) & (m)); } while(0)
 
-void *port_init (int id)
+void *port_init (unsigned int id)
 {
 	void *p;
 	if (id < sizeof(port_mem_block)/sizeof (*port_mem_block))
