@@ -42,7 +42,7 @@ LDFLAGS=
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
 # portable
-include portable.deps
+include Portable.deps
 
 # Specific
 CPU=						\
@@ -132,6 +132,10 @@ install: all
 	$(MKDIR) -p $(INC_INSTALL_DIR)
 	$(CP) $(LIB) $(LIB_INSTALL_DIR)
 	$(CP) $(INC) $(INC_INSTALL_DIR)
+
+target: all
+	$(OUT): $(OBJ)
+		$(CC) $(ALL_CFLAGS) $(LIB) -c $< -o $@
 
 $(LIB): $(OBJ)
 	$(AR) rcs $@ $^

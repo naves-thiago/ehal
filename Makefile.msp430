@@ -44,7 +44,7 @@ LDFLAGS=
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
-include portable.deps
+include Portable.deps
 
 CPU=					\
 	$(SPECIFIC_PATH)/cpu_init.c	\
