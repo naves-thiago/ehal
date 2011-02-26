@@ -12,12 +12,78 @@ for the best portability is implemented in C.
 + This project uses Doxygen for documentation. To generate the doxygen files
 run:
 
+Doc
+----
+
+The documentation of the implementation, that means (not tutorials) is provided
+by Doxygen.
+
+Firstly install it by your package manager or from their website, and the run
+
 ----
 doxygen
 ----
 on the project root folder, a *pages/* folder will be created with the doc.
-+ This doc is intended to be a manual and API reference, not a tutorial. For a
-tutorial, look at the tests
+Again, this doc is intended to be a manual and API reference, not a tutorial.
+
+The tutorial is on the way, will come with the unity testing suit.
+
+Abstraction without Under utilization
+-------------------------------------
+
+The first thing you may wonder on a abstraction layer for embedded devices is
+that it doesn't make any sence, what a common API servers for if I can't use the
+neat and advanced features of my MCU?
+
+The answear is: For every thing else :)
+
+Even thou that is not good answear, sinse even so ehal can provide both worlds.
+With a port.h and a port_specific.h, you can use the common functions between
+the supported MCUs provided in port.h, and for a case where the functionality is
+very specific, it can be linked in the .h and be provided by the port_specific.h
+
+The disadvantage is that by using functions at port_specific.h your project
+won't be cross platform. But we all can live with that any way.
+
+This combined with the lib interface (.a) makes sure you are not carrying any
+overhead whith this aproach, you just link what you call.
+
+How to help
+-----------
+
++ Providing any idea that may sound neat.
++ Providing bug reports with details about version, MCU used, and the simplest
+possible test case that generated the bug.
+
+How to make a huge contribution :)
+----------------------------------
+
++ API specification. If you think the current API is doesn't expose correctly
+the hardware please tell us how to improve it.
++ Provide full or partial lib to a MCU of a new port.
++ Create a testing suit for the the existing modules, specifying in which tests
+it failed.
++ Create a new port.
+
+New Port
+--------
+
++ When creating a new port, a new supported platform, the user must implement
+the API specifyed in the ehal folder with the exception of the MODULE_specific.h
+that is mandatory inside each port for every suported module. Other than that,
+there is no need to to copy a particular implementation of an already supported
+platform. That means, the implementation is free.
+
+.General Thumb rule:
+* If there are already .h files defining structs mapping the
+peripherals, you should go that way. If not check if it is possible to create
+it, if not, well... just do it as you like.
+** As an example you can check for ehal/avr/port_internal.h for a mapping;
+** In the case of a third party lib that does it, use it directly. Like in the
+lpc17xx port.
+** For an impossible mapping there is the atmega8 uart that don't have the
+use of a struct in its implementation. But even in this case, it returns a non
+NULL pointer for validation.
 
 Some Observations
 -----------------
@@ -42,14 +108,20 @@ Planned Architectures
 ---------------------
 
 |==============================================================================
-|avr
-|msp430
-|hcs08
-|8051
-|arm7
-|arm9
-|arm-cortex-m3
+|Modules	|port	|spi	|i2c
+|avr		|V	|X	|X
+|msp430		|P	|X	|X
+|hcs08		|X	|X	|X
+|8051		|X	|X	|X
+|arm7		|X	|X	|X
+|arm9		|X	|X	|X
+|lpc17xx	|P	|X	|X
 |==============================================================================
+
+V - for supported,
+P - for partial support (working on it.)
+X - no support.
+I - for impossible, not present on architecture.
 
 Folders Organization:
 ---------------------
@@ -82,72 +154,3 @@ Folders Organization:
 **		msp430/
 ***			...
 **		...
-
-Modules
--------
-Implement the folowing modules to support a new platform.
-
-.Functions unsuported by the hardware
-NOTE: If a function is impossible to do on some platform. A pulldown function on
-a device that don't have an internal pulldown resistor, don't implement a stub.
-It will only make harder to find the problem.
-
-+ This API is still under development and might change. Browse the .h from
-the ehal folder for a more precise syntax.
-
-----
-port:
-	init		(number : int) : ptr
-	isvalid		(number : int) : ptr
-	write		(id : ptr, mask : int, value : int) : void
-	read		(id : ptr) : int
-	setdir		(id : ptr, mask : int, value : int) : void
-	getdir		(id : ptr) : int
-	setpullup	(id : ptr, mask : int, value : int) : void
-	getpullup	(id : ptr) : int
-	setpulldown	(id : ptr, mask : int, value : int) : void
-	getpulldown	(id : ptr) : int
-	onchange	(id : ptr, fn : fn_ptr, mask : int) : void
-timer: (unfinished)
-	init		(number : int) : ptr
-	isvalid		(id : ptr) : ptr
-pwm: (unfinished)
-	init		(number : int) : ptr
-	isvalid		(id : ptr) : ptr
-	setfreq		(id : ptr, freq : int) : void
-	getfreq		(id : ptr) : int
-	setval		(id : ptr, val : float) : void
-	getval		(id : ptr) : float
-uart: (unfinished)
-	init		(number : int) : ptr
-	isvalid		(id : ptr) : bool
-	setbaud		(id : ptr, baud : int) : void
-	getbaud		(id : ptr) : int
-	setnbits	(id : ptr, nbits : int) : void
-	getnbits	(id : ptr) : int
-	setstopbits	(id : ptr) : void
-	getstopbits	(id : ptr) : int
-	write		(id : ptr, buf : byte*, bufsz : int) : void
-	read		(id : ptr, buf : byte*, bufsz : int) : void
-i2c: (unfinished)
-	init		(number : int) : ptr
-	isvalid		(id : ptr) : bool
-	setfreq		(id : ptr, freq : int) : void
-	getfreq		(id : ptr, freq : int) : void
-	write		(id : ptr, buf : byte*, bufsz : int) : void
-	read		(id : ptr, buf : byte*, bufsz : int) : void
-spi: (unfinished)
-	init		(number : int) : ptr
-	init		(id : ptr) : void
-	isvalid		(id : ptr) : bool
-	setfreq		(id : ptr, freq : int) : void
-	getfreq		(id : ptr, freq : int) : void
-	write		(id : ptr, buf : byte*, bufsz : int) : void
-	read		(id : ptr, buf : byte*, bufsz : int) : void
-cpu/sleep: (unfinished)
-	init		(number : int) : ptr
-dma: (unfinished)
-	init		(number : int) : ptr
-rtc: (unfinished)
-	init		(number : int) : ptr
-----
