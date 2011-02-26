@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <avr/io.h>
 #include "port.h"
+#include "port_internal.h"
 
 #define BIND_INDEX_WITH_PORT(BLOCK_START)\
 	(struct port_mem_block *)&PIN ## BLOCK_START
