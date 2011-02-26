@@ -9,13 +9,13 @@ AVR_INSTALL_LIB_DIR=$(shell dirname $(shell which avr-gcc))/../avr/lib/
 
 .PHONY: all doc clean avr
 
-all: avr msp430
+all: avr msp430 lpc17xx
 	@echo
 	@echo done!
 
-install: avr-install msp430-install
+install: avr-install msp430-install lpc17xx-install
 
-clean: avr-clean msp430-clean
+clean: avr-clean msp430-clean lpc17xx-clean
 
 ############################# AVR #######################################
 avr-depend:
@@ -61,13 +61,23 @@ avr-clean:
 
 ############################ MSP430  ####################################
 msp430:
-	make -f Makefile.msp430 MCU=msp430x2012 ARCH=msp430 all $(OUTPUT)
+	make -f Makefile.msp430 ARCH=msp430 MCU=msp430x2012 all $(OUTPUT)
 
 msp430-install:
-	make -f Makefile.msp430 MCU=msp430x2012 ARCH=msp430 install $(OUTPUT)
+	make -f Makefile.msp430 ARCH=msp430 MCU=msp430x2012 install $(OUTPUT)
 
 msp430-clean:
-	make -f Makefile.msp430 MCU=msp430x2012 ARCH=msp430 clean $(OUTPUT)
+	make -f Makefile.msp430 ARCH=msp430 MCU=msp430x2012 clean $(OUTPUT)
+
+############################ LPC17XX ####################################
+lpc17xx:
+	make -f Makefile.lpc17xx MCU=lpc1768 ARCH=lpc17xx all $(OUTPUT)
+
+lpc17xx-install:
+	make -f Makefile.lpc17xx MCU=lpc1768 ARCH=lpc17xx install $(OUTPUT)
+
+lpc17xx-clean:
+	make -f Makefile.lpc17xx MCU=lpc1768 ARCH=lpc17xx clean $(OUTPUT)
 
 ############################ LPC17XX ####################################
 lpc17xx:

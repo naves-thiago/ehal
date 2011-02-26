@@ -1,6 +1,3 @@
-#!/bin/bash
-# make clean && make; cat deps; find . -name '*.o'
-
 # Must have utils
 CC=avr-gcc
 AR=avr-ar
@@ -44,44 +41,23 @@ LDFLAGS=
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
+# portable
+include Portable.deps
 
-PORT=					\
-	$(SPECIFIC_PATH)/port_init.c	\
-	$(SPECIFIC_PATH)/port_write.c	\
-	$(SPECIFIC_PATH)/port_read.c	\
-	$(SPECIFIC_PATH)/port_setdir.c	\
-	$(SPECIFIC_PATH)/port_getdir.c	\
-	$(SPECIFIC_PATH)/port_specific.h\
+# Specific
+CPU=						\
+	$(SPECIFIC_PATH)/cpu_init.c		\
+	$(SPECIFIC_PATH)/cpu_ien.c		\
+	$(SPECIFIC_PATH)/cpu_idis.c		\
+	$(GENERIC_PATH)/cpu.h
+PORT=						\
+	$(SPECIFIC_PATH)/port_init.c		\
+	$(SPECIFIC_PATH)/port_write.c		\
+	$(SPECIFIC_PATH)/port_read.c		\
+	$(SPECIFIC_PATH)/port_setdir.c		\
+	$(SPECIFIC_PATH)/port_getdir.c		\
+	$(SPECIFIC_PATH)/port_specific.h	\
 	$(GENERIC_PATH)/port.h
-PIN=					\
-	$(PORTABLE_PATH)/pin_init.c	\
-	$(PORTABLE_PATH)/pin_ishigh.c	\
-	$(PORTABLE_PATH)/pin_isin.c	\
-	$(PORTABLE_PATH)/pin_islow.c	\
-	$(PORTABLE_PATH)/pin_isout.c	\
-	$(PORTABLE_PATH)/pin_isvalid.c	\
-	$(PORTABLE_PATH)/pin_sethigh.c	\
-	$(PORTABLE_PATH)/pin_setlow.c	\
-	$(PORTABLE_PATH)/pin_setin.c	\
-	$(PORTABLE_PATH)/pin_setout.c	\
-	$(PORTABLE_PATH)/pin_setpullup.c\
-	$(PORTABLE_PATH)/pin_setout.c	\
-	$(PORTABLE_PATH)/pin.h
-UART_DEV_X=				\
-	$(SPECIFIC_PATH)/uart_dev_x.c	\
-	$(GENERIC_PATH)/uart.h
-QUEUE=					\
-	$(PORTABLE_PATH)/queue_init.c	\
-	$(PORTABLE_PATH)/queue_deq.c		\
-	$(PORTABLE_PATH)/queue_enq.c		\
-	$(PORTABLE_PATH)/queue_flush.c		\
-	$(PORTABLE_PATH)/queue_init.c		\
-	$(PORTABLE_PATH)/queue_isempty.c		\
-	$(PORTABLE_PATH)/queue_isfull.c		\
-	$(PORTABLE_PATH)/queue_ocupied.c		\
-	$(PORTABLE_PATH)/queue_peekfirst.c	\
-	$(PORTABLE_PATH)/queue_peeklast.c	\
-	$(PORTABLE_PATH)/queue.h
 UART_M8=					\
 	$(SPECIFIC_PATH)/m8-uart_getbaud.c	\
 	$(SPECIFIC_PATH)/m8-uart_init.c		\
@@ -90,21 +66,12 @@ UART_M8=					\
 	$(SPECIFIC_PATH)/m8-uart_setbaud.c	\
 	$(SPECIFIC_PATH)/m8-uart_write.c	\
 	$(SPECIFIC_PATH)/m8-uart_getbaud.c	\
+	$(SPECIFIC_PATH)/m8-uart_open.c		\
 	$(GENERIC_PATH)/uart.h			\
 	$(QUEUE)
-#UART_X8=				\
-	$(SPECIFIC_PATH)/uart_x8.c	\
-	$(GENERIC_PATH)/uart.h		\
-	$(PORTABLE_PATH)/queue.c		\
-	$(PORTABLE_PATH)/queue.h
-UART_X4P=				\
-	$(SPECIFIC_PATH)/uart_x4p.c	\
-	$(GENERIC_PATH)/uart.h		\
-	$(PORTABLE_PATH)/queue.c		\
-	$(PORTABLE_PATH)/queue.h
-SPIM=					\
-	$(SPECIFIC_PATH)/spim.c		\
-	$(SPECIFIC_PATH)/spim_specific.h\
+SPIM=						\
+	$(SPECIFIC_PATH)/spim.c			\
+	$(SPECIFIC_PATH)/spim_specific.h	\
 	$(GENERIC_PATH)/spim.h
 
 # TODO: complete me ...
@@ -122,50 +89,30 @@ DMA=
 # MCU resources
 
 ifeq ($(MCU),attiny25)
-RESOURCES+=$(PORT)
-RESOURCES+=$(PIN)
+RESOURCES+=$(PORT) $(PIN)
 endif
 ifeq ($(MCU),atmega8)
-RESOURCES+=$(PORT)
+RESOURCES+=$(PORT) $(PIN)
 RESOURCES+=$(UART_M8)
-RESOURCES+=$(PIN)
-# RESOURCES+=$(UART_DEV_X)
-# RESOURCES+=$(SPIM)
+RESOURCES+=$(CPU)
 endif
 ifeq ($(MCU),atmega88)
-RESOURCES+=$(PORT)
-RESOURCES+=$(PIN)
-# RESOURCES+=$(UART_X8)
-# RESOURCES+=$(SPIM)
+RESOURCES+=$(PORT) $(PIN)
 endif
 ifeq ($(MCU),atmega168)
-RESOURCES+=$(PORT)
-RESOURCES+=$(PIN)
-# RESOURCES+=$(UART_X8)
-# RESOURCES+=$(SPIM)
+RESOURCES+=$(PORT) $(PIN)
 endif
 ifeq ($(MCU),atmega16)
-RESOURCES+=$(PORT)
-RESOURCES+=$(PIN)
-# RESOURCES+=$(UART_X)
-# RESOURCES+=$(SPIM)
+RESOURCES+=$(PORT) $(PIN)
 endif
 ifeq ($(MCU),atmega32)
-RESOURCES+=$(PORT)
-RESOURCES+=$(PIN)
-# RESOURCES+=$(UART_X)
-# RESOURCES+=$(SPIM)
+RESOURCES+=$(PORT) $(PIN)
 endif
 ifeq ($(MCU),atmega128)
-RESOURCES+=$(PORT)
-RESOURCES+=$(PIN)
-# RESOURCES+=$(UART_X)
-# RESOURCES+=$(SPIM)
+RESOURCES+=$(PORT) $(PIN)
 endif
 ifeq ($(MCU),atmega164p)
-RESOURCES+=$(PORT)
-RESOURCES+=$(PIN)
-# RESOURCES+=$(UART_X4P)
+RESOURCES+=$(PORT) $(PIN)
 endif
 
 # .c + .h
@@ -185,6 +132,10 @@ install: all
 	$(MKDIR) -p $(INC_INSTALL_DIR)
 	$(CP) $(LIB) $(LIB_INSTALL_DIR)
 	$(CP) $(INC) $(INC_INSTALL_DIR)
+
+target: all
+	$(OUT): $(OBJ)
+		$(CC) $(ALL_CFLAGS) $(LIB) -c $< -o $@
 
 $(LIB): $(OBJ)
 	$(AR) rcs $@ $^

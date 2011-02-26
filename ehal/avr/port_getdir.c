@@ -1,6 +1,5 @@
 #include "port.h"
-
-#define port_mask(p, m, v) do { p = ((p) & ~(m)) | ((v) & (m)); } while(0)
+#include "port_internal.h"
 
 port_t port_getdir (void *_p)
 {

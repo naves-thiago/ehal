@@ -12,7 +12,7 @@ ifndef $F_CPU
 F_CPU=80000000
 endif
 
-OPTIMIZATION = 0
+OPTIMIZATION = s
 LSCRIPT=LPC17xx.ld
 
 # Final name
@@ -73,7 +73,7 @@ PIN=					\
 	$(PORTABLE_PATH)/pin_setout.c	\
 	$(PORTABLE_PATH)/pin.h
 
-ifeq ($(MCU),msp430x2012)
+ifeq ($(MCU),lpc1768)
 RESOURCES+=$(PORT)
 RESOURCES+=$(PIN)
 # RESOURCES+=$(UART_X4P)

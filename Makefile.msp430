@@ -44,33 +44,23 @@ LDFLAGS=
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
+include Portable.deps
 
+CPU=					\
+	$(SPECIFIC_PATH)/cpu_init.c	\
+	$(GENERIC_PATH)/cpu.h
 PORT=					\
 	$(SPECIFIC_PATH)/port_init.c	\
 	$(SPECIFIC_PATH)/port_setdir.c	\
+	$(SPECIFIC_PATH)/port_getdir.c	\
 	$(SPECIFIC_PATH)/port_write.c	\
 	$(SPECIFIC_PATH)/port_read.c	\
 	$(SPECIFIC_PATH)/port_specific.h\
 	$(GENERIC_PATH)/port.h
-PIN=					\
-	$(PORTABLE_PATH)/pin_init.c	\
-	$(PORTABLE_PATH)/pin_ishigh.c	\
-	$(PORTABLE_PATH)/pin_isin.c	\
-	$(PORTABLE_PATH)/pin_islow.c	\
-	$(PORTABLE_PATH)/pin_isout.c	\
-	$(PORTABLE_PATH)/pin_isvalid.c	\
-	$(PORTABLE_PATH)/pin_sethigh.c	\
-	$(PORTABLE_PATH)/pin_setlow.c	\
-	$(PORTABLE_PATH)/pin_setin.c	\
-	$(PORTABLE_PATH)/pin_setout.c	\
-	$(PORTABLE_PATH)/pin_setpullup.c\
-	$(PORTABLE_PATH)/pin_setout.c	\
-	$(PORTABLE_PATH)/pin.h
 
 ifeq ($(MCU),msp430x2012)
-RESOURCES+=$(PORT)
-RESOURCES+=$(PIN)
-# RESOURCES+=$(UART_X4P)
+RESOURCES+=$(CPU)
+RESOURCES+=$(PORT) $(PIN)
 endif
 
 # .c + .h
