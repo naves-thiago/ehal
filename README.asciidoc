@@ -1,16 +1,20 @@
 eHAL
 ====
 
+:Author:    Marcelo Politzer Couto
+:Email:     mpolitzer.c@gmail.com
+:Date:      Sat Feb 26 02:56:33 BRT 2011
+:Revision:  0.1
+
 Introduction
 ------------
 
-+ eHAL stands for embedded hardware abstraction layer. The idea is to create an
+* eHAL stands for embedded hardware abstraction layer. The idea is to create an
 API as simple as arduino's but versatile enought to run on many diferent MCUs
-ranging from 8 to 32 bits. It intends to be as simple and clear as possible and
-for the best portability is implemented in C.
-+ This file contains a brief on the organization of this repository.
-+ This project uses Doxygen for documentation. To generate the doxygen files
-run:
+ranging from 8 to 32 bits.
+* This file contains a brief on the organization of the repository and some
+general info, so before start asking please read it, if its not here please ask
+it :).
 
 Doc
 ----
@@ -18,7 +22,7 @@ Doc
 The documentation of the implementation, that means (not tutorials) is provided
 by Doxygen.
 
-Firstly install it by your package manager or from their website, and the run
+Firstly install it by your package manager or from their website, and the run:
 
 ----
 doxygen
@@ -28,60 +32,39 @@ Again, this doc is intended to be a manual and API reference, not a tutorial.
 
 The tutorial is on the way, will come with the unity testing suit.
 
-Abstraction without Under utilization
--------------------------------------
-
-The first thing you may wonder on a abstraction layer for embedded devices is
-that it doesn't make any sence, what a common API servers for if I can't use the
-neat and advanced features of my MCU?
-
-The answear is: For every thing else :)
-
-Even thou that is not good answear, sinse even so ehal can provide both worlds.
-With a port.h and a port_specific.h, you can use the common functions between
-the supported MCUs provided in port.h, and for a case where the functionality is
-very specific, it can be linked in the .h and be provided by the port_specific.h
-
-The disadvantage is that by using functions at port_specific.h your project
-won't be cross platform. But we all can live with that any way.
-
-This combined with the lib interface (.a) makes sure you are not carrying any
-overhead whith this aproach, you just link what you call.
-
 How to help
 -----------
 
-+ Providing any idea that may sound neat.
-+ Providing bug reports with details about version, MCU used, and the simplest
+* Providing any idea that may sound neat.
+* Providing bug reports with details about version, MCU used, and the simplest
 possible test case that generated the bug.
 
 How to make a huge contribution :)
 ----------------------------------
 
-+ API specification. If you think the current API is doesn't expose correctly
+* API specification. If you think the current API is doesn't expose correctly
 the hardware please tell us how to improve it.
-+ Provide full or partial lib to a MCU of a new port.
-+ Create a testing suit for the the existing modules, specifying in which tests
+* Provide full or partial lib to a MCU of a new port.
+* Create a testing suit for the the existing modules, specifying in which tests
 it failed.
-+ Create a new port.
+* Create a new port.
 
 New Port
 --------
 
-+ When creating a new port, a new supported platform, the user must implement
-the API specifyed in the ehal folder with the exception of the MODULE_specific.h
-that is mandatory inside each port for every suported module. Other than that,
-there is no need to to copy a particular implementation of an already supported
-platform. That means, the implementation is free.
+* When creating a new port, a new supported platform, the user must implement
+the API specifyed in the .h from ehal folder and a MODULE_specific.h inside the
+port folder. Besides those rules, the implementation is free.
 
 .General Thumb rule:
-* If there are already .h files defining structs mapping the
-peripherals, you should go that way. If not check if it is possible to create
-it, if not, well... just do it as you like.
+* If there are already .h files you've found on the net defining structs mapping
+the peripherals, you should go that way, just make sure it is FreeBSD
+compliant. If not check if it is possible to create such a mapping,
+if it is impossible, well... just do it the way you see fit.
 ** As an example you can check for ehal/avr/port_internal.h for a mapping;
 ** In the case of a third party lib that does it, use it directly. Like in the
 lpc17xx port.
-** There are cases it is just impossible to do a mapping, atmega8 is one of
+** There are cases it is just impossible to do a mapping, atmega8 uart is one of
 those. If this happens to you, just just do it without a mapping. The important
 thing here is to respect the API, the rest is just to make it as fast as
 possible.
@@ -96,13 +79,14 @@ important on embedded libs since its a pain to debug them.
 Some Observations
 -----------------
 
-+ The Makefile generates .a files, that are suffix for static libs of gcc.
+* The Makefile generates .a files, that are suffix for static libs of gcc.
 You may use eHAL by linking your project against one of the generated .a files
 or copying the .c and .h files to your project and recompiling them there.
-+ The output is per MCU and is in the
+* The output is per MCU and is in the
 format: libehal-$(MCU)-$(F_CPU).a
-+ Good practices: The identation is in TABs and the coding style is the
-K&R. VIM users can add this to their ~/.vimrc:
+* Good practices: The tabulation/identation is in TABs, not spaces and the
+coding style is the K&R. VIM users can add this to their ~/.vimrc:
+
 ----
 au filetype c set cindent
 au filetype c set incsearch
@@ -110,20 +94,23 @@ au filetype c set cinoptions=:0,p0,t0
 au filetype c set cinwords=if,else,while,do,for,switch,case
 au filetype c set formatoptions=tcqr
 ----
-NOTE: If source code is in other format, please folow that code format.
+
+NOTE: If source code is in other format, please folow that code format including
+spaces and tabs.
 
 Planned Architectures
 ---------------------
 
+// TODO: Find a better way to show this table.
 |==============================================================================
-|Modules	|port	|spi	|i2c
-|avr		|V	|X	|X
-|msp430		|P	|X	|X
-|hcs08		|X	|X	|X
-|8051		|X	|X	|X
-|arm7		|X	|X	|X
-|arm9		|X	|X	|X
-|lpc17xx	|P	|X	|X
+|Modules	|port	|uart	|spi	|i2c
+|avr		|V	|P	|X	|
+|msp430		|P	|X	|X	|
+|hcs08		|X	|X	|X	|
+|8051		|X	|X	|X	|
+|arm7		|X	|X	|X	|
+|arm9		|X	|X	|X	|
+|lpc17xx	|P	|X	|X	|
 |==============================================================================
 
 V - for supported,
@@ -162,3 +149,25 @@ Folders Organization:
 **		msp430/
 ***			...
 **		...
+
+Abstraction without Under utilization
+-------------------------------------
+
+The first thing you may wonder on a abstraction layer for embedded devices is
+that it doesn't make any sence, what a common API servers for if I can't use the
+neat and advanced features of my MCU?
+
+The answear is: For every thing else :)
+
+Even thou that is not good answear, sinse even so ehal can provide both worlds.
+With a port.h and a port_specific.h, you can use the common functions between
+the supported MCUs provided in port.h, and for a case where the functionality is
+very specific, it can be linked in the .h and be provided by the port_specific.h
+
+The disadvantage is that by using functions at port_specific.h your project
+won't be cross platform. But we all can live with that any way.
+
+This combined with the lib interface (.a) makes sure you are not carrying any
+overhead whith this aproach, you just link what you call.
+
+
