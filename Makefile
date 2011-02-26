@@ -69,6 +69,10 @@ msp430-install:
 msp430-clean:
 	make -f Makefile.msp430 MCU=msp430x2012 ARCH=msp430 clean $(OUTPUT)
 
+############################ LPC17XX ####################################
+lpc17xx:
+	make -f Makefile.lpc17xx MCU=lpc1768 ARCH=lpc17xx all $(OUTPUT)
+
 ############################ LPC21XX ####################################
 # Still unsupported
 #
