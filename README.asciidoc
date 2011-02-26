@@ -81,9 +81,17 @@ it, if not, well... just do it as you like.
 ** As an example you can check for ehal/avr/port_internal.h for a mapping;
 ** In the case of a third party lib that does it, use it directly. Like in the
 lpc17xx port.
-** For an impossible mapping there is the atmega8 uart that don't have the
-use of a struct in its implementation. But even in this case, it returns a non
-NULL pointer for validation.
+** There are cases it is just impossible to do a mapping, atmega8 is one of
+those. If this happens to you, just just do it without a mapping. The important
+thing here is to respect the API, the rest is just to make it as fast as
+possible.
+* If you face a functionality that is not in the .h Create a function for it and
+put it in the _specific.h for the module. If possible ask why the functionality
+is not in the normal .h
+* If you face some impossible task, like pulldown functions on a MCU that don't
+have a pulldown, Don't stub it, let the user know as soon as possible that some
+smelly thing happened. "sory mate, can't do it" in compilation time is specialy
+important on embedded libs since its a pain to debug them.
 
 Some Observations
 -----------------
