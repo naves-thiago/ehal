@@ -79,10 +79,6 @@ lpc17xx-install:
 lpc17xx-clean:
 	make -f Makefile.lpc17xx MCU=lpc1768 ARCH=lpc17xx clean $(OUTPUT)
 
-############################ LPC17XX ####################################
-lpc17xx:
-	make -f Makefile.lpc17xx MCU=lpc1768 ARCH=lpc17xx all $(OUTPUT)
-
 ############################ LPC21XX ####################################
 # Still unsupported
 #
