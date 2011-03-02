@@ -34,8 +34,6 @@ u08	uart_getstopbits (void *uart);
 
 int	uart_write (void *uart, unsigned char *ptr, int sz);
 int	uart_read (void *uart, unsigned char *ptr, int sz);
-int	uart_putc (void *uart, char c);
-int	uart_getc (void *uart);
 
 #endif
 
