@@ -56,7 +56,12 @@ New Port
 the API specifyed in the .h from ehal folder and a MODULE_specific.h inside the
 port folder. Besides those rules, the implementation is free.
 
-.General Thumb rule:
+* The makefile Must implement: all, install and clean. Like in Make all, Make
+install and make clean. All of them will receive an argument MCU=name and
+F_CPU=freq. so a tipical call to the Makefile is `make -f Makefile.port MCU=name
+F_CPU=freq'.
+
+.General Thumb rule for Already writen Libs:
 * If there are already .h files you've found on the net defining structs mapping
 the peripherals, you should go that way, just make sure it is FreeBSD
 compliant. If not check if it is possible to create such a mapping,
@@ -70,7 +75,7 @@ thing here is to respect the API, the rest is just to make it as fast as
 possible.
 * If you face a functionality that is not in the .h Create a function for it and
 put it in the _specific.h for the module. If possible ask why the functionality
-is not in the normal .h
+is not in the normal .h for a rationale and also for a possible inclusion.
 * If you face some impossible task, like pulldown functions on a MCU that don't
 have a pulldown, Don't stub it, let the user know as soon as possible that some
 smelly thing happened. "sory mate, can't do it" in compilation time is specialy
