@@ -31,10 +31,10 @@ SPECIFIC_PATH=ehal/$(ARCH)
 
 
 #  Compiler Options
-LDFLAGS = -mcpu=cortex-m3 -mthumb -Os -nostartfiles -Wl,-Map=$(ARCH).map -T$(LSCRIPT)
 
 CDEBUG =-gdwarf-2
 CWARN =-Wall -Wstrict-prototypes
+
 # optimization for compiling all the .c at the same time
 CTUNING=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 -ffunction-sections -fno-inline-small-functions -fno-split-wide-types \
@@ -42,7 +42,7 @@ CTUNING=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 
 INCLUDE_DIR=-I. -I./ehal -I./$(SPECIFIC_PATH) -I./$(GENERIC_PATH)\
 -I./$(GENERIC_PATH)/portable
-CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -Os $(CWARN) $(CSTANDARD) \
+CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPTIMIZATION) $(CWARN) $(CSTANDARD) \
 $(CEXTRA) $(INCLUDE_DIR)
 
 ALL_CFLAGS=-fno-common -mcpu=cortex-m3 -mthumb $(CFLAGS) -Dehal_$(MCU) -DF_CPU=$(F_CPU)
