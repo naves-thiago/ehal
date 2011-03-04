@@ -10,9 +10,6 @@ AVR_INSTALL_LIB_DIR=$(shell dirname $(shell which avr-gcc))/../avr/lib/
 .PHONY: all doc clean avr
 
 all: avr msp430 lpc17xx
-	@echo
-	@echo done!
-
 install: avr-install msp430-install lpc17xx-install
 depend: avr-depend
 clean: avr-clean msp430-clean lpc17xx-clean

@@ -94,7 +94,7 @@ endif
 ifeq ($(MCU),atmega8)
 RESOURCES+=$(PORT) $(PIN)
 RESOURCES+=$(UART_M8)
-RESOURCES+=$(CPU)
+# RESOURCES+=$(CPU)
 endif
 ifeq ($(MCU),atmega88)
 RESOURCES+=$(PORT) $(PIN)
@@ -134,8 +134,6 @@ install: all
 	$(CP) $(INC) $(INC_INSTALL_DIR)
 
 target: all
-	$(OUT): $(OBJ)
-		$(CC) $(CFLAGS) $(LIB) -c $< -o $@
 
 $(LIB): $(OBJ)
 	$(AR) rcs $@ $^
