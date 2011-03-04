@@ -42,7 +42,7 @@ LDFLAGS=
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
 # portable
-include Portable.deps
+include portable.d
 
 # Specific
 CPU=						\
@@ -145,7 +145,7 @@ $(LIB): $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) -f $(OBJ) $(LIB)
+	$(RM) -f $(OBJ) $(LIB) $(MCU)-$(F_CPU).d
 
 $(MCU)-$(F_CPU).d: $(OBJ)
 
