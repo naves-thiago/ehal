@@ -1,3 +1,5 @@
+# This file is included by other makefiles
+
 PIN=						\
 	$(PORTABLE_PATH)/pin_init.c		\
 	$(PORTABLE_PATH)/pin_ishigh.c		\
