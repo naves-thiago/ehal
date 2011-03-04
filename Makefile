@@ -1,7 +1,7 @@
 # Makefile output
 OUTPUT =
 # No output
-OUTPUT = >>/dev/null
+# OUTPUT = >>/dev/null
 
 CP=cp
 AVR_INCLUDE_INSTALL=$(which avr-gcc)
@@ -14,29 +14,17 @@ all: avr msp430 lpc17xx
 	@echo done!
 
 install: avr-install msp430-install lpc17xx-install
-
+depend: avr-depend
 clean: avr-clean msp430-clean lpc17xx-clean
 
 ############################# AVR #######################################
-avr-depend:
-	make -f Makefile.avr ARCH=avr MCU=atmega8 makedepend
 avr:
-	@echo
-	@echo building AVRs ...
-	# tiny
-#	make -f Makefile.avr ARCH=avr MCU=attiny25	all	$(OUTPUT)
-	# mega
 	make -f Makefile.avr ARCH=avr MCU=atmega8 F_CPU=1000000 all $(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega8 F_CPU=8000000 all $(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega88 F_CPU=1000000 all $(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega88 F_CPU=8000000 all $(OUTPUT)
-#	make -f Makefile.avr ARCH=avr MCU=atmega164p	all	$(OUTPUT)
-#	make -f Makefile.avr ARCH=avr MCU=atmega88	all	$(OUTPUT)
-#	make -f Makefile.avr ARCH=avr MCU=atmega168	all	$(OUTPUT)
-#	make -f Makefile.avr ARCH=avr MCU=atmega128	all	$(OUTPUT)
+
 avr-install:
-	@echo
-	@echo installing AVRs ...
 	make -f Makefile.avr ARCH=avr MCU=atmega8 F_CPU=1000000 install $(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega8 F_CPU=8000000 install $(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega88 F_CPU=1000000 install $(OUTPUT)
@@ -45,19 +33,15 @@ avr-install:
 #	make -f Makefile.avr ARCH=avr MCU=atmega88	install	$(OUTPUT)
 #	make -f Makefile.avr ARCH=avr MCU=atmega168	install	$(OUTPUT)
 #	make -f Makefile.avr ARCH=avr MCU=atmega128	install	$(OUTPUT)
-	
+#
+avr-depend:
+	make -f Makefile.avr ARCH=avr MCU=atmega8 F_CPU=1000000 depend $(OUTPUT)
+
 avr-clean:
-	@echo
-	@echo cleaning AVRs ...
 	make -f Makefile.avr ARCH=avr MCU=atmega8 F_CPU=1000000 clean $(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega8 F_CPU=8000000 clean $(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega88 F_CPU=1000000 clean $(OUTPUT)
 	make -f Makefile.avr ARCH=avr MCU=atmega88 F_CPU=8000000 clean $(OUTPUT)
-#	make -f Makefile.avr ARCH=avr MCU=attiny25	clean	$(OUTPUT)
-#	make -f Makefile.avr ARCH=avr MCU=atmega164p	clean	$(OUTPUT)
-#	make -f Makefile.avr ARCH=avr MCU=atmega88	clean	$(OUTPUT)
-#	make -f Makefile.avr ARCH=avr MCU=atmega168	clean	$(OUTPUT)
-#	make -f Makefile.avr ARCH=avr MCU=atmega128	clean	$(OUTPUT)
 
 ############################ MSP430  ####################################
 msp430:
