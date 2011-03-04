@@ -44,7 +44,7 @@ LDFLAGS=
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
-include Portable.deps
+include portable.d
 
 CPU=					\
 	$(SPECIFIC_PATH)/cpu_init.c	\
@@ -74,7 +74,7 @@ SRC=$(filter %.c, $(RESOURCES))
 OBJ=$(SRC:%.c=%-$(MCU)-$(F_CPU).o)
 
 .PHONY: all install clean
-all: $(LIB)
+all: $(LIB) $(MCU)-$(F_CPU).d
 
 install: all
 	$(MKDIR) -p $(INC_INSTALL_DIR)
@@ -85,7 +85,11 @@ $(LIB): $(OBJ)
 	$(AR) rcs $@ $^
 
 %-$(MCU)-$(F_CPU).o : %.c
+	$(CC) -MM $(CFLAGS) -MQ $@ $< >> $(MCU)-$(F_CPU).d
 	$(CC) $(ALL_CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) -f $(OBJ) $(LIB)
+	$(RM) -f $(OBJ) $(LIB) $(MCU)-$(F_CPU).d
+
+$(MCU)-$(F_CPU).d: $(OBJ)
+include $(MCU)-$(F_CPU).d

@@ -9,7 +9,6 @@
  *
  * #define	CPU_SIZE	8
  * #define	CPU_TYPE	unsigned char
- * #define	CPU_FREQ	8000000L
  */
 
 #ifdef EHAL_GLOBAL
@@ -19,15 +18,14 @@
 #include "tinytypes.h"
 #include "cpu_specific.h"
 
-/* TODO complete description */
-void	cpu_global_int_en	(void);
-void	cpu_global_int_dis	(void);
+/** Put the CPU into a init state, configure PLL and remaping the IO pins */
+void	cpu_init (void);
 
-/** Save the CPU state on the stack, for context switching. */
-void	cpu_context_save	(void);
-void	cpu_context_load	(void);
-void	cpu_set_sp		(void *sp);
-void *	cpu_get_sp		(void);
+/** Global Interrupts Enable. Use it to leave critical areas of code. */
+void	cpu_gie	(void);
+
+/** Global Interrupts Disable. Use it to enter critical areas of code. */
+void	cpu_gid	(void);
 
 #endif
 /** @} */
