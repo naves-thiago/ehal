@@ -11,6 +11,7 @@ endif
 
 # Final name
 LIB=libehal-$(MCU)-$(F_CPU).a
+LDFLAGS=-lehal-$(MCU)-$(F_CPU)
 
 # Get the lib folder based on the toolchain location.
 # Where to put .a
@@ -22,22 +23,21 @@ INC_INSTALL_DIR=$(shell dirname $(shell which $(CC)))/../avr/include/ehal
 GENERIC_PATH=ehal
 PORTABLE_PATH=ehal/portable
 SPECIFIC_PATH=ehal/avr
+TEST_PATH=test_suit
 
 CDEBUG =-gdwarf-2
 CWARN =-Wall -Wstrict-prototypes
 # optimization for compiling all the .c at the same time
 CTUNING=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 -ffunction-sections -fno-inline-small-functions -fno-split-wide-types \
--fno-tree-scev-cprop -Wl,--relax,--gc-sections
+-fno-tree-scev-cprop -fdata-sections -Wl,--relax,--gc-sections
 
-INCLUDE_DIR=-I. -I./ehal -I./$(SPECIFIC_PATH) -I./$(GENERIC_PATH)\
--I./$(GENERIC_PATH)/portable
+INCLUDE_DIR=-I.. -I. -I./$(GENERIC_PATH) -I./$(SPECIFIC_PATH)\
+	    -I./$(GENERIC_PATH)/portable
 
 CFLAGS=-mmcu=$(MCU) -Dehal_$(MCU) -DF_CPU=$(F_CPU)\
        $(CDEBUG) $(CDEFS) $(CINCS) -Os $(CWARN) $(CSTANDARD) \
        $(CEXTRA) $(INCLUDE_DIR)
-
-LDFLAGS=
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
@@ -126,7 +126,7 @@ SRC=$(filter %.c, $(RESOURCES))
 OBJ=$(SRC:%.c=%-$(MCU)-$(F_CPU).o)
 
 .PHONY: all install clean
-all: $(LIB) $(MCU)-$(F_CPU).d
+all: $(LIB) $(MCU)-$(F_CPU).d $(COMPLETE_TEST_SUIT)
 
 install: all
 	$(MKDIR) -p $(INC_INSTALL_DIR)
@@ -144,6 +144,13 @@ $(LIB): $(OBJ)
 
 clean:
 	$(RM) -f $(OBJ) $(LIB) $(MCU)-$(F_CPU).d
+
+%.elf: %.o $(LIB)
+	$(CC) $(CFLAGS) -L. -lehal-$(MCU)-$(F_CPU) $(TARGET)\
+	$(LDFLAGS) -o $(TARGET)-$(MCU)-$(F_CPU).elf
+
+%-$(MCU)-$(F_CPU).elf: %.o $(LIB)
+	$(CC) $(CFLAGS) -L. -lehal-$(MCU)-$(F_CPU) $< -o $@
 
 $(MCU)-$(F_CPU).d: $(OBJ)
 
