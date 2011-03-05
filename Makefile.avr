@@ -23,7 +23,6 @@ INC_INSTALL_DIR=$(shell dirname $(shell which $(CC)))/../avr/include/ehal
 GENERIC_PATH=ehal
 PORTABLE_PATH=ehal/portable
 SPECIFIC_PATH=ehal/avr
-TEST_PATH=test_suit
 
 CDEBUG =-gdwarf-2
 CWARN =-Wall -Wstrict-prototypes
@@ -126,7 +125,7 @@ SRC=$(filter %.c, $(RESOURCES))
 OBJ=$(SRC:%.c=%-$(MCU)-$(F_CPU).o)
 
 .PHONY: all install clean
-all: $(LIB) $(MCU)-$(F_CPU).d $(COMPLETE_TEST_SUIT)
+all: $(LIB) $(MCU)-$(F_CPU).d
 
 install: all
 	$(MKDIR) -p $(INC_INSTALL_DIR)
@@ -145,12 +144,9 @@ $(LIB): $(OBJ)
 clean:
 	$(RM) -f $(OBJ) $(LIB) $(MCU)-$(F_CPU).d
 
-%.elf: %.o $(LIB)
-	$(CC) $(CFLAGS) -L. -lehal-$(MCU)-$(F_CPU) $(TARGET)\
+test: $(LIB)
+	$(CC) $(CFLAGS) -L. -lehal-$(MCU)-$(F_CPU) $(TARGET).c \
 	$(LDFLAGS) -o $(TARGET)-$(MCU)-$(F_CPU).elf
-
-%-$(MCU)-$(F_CPU).elf: %.o $(LIB)
-	$(CC) $(CFLAGS) -L. -lehal-$(MCU)-$(F_CPU) $< -o $@
 
 $(MCU)-$(F_CPU).d: $(OBJ)
 
