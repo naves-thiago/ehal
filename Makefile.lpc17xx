@@ -27,7 +27,7 @@ INC_INSTALL_DIR=$(shell dirname $(shell which $(CC)))/../include/ehal
 # Get folders from within ehal.
 GENERIC_PATH=ehal
 PORTABLE_PATH=ehal/portable
-SPECIFIC_PATH=ehal/$(ARCH)
+SPECIFIC_PATH=ehal/lpc17xx
 
 
 #  Compiler Options
