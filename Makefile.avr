@@ -88,12 +88,10 @@ DMA=
 # MCU resources
 
 ifeq ($(MCU),attiny25)
-RESOURCES+=$(PORT) $(PIN)
+RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega8)
-RESOURCES+=$(PORT) $(PIN)
-RESOURCES+=$(UART_M8)
-# RESOURCES+=$(CPU)
+RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega88)
 RESOURCES+=$(PORT) $(PIN)
@@ -125,7 +123,7 @@ SRC=$(filter %.c, $(RESOURCES))
 OBJ=$(SRC:%.c=%-$(MCU)-$(F_CPU).o)
 
 .PHONY: all install clean
-all: $(LIB) $(MCU)-$(F_CPU).d
+all: $(LIB) .$(MCU)-$(F_CPU).d
 
 install: all
 	$(MKDIR) -p $(INC_INSTALL_DIR)
@@ -138,16 +136,16 @@ $(LIB): $(OBJ)
 	$(AR) rcs $@ $^
 
 %-$(MCU)-$(F_CPU).o: %.c
-	$(CC) -MM $(CFLAGS) -MQ $@ $< >> $(MCU)-$(F_CPU).d
+	$(CC) -MM $(CFLAGS) -MQ $@ $< >> .$(MCU)-$(F_CPU).d
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) -f $(OBJ) $(LIB) $(MCU)-$(F_CPU).d
+	$(RM) -f $(OBJ) $(LIB) .$(MCU)-$(F_CPU).d
 
 test: $(LIB)
 	$(CC) $(CFLAGS) -L. -lehal-$(MCU)-$(F_CPU) $(TARGET).c \
 	$(LDFLAGS) -o $(TARGET)-$(MCU)-$(F_CPU).elf
 
-$(MCU)-$(F_CPU).d: $(OBJ)
+.$(MCU)-$(F_CPU).d: $(OBJ)
 
-include $(MCU)-$(F_CPU).d
+include .$(MCU)-$(F_CPU).d
