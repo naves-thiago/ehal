@@ -42,10 +42,9 @@ CTUNING=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 
 INCLUDE_DIR=-I. -I./ehal -I./$(SPECIFIC_PATH) -I./$(GENERIC_PATH)\
 -I./$(GENERIC_PATH)/portable
-CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPTIMIZATION) $(CWARN) $(CSTANDARD) \
-$(CEXTRA) $(INCLUDE_DIR)
-
-ALL_CFLAGS=-fno-common -mcpu=cortex-m3 -mthumb $(CFLAGS) -Dehal_$(MCU) -DF_CPU=$(F_CPU)
+CFLAGS=-fno-common -mcpu=cortex-m3 -mthumb $(CFLAGS) -Dehal_$(MCU) \
+-DF_CPU=$(F_CPU) $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPTIMIZATION) $(CWARN) \
+$(CSTANDARD) $(CEXTRA) $(INCLUDE_DIR)
 
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
@@ -85,7 +84,7 @@ $(LIB): $(OBJ)
 	$(AR) rcs $@ $^
 
 %-$(MCU)-$(F_CPU).o : %.c
-	$(CC) $(ALL_CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(RM) -f $(OBJ) $(LIB)
