@@ -35,10 +35,10 @@ CTUNING=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 
 INCLUDE_DIR=-I. -I./ehal -I./$(SPECIFIC_PATH) -I./$(GENERIC_PATH)\
 -I./$(GENERIC_PATH)/portable
-CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -Os $(CWARN) $(CSTANDARD) \
-$(CEXTRA) $(INCLUDE_DIR)
 
-ALL_CFLAGS=-mmcu=$(MCU) $(CFLAGS) -Dehal_$(MCU) -DF_CPU=$(F_CPU)
+CFLAGS=-mmcu=$(MCU) -Dehal_$(MCU) -DF_CPU=$(F_CPU) \
+$(CDEBUG) $(CDEFS) $(CINCS) -Os $(CWARN) $(CSTANDARD) \
+$(CEXTRA) $(INCLUDE_DIR)
 
 LDFLAGS=
 
@@ -51,16 +51,11 @@ CPU=					\
 	$(GENERIC_PATH)/cpu.h
 PORT=					\
 	$(SPECIFIC_PATH)/port_init.c	\
-	$(SPECIFIC_PATH)/port_setdir.c	\
-	$(SPECIFIC_PATH)/port_getdir.c	\
-	$(SPECIFIC_PATH)/port_write.c	\
-	$(SPECIFIC_PATH)/port_read.c	\
 	$(SPECIFIC_PATH)/port_specific.h\
 	$(GENERIC_PATH)/port.h
 
 ifeq ($(MCU),msp430x2012)
-RESOURCES+=$(CPU)
-RESOURCES+=$(PORT) $(PIN)
+RESOURCES+=$(PORT)
 endif
 
 # .c + .h
@@ -74,9 +69,9 @@ SRC=$(filter %.c, $(RESOURCES))
 OBJ=$(SRC:%.c=%-$(MCU)-$(F_CPU).o)
 
 .PHONY: all install clean
-all: $(LIB) $(MCU)-$(F_CPU).d
+all: $(LIB) .$(MCU)-$(F_CPU).d
 
-install: all
+install: all .$(MCU)-$(F_CPU).d
 	$(MKDIR) -p $(INC_INSTALL_DIR)
 	$(CP) $(LIB) $(LIB_INSTALL_DIR)
 	$(CP) $(INC) $(INC_INSTALL_DIR)
@@ -85,11 +80,11 @@ $(LIB): $(OBJ)
 	$(AR) rcs $@ $^
 
 %-$(MCU)-$(F_CPU).o : %.c
-	$(CC) -MM $(CFLAGS) -MQ $@ $< >> $(MCU)-$(F_CPU).d
-	$(CC) $(ALL_CFLAGS) -c $< -o $@
+	$(CC) -MM $(CFLAGS) -MQ $@ $< >> .$(MCU)-$(F_CPU).d
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) -f $(OBJ) $(LIB) $(MCU)-$(F_CPU).d
+	$(RM) -f $(OBJ) $(LIB) .$(MCU)-$(F_CPU).d
 
-$(MCU)-$(F_CPU).d: $(OBJ)
-include $(MCU)-$(F_CPU).d
+.$(MCU)-$(F_CPU).d: $(OBJ)
+include .$(MCU)-$(F_CPU).d
