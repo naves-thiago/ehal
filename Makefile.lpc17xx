@@ -58,25 +58,9 @@ PORT=					\
 	$(SPECIFIC_PATH)/port_read.c	\
 	$(SPECIFIC_PATH)/port_specific.h\
 	$(GENERIC_PATH)/port.h
-PIN=					\
-	$(PORTABLE_PATH)/pin_init.c	\
-	$(PORTABLE_PATH)/pin_ishigh.c	\
-	$(PORTABLE_PATH)/pin_isin.c	\
-	$(PORTABLE_PATH)/pin_islow.c	\
-	$(PORTABLE_PATH)/pin_isout.c	\
-	$(PORTABLE_PATH)/pin_isvalid.c	\
-	$(PORTABLE_PATH)/pin_sethigh.c	\
-	$(PORTABLE_PATH)/pin_setlow.c	\
-	$(PORTABLE_PATH)/pin_setin.c	\
-	$(PORTABLE_PATH)/pin_setout.c	\
-	$(PORTABLE_PATH)/pin_setpullup.c\
-	$(PORTABLE_PATH)/pin_setout.c	\
-	$(PORTABLE_PATH)/pin.h
 
 ifeq ($(MCU),lpc1768)
 RESOURCES+=$(PORT)
-RESOURCES+=$(PIN)
-# RESOURCES+=$(UART_X4P)
 endif
 
 # .c + .h
