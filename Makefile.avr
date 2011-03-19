@@ -94,22 +94,22 @@ ifeq ($(MCU),atmega8)
 RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega88)
-RESOURCES+=$(PORT) $(PIN)
+RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega168)
-RESOURCES+=$(PORT) $(PIN)
+RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega16)
-RESOURCES+=$(PORT) $(PIN)
+RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega32)
-RESOURCES+=$(PORT) $(PIN)
+RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega128)
-RESOURCES+=$(PORT) $(PIN)
+RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega164p)
-RESOURCES+=$(PORT) $(PIN)
+RESOURCES+=$(PORT)
 endif
 
 # .c + .h
