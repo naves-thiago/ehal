@@ -3,6 +3,7 @@
 #include "port.h"
 #include "port_internal.h"
 
+#define ARRAY_SIZE(x) (sizeof (x)/sizeof(*x))
 #define BIND_INDEX_WITH_PORT(BLOCK_START)\
 	(struct port_mem_block *)&PIN ## BLOCK_START
 
@@ -63,10 +64,10 @@ struct port_mem_block *port_mem_block[] = {
 void *port_init (unsigned int id)
 {
 	void *p;
-	if (id < sizeof(port_mem_block)/sizeof (*port_mem_block))
-		p = port_mem_block[id];
-	else
-		return NULL;
-	port_setdir (p, 0xFF, 0xFF);
+	if (id >= ARRAY_SIZE (port_mem_block)) return NULL;
+	p = port_mem_block[id];
+
+	port_setdir (p, ALL_PINS, ALL_PINS);
+	port_setpullup (p, ALL_PINS, 0);
 	return p;
 }

@@ -22,7 +22,6 @@ void *port_init (unsigned int id)
 	struct port_mem_block *p;
 	if (id >= ARRAY_SIZE (port_mem_block)) return NULL;
 	p = port_mem_block[id];
-	p->sel = 0x00;
 	port_setdir (p, 0xFF, 0xFF);
 	return p;
 }
