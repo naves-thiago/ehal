@@ -73,9 +73,9 @@ SRC=$(filter %.c, $(RESOURCES))
 OBJ=$(SRC:%.c=%-$(MCU)-$(F_CPU).o)
 
 .PHONY: all install clean
-all: $(LIB)
+all: $(LIB) .$(MCU)-$(F_CPU).d
 
-install: all
+install: all .$(MCU)-$(F_CPU).d
 	$(MKDIR) -p $(INC_INSTALL_DIR)
 	$(CP) $(LIB) $(LIB_INSTALL_DIR)
 	$(CP) $(INC) $(INC_INSTALL_DIR)
@@ -84,7 +84,11 @@ $(LIB): $(OBJ)
 	$(AR) rcs $@ $^
 
 %-$(MCU)-$(F_CPU).o : %.c
+	$(CC) -MM $(CFLAGS) -MQ $@ $< >> .$(MCU)-$(F_CPU).d
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(RM) -f $(OBJ) $(LIB)
+
+.$(MCU)-$(F_CPU).d: $(OBJ)
+include .$(MCU)-$(F_CPU).d
