@@ -1,19 +1,5 @@
 # This file is included by other makefiles
 
-PIN=						\
-	$(PORTABLE_PATH)/pin_init.c		\
-	$(PORTABLE_PATH)/pin_ishigh.c		\
-	$(PORTABLE_PATH)/pin_isin.c		\
-	$(PORTABLE_PATH)/pin_islow.c		\
-	$(PORTABLE_PATH)/pin_isout.c		\
-	$(PORTABLE_PATH)/pin_isvalid.c		\
-	$(PORTABLE_PATH)/pin_sethigh.c		\
-	$(PORTABLE_PATH)/pin_setlow.c		\
-	$(PORTABLE_PATH)/pin_setin.c		\
-	$(PORTABLE_PATH)/pin_setout.c		\
-	$(PORTABLE_PATH)/pin_setpullup.c	\
-	$(PORTABLE_PATH)/pin_setout.c		\
-	$(PORTABLE_PATH)/pin.h
 QUEUE=						\
 	$(PORTABLE_PATH)/queue_init.c		\
 	$(PORTABLE_PATH)/queue_deq.c		\
