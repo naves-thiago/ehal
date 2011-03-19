@@ -29,39 +29,35 @@ void *port_init (unsigned int id);
 /*******************************************************************************
  * Sets the (val & mask) bits, and clears the ((~val) & mask) bits. That is:
  * Change the bits masked as 1 and ignore the ones masked at 0.
- * @param port - port handler got form port_init.
- * @param mask - the bits to change.
- * @param val - the new value of the masked bits
  ******************************************************************************/
 void port_write (void *port, port_t mask, port_t val);
 
 /*******************************************************************************
  * Read the value of port. This function doesn't know about pins operating with
- * secundary functions, make sure you mask its return to the apropriate bits
+ * secundary functions nor the ones operating as output, both cases gives an
+ * undefined behaviour, so be sure to mask only the input bits.
  * @param port - port handler got form port_init.
  * @return - the bits that the por read.
- * @note, Be carefoul to only take into acount the bits that are input, this is
- * not done automaticaly.
  ******************************************************************************/
 port_t port_read (void *port);
 
 /*******************************************************************************
- * Set the direction of port. val is 1 for Input and 0 for Output. The mask
+ * Set the direction of port. (1 - Input, 0 - Output). The mask
  * works the same as in port_write. 
  * @param port - port handler got form port_init.
  * @param mask - the bits to change.
  * @param val - the new value of the masked bits
  ******************************************************************************/
-void port_setdir (void *port, port_t mask, port_t val);
+void port_setdir (void *port, port_t mask, port_t dir);
 
 /*******************************************************************************
- * Get the pins direction. 
+ * Get the pins direction. (1 - in, 0 - out)
  * @param port - port handler got form port_init.
  ******************************************************************************/
 port_t port_getdir (void *port);
 
 /*******************************************************************************
- * Turn on the pullup on the port. Mask works the same as port_write. 
+ * Turn on the pullup on the port.
  * @param port - port handler got form port_init.
  * @param mask - the bits to change.
  * @param val - the new value of the masked bits
@@ -75,7 +71,7 @@ void port_setpullup (void *port, port_t mask, port_t val);
 port_t port_getpullup (void *port);
 
 /*******************************************************************************
- * Turn on the pulldown on the port. Mask works the same as port_write. 
+ * Turn on the pulldown on the port.
  * @param port - port handler got form port_init.
  * @param mask - the bits to change.
  * @param val - the new value of the masked bits
