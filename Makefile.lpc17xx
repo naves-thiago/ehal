@@ -1,9 +1,11 @@
 #!/bin/bash
 # make clean && make; cat deps; find . -name '*.o'
 
-# Must have utils ( CodeSourcery )
-CC=arm-none-eabi-gcc
-AR=arm-none-eabi-ar
+# To change the Toolchain Change only the prefix.
+# Toolchain PREFIX
+PREFIX=arm-none-eabi
+CC=$(PREFIX)-gcc
+AR=$(PREFIX)-ar
 MKDIR=mkdir
 CP=cp -f
 RM=rm
@@ -31,7 +33,6 @@ SPECIFIC_PATH=ehal/lpc17xx
 
 
 #  Compiler Options
-
 CDEBUG =-gdwarf-2
 CWARN =-Wall -Wstrict-prototypes
 
@@ -40,8 +41,7 @@ CTUNING=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 -ffunction-sections -fno-inline-small-functions -fno-split-wide-types \
 -fno-tree-scev-cprop -Wl,--relax,--gc-sections
 
-INCLUDE_DIR=-I. -I./ehal -I./$(SPECIFIC_PATH) -I./$(GENERIC_PATH)\
--I./$(GENERIC_PATH)/portable
+INCLUDE_DIR= -I./$(SPECIFIC_PATH) -I./$(GENERIC_PATH) -I./$(PORTABLE_PATH)
 CFLAGS=-fno-common -mcpu=cortex-m3 -mthumb -Dehal_$(MCU) \
 -DF_CPU=$(F_CPU) $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPTIMIZATION) $(CWARN) \
 $(CSTANDARD) $(CEXTRA) $(INCLUDE_DIR)
@@ -63,7 +63,7 @@ RESOURCES+=$(PORT)
 endif
 
 # .c + .h
-RESOURCES+= $(GENERIC_PATH)/tinytypes.h
+RESOURCES+= $(PORTABLE_PATH)/tinytypes.h
 
 # .h only
 INC=$(filter %.h, $(RESOURCES))

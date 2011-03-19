@@ -31,8 +31,7 @@ CTUNING=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 -ffunction-sections -fno-inline-small-functions -fno-split-wide-types \
 -fno-tree-scev-cprop -fdata-sections -Wl,--relax,--gc-sections
 
-INCLUDE_DIR=-I.. -I. -I./$(GENERIC_PATH) -I./$(SPECIFIC_PATH)\
-	    -I./$(GENERIC_PATH)/portable
+INCLUDE_DIR=-I./$(GENERIC_PATH) -I./$(SPECIFIC_PATH) -I./$(PORTABLE_PATH)
 
 CFLAGS=-mmcu=$(MCU) -Dehal_$(MCU) -DF_CPU=$(F_CPU)\
        $(CDEBUG) $(CDEFS) $(CINCS) -Os $(CWARN) $(CSTANDARD) \
@@ -113,7 +112,7 @@ RESOURCES+=$(PORT)
 endif
 
 # .c + .h
-RESOURCES+= $(GENERIC_PATH)/tinytypes.h
+RESOURCES+= $(PORTABLE_PATH)/tinytypes.h
 
 # .h only
 INC=$(filter %.h, $(RESOURCES))
