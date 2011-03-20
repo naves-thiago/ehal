@@ -17,8 +17,9 @@
 #define ALL_PINS	((port_t)-1)
 
 #ifndef NUM_PORTS
-/** Maximum number of ports for the CPU */
+/** Maximum number of ports. */
 #define NUM_PORTS <defined in port_specific.h>
+#error Undefined Number of ports
 #endif
 
 /** Get a port pointer from an index and puts the port in the default eHAL state.

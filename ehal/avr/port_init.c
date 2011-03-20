@@ -55,11 +55,7 @@ struct port_mem_block *port_mem_block[] = {
 	BIND_INDEX_WITH_PORT (F),
 	BIND_INDEX_WITH_PORT (G),
 };
-#else
-#error MCU not defined in ehal/avr/port_init.c
 #endif
-
-#define port_mask(p, m, v) do { p = ((p) & ~(m)) | ((v) & (m)); } while(0)
 
 void *port_init (unsigned int id)
 {

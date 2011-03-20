@@ -19,4 +19,8 @@ struct port_mem_block {
 
 typedef u08 port_t;
 
+#if defined (ehal_msp430x2012)
+#define NUM_PORTS 2
+#endif
+
 #endif

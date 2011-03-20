@@ -31,8 +31,6 @@ typedef u08 port_t;
 #elif defined (ehal_atmega128)
 
 #define NUM_PORTS	7
-#else
-#error MCU not defined in ehal/avr/port_init.c
 #endif
 
 
