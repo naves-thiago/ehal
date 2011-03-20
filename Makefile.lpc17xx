@@ -88,7 +88,7 @@ $(LIB): $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) -f $(OBJ) $(LIB)
+	$(RM) -f $(OBJ) $(LIB) .$(MCU)-$(F_CPU).d
 
 .$(MCU)-$(F_CPU).d: $(OBJ)
 include .$(MCU)-$(F_CPU).d
