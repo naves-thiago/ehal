@@ -6,7 +6,7 @@
 
 #define BIND_INDEX_WITH_PORT(BLOCK_START)\
 	(struct port_mem_block *)&P ## BLOCK_START ##IN
-
+/* TODO: Check for msp430/msp430/include/msp430/iostructures.h */
 #if defined (ehal_msp430x2012)
 static struct port_mem_block *port_mem_block[] = {
 	BIND_INDEX_WITH_PORT(1),
