@@ -1,7 +1,7 @@
 /** @file
  * @defgroup port port
  * @{
- * @example TODO:replace_me_with_a_port_example.c
+ * @example port_ex.c
  ******************************************************************************/
 #ifndef EHAL_PORT_H
 #define EHAL_PORT_H
@@ -16,7 +16,10 @@
 /** Mask with all pins. */
 #define ALL_PINS	((port_t)-1)
 
-/** @def NUM_PORTS Maximum number of ports for the CPU */
+#ifndef NUM_PORTS
+/** Maximum number of ports for the CPU */
+#define NUM_PORTS <defined in port_specific.h>
+#endif
 
 /** Get a port pointer from an index and puts the port in the default eHAL state.
  * That is: no pullup, no pulldown and as input.
@@ -46,7 +49,7 @@ port_t port_read (void *port);
  * works the same as in port_write.
  * @param port - port handler got form @ref port_init.
  * @param mask - the bits to change.
- * @param val - the new value of the masked bits
+ * @param dir - the new value of the masked bits
  ******************************************************************************/
 void port_setdir (void *port, port_t mask, port_t dir);
 
