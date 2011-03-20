@@ -44,7 +44,7 @@ How to make a huge contribution :)
 
 * API specification. If you think the current API is doesn't expose correctly
 the hardware please tell us how to improve it.
-* Provide full or partial lib to a MCU of a new port.
+* Provide full or partial code/lib to a MCU of a new port.
 * Create a testing suit for the the existing modules, specifying in which tests
 it failed.
 * Create a new port.
@@ -108,18 +108,19 @@ Planned Architectures
 
 // TODO: Find a better way to show this table.
 |==============================================================================
-|Modules	|port	|uart	|spi	|i2c
-|avr		|V	|P	|X	|
-|msp430		|P	|X	|X	|
-|hcs08		|X	|X	|X	|
-|8051		|X	|X	|X	|
-|arm7		|X	|X	|X	|
-|arm9		|X	|X	|X	|
-|lpc17xx	|P	|X	|X	|
+|Modules|cpu	|port	|uart	|spi	|i2c
+|avr	|X	|PU	|PU	|X	|X
+|msp430	|X	|PU	|X	|X	|X
+|hcs08	|X	|X	|X	|X	|X
+|8051	|X	|X	|X	|X	|X
+|arm7	|X	|X	|X	|X	|X
+|arm9	|X	|X	|X	|X	|X
+|lpc17xx|X	|PU	|X	|X	|X
 |==============================================================================
 
 V - for supported,
 P - for partial support (working on it.)
+U - untested by the unity test.
 X - no support.
 I - for impossible, not present on architecture.
 
@@ -154,25 +155,3 @@ Folders Organization:
 **		msp430/
 ***			...
 **		...
-
-Abstraction without Under utilization
--------------------------------------
-
-The first thing you may wonder on a abstraction layer for embedded devices is
-that it doesn't make any sence, what a common API servers for if I can't use the
-neat and advanced features of my MCU?
-
-The answear is: For every thing else :)
-
-Even thou that is not good answear, sinse even so ehal can provide both worlds.
-With a port.h and a port_specific.h, you can use the common functions between
-the supported MCUs provided in port.h, and for a case where the functionality is
-very specific, it can be linked in the .h and be provided by the port_specific.h
-
-The disadvantage is that by using functions at port_specific.h your project
-won't be cross platform. But we all can live with that any way.
-
-This combined with the lib interface (.a) makes sure you are not carrying any
-overhead whith this aproach, you just link what you call.
-
-
