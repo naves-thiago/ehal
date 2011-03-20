@@ -11,7 +11,6 @@ AVR_INSTALL_LIB_DIR=$(shell dirname $(shell which avr-gcc))/../avr/lib/
 
 all: avr msp430 lpc17xx
 install: avr-install msp430-install lpc17xx-install
-depend: avr-depend
 clean: avr-clean msp430-clean lpc17xx-clean
 
 ############################# AVR #######################################
