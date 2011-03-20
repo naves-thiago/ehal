@@ -1,6 +1,3 @@
-#!/bin/bash
-# make clean && make; cat deps; find . -name '*.o'
-
 # Must have utils
 CC=msp430-gcc
 AR=msp430-ar
@@ -86,4 +83,4 @@ clean:
 	$(RM) -f $(OBJ) $(LIB) .$(MCU)-$(F_CPU).d
 
 .$(MCU)-$(F_CPU).d: $(OBJ)
-include .$(MCU)-$(F_CPU).d
+sinclude .$(MCU)-$(F_CPU).d

@@ -147,4 +147,4 @@ test: $(LIB)
 
 .$(MCU)-$(F_CPU).d: $(OBJ)
 
-include .$(MCU)-$(F_CPU).d
+sinclude .$(MCU)-$(F_CPU).d
