@@ -7,12 +7,8 @@
  * is to create a single simple to use hardware interfaces to the various
  * architectures and MCUs available in the market.
  *
- * With a common API, it will be possible create a driver only once and reuse it
- * in any of the supported hardware by the eHAL reducing greatly the amount of
- * time developing these secondary software and focusing on the final
- * application.
- *
- * The drivers based on eHAL will be developed in another repository, this one
- * will have strictly the internal hardware abstraction.
+ * With a common API, it will be possible to create a driver only once and reuse
+ * it in any of the supported hardware by the eHAL reducing greatly the amount
+ * of developing time.
  *
  */
