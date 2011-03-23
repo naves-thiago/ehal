@@ -1,7 +1,7 @@
 # Makefile output
 OUTPUT =
 # No output
-# OUTPUT = >>/dev/null
+#OUTPUT = >>/dev/null
 
 CP=cp
 AVR_INCLUDE_INSTALL=$(which avr-gcc)
@@ -42,12 +42,15 @@ avr-clean:
 ############################ MSP430  ####################################
 msp430:
 	make -f Makefile.msp430 MCU=msp430x2012 all $(OUTPUT)
+	make -f Makefile.msp430 MCU=msp430x2013 all $(OUTPUT)
 
 msp430-install:
 	make -f Makefile.msp430 MCU=msp430x2012 install $(OUTPUT)
+	make -f Makefile.msp430 MCU=msp430x2013 install $(OUTPUT)
 
 msp430-clean:
 	make -f Makefile.msp430 MCU=msp430x2012 clean $(OUTPUT)
+	make -f Makefile.msp430 MCU=msp430x2013 clean $(OUTPUT)
 
 ############################ LPC17XX ####################################
 lpc17xx:

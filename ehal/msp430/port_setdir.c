@@ -1,4 +1,5 @@
 #include "port.h"
+#include "port_implementation.h"
 
 #define port_mask(p, m, v) do { (p) = ((p) & ~(m)) | ((v) & (m)); } while(0)
 

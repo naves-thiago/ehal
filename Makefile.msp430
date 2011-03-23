@@ -47,12 +47,21 @@ CPU=					\
 	$(GENERIC_PATH)/cpu.h
 PORT=					\
 	$(SPECIFIC_PATH)/port_init.c	\
+	$(SPECIFIC_PATH)/port_setdir.c	\
+	$(SPECIFIC_PATH)/port_write.c	\
+	$(SPECIFIC_PATH)/port_read.c	\
 	$(SPECIFIC_PATH)/port_specific.h\
 	$(GENERIC_PATH)/port.h
 
 ifeq ($(MCU),msp430x2012)
+RESOURCES+=$(CPU)
 RESOURCES+=$(PORT)
 endif
+ifeq ($(MCU),msp430x2013)
+RESOURCES+=$(CPU)
+RESOURCES+=$(PORT)
+endif
+
 
 # .c + .h
 RESOURCES+= $(PORTABLE_PATH)/tinytypes.h
