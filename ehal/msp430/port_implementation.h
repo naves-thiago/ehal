@@ -4,6 +4,8 @@
 #include <io.h>
 #include "tinytypes.h"
 
+#define port_mask(p, m, v) do { (p) = ((p) & ~(m)) | ((v) & (m)); } while(0)
+
 /* Mapping of Port with port_ functions index.
  * The letters must be upper case. */
 struct port_mem_block {
