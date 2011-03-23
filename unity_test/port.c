@@ -4,7 +4,7 @@
  ******************************************************************************/
 
 #include "ehal/port.h"
-#define LONG_TIME 10000000
+#define LONG_TIME 65534
 
 int main (void)
 {

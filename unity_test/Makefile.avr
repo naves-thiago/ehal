@@ -46,7 +46,8 @@ CTUNING = -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums\
 
 
 #CEXTRA = -Wa,-adhlns=$(<:.c=.lst)
-CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPT) $(CWARN) $(CSTANDARD) $(CEXTRA)
+CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPT) $(CWARN) $(CSTANDARD) $(CEXTRA) \
+-Dehal_$(MCU)
 LDFLAGS = -L.. -lehal-$(MCU)-$(F_CPU)
 
 #ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs 
@@ -152,9 +153,6 @@ sym: $(TARGET).sym
 program: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
-
-
-
 # Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.
 COFFCONVERT=$(OBJCOPY) --debugging \
 --change-section-address .data-0x800000 \
@@ -162,15 +160,7 @@ COFFCONVERT=$(OBJCOPY) --debugging \
 --change-section-address .noinit-0x800000 \
 --change-section-address .eeprom-0x810000 
 
-coff: $(TARGET).elf
-	$(COFFCONVERT) -O coff-avr $(TARGET).elf $(TARGET).cof
-
-
-extcoff: $(TARGET).elf
-	$(COFFCONVERT) -O coff-ext-avr $(TARGET).elf $(TARGET).cof
-
-
-.SUFFIXES: .elf .hex .eep .lss .sym
+.SUFFIXES: .elf .hex
 
 .elf.hex:
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom $< $@
