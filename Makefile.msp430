@@ -50,6 +50,7 @@ PORT=					\
 	$(SPECIFIC_PATH)/port_setdir.c	\
 	$(SPECIFIC_PATH)/port_write.c	\
 	$(SPECIFIC_PATH)/port_read.c	\
+	$(SPECIFIC_PATH)/port_setpullup.c	\
 	$(SPECIFIC_PATH)/port_specific.h\
 	$(GENERIC_PATH)/port.h
 

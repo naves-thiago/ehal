@@ -1,3 +1,5 @@
+*.elf
+*.hex
 lib*.a
 *.swp
 *.o
