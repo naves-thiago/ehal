@@ -35,7 +35,7 @@ INCLUDE_DIR=-I./$(GENERIC_PATH) -I./$(SPECIFIC_PATH) -I./$(PORTABLE_PATH)
 
 CFLAGS=-mmcu=$(MCU) -Dehal_$(MCU) -DF_CPU=$(F_CPU)\
        $(CDEBUG) $(CDEFS) $(CINCS) -Os $(CWARN) $(CSTANDARD) \
-       $(CEXTRA) $(INCLUDE_DIR)
+       $(CEXTRA) $(INCLUDE_DIR) -g
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
@@ -46,6 +46,9 @@ include portable.d
 CPU=						\
 	$(SPECIFIC_PATH)/cpu_init.c		\
 	$(SPECIFIC_PATH)/cpu_sleep.c		\
+	$(SPECIFIC_PATH)/cpu_gie.c		\
+	$(SPECIFIC_PATH)/cpu_gid.c		\
+	$(SPECIFIC_PATH)/cpu_specific.h		\
 	$(GENERIC_PATH)/cpu.h
 PORT=						\
 	$(SPECIFIC_PATH)/port_init.c		\

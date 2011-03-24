@@ -31,6 +31,7 @@ void *uart_init (int id)
 		| (1<<TXCIE0)
 		| (1<<RXCIE0);
 	uart_setbaud (0, B9600);
+
 	queue_init (&uart_tx, tx_buff, TX_BUFF_SZ);
 	queue_init (&uart_rx, rx_buff, RX_BUFF_SZ);
 	return (void *)1;

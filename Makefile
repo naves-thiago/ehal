@@ -16,7 +16,7 @@ clean: avr-clean msp430-clean lpc17xx-clean
 ############################# AVR #######################################
 avr:
 	make -f Makefile.avr MCU=atmega8 F_CPU=1000000 all $(OUTPUT)
-		make -f Makefile.avr MCU=atmega8 F_CPU=8000000 all $(OUTPUT)
+	make -f Makefile.avr MCU=atmega8 F_CPU=8000000 all $(OUTPUT)
 	make -f Makefile.avr MCU=atmega88 F_CPU=1000000 all $(OUTPUT)
 	make -f Makefile.avr MCU=atmega88 F_CPU=8000000 all $(OUTPUT)
 
