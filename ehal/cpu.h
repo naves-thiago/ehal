@@ -29,11 +29,12 @@
 #include "cpu_specific.h"
 
 #ifndef CPU_SIZE
-#define CPU_SIZE <defined at cpu_specific.h>
 /** Number of bits of the processor word. */
+#define CPU_SIZE <defined at cpu_specific.h>
 #error Undefined CPU_SIZE (at cpu_specific.h)
 #endif
 
+/** SLEEP mode to pass to cpu_sleep. */
 enum sleep_mode { sleep_mode_none, sleep_mode_iddle };
 
 /** Put the CPU into a init state, configure PLL and remaping the IO pins */
@@ -45,6 +46,7 @@ void	cpu_gie	(void);
 /** Global Interrupts Disable. Use it to enter critical areas of code. */
 void	cpu_gid	(void);
 
+/** Put the CPU in sleep mode, for energy saving. */
 void	cpu_sleep (enum sleep_mode);
 
 #endif

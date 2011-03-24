@@ -109,18 +109,17 @@ Planned Architectures
 // TODO: Find a better way to show this table.
 |==============================================================================
 |Modules		|cpu	|port	|uart	|spi	|i2c
-|avr			|X	|PU	|PU	|X	|X
-|msp430			|X	|PU	|X	|X	|X
+|avr			|P	|P	|P	|X	|X
+|msp430			|X	|P	|X	|X	|X
 |hcs08			|X	|X	|X	|X	|X
 |8051			|X	|X	|X	|X	|X
 |arm7			|X	|X	|X	|X	|X
 |arm9			|X	|X	|X	|X	|X
-|lpc17xx (cortex-m3)	|X	|PU	|X	|X	|X
+|lpc17xx (cortex-m3)	|X	|P	|X	|X	|X
 |==============================================================================
 
 V - for supported,
 P - for partial support (working on it.)
-U - untested by the unity test.
 X - no support.
 I - for impossible, not present on architecture.
 
