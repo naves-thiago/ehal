@@ -45,8 +45,7 @@ include portable.d
 # Specific
 CPU=						\
 	$(SPECIFIC_PATH)/cpu_init.c		\
-	$(SPECIFIC_PATH)/cpu_ien.c		\
-	$(SPECIFIC_PATH)/cpu_idis.c		\
+	$(SPECIFIC_PATH)/cpu_sleep.c		\
 	$(GENERIC_PATH)/cpu.h
 PORT=						\
 	$(SPECIFIC_PATH)/port_init.c		\
@@ -56,15 +55,12 @@ PORT=						\
 	$(SPECIFIC_PATH)/port_getdir.c		\
 	$(SPECIFIC_PATH)/port_specific.h	\
 	$(GENERIC_PATH)/port.h
-UART_M8=					\
-	$(SPECIFIC_PATH)/m8-uart_getbaud.c	\
-	$(SPECIFIC_PATH)/m8-uart_init.c		\
-	$(SPECIFIC_PATH)/m8-uart_isvalid.c	\
-	$(SPECIFIC_PATH)/m8-uart_read.c		\
-	$(SPECIFIC_PATH)/m8-uart_setbaud.c	\
-	$(SPECIFIC_PATH)/m8-uart_write.c	\
-	$(SPECIFIC_PATH)/m8-uart_getbaud.c	\
-	$(SPECIFIC_PATH)/m8-uart_open.c		\
+UART=						\
+	$(SPECIFIC_PATH)/uart_init.c		\
+	$(SPECIFIC_PATH)/uart_setbaud.c		\
+	$(SPECIFIC_PATH)/uart_write.c		\
+	$(SPECIFIC_PATH)/uart_read.c		\
+	$(SPECIFIC_PATH)/uart_specific.h	\
 	$(GENERIC_PATH)/uart.h			\
 	$(QUEUE)
 SPIM=						\
@@ -90,9 +86,12 @@ ifeq ($(MCU),attiny25)
 RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega8)
+RESOURCES+=$(CPU)
+RESOURCES+=$(UART)
 RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega88)
+RESOURCES+=$(UART)
 RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega168)

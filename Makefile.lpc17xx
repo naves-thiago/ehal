@@ -45,8 +45,8 @@ $(CSTANDARD) $(CEXTRA) $(INCLUDE_DIR)
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
-CPU=	$(SPECIFIC_PATH)/startup_LPC17xx.s	\
-	$(SPECIFIC_PATH)/system_LPC17xx.c
+CPU=					\
+
 PORT=					\
 	$(SPECIFIC_PATH)/port_init.c	\
 	$(SPECIFIC_PATH)/port_setdir.c	\

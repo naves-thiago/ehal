@@ -30,8 +30,6 @@ avr-install:
 #	make -f Makefile.avr MCU=atmega168	install	$(OUTPUT)
 #	make -f Makefile.avr MCU=atmega128	install	$(OUTPUT)
 #
-avr-depend:
-	make -f Makefile.avr MCU=atmega8 F_CPU=1000000 depend $(OUTPUT)
 
 avr-clean:
 	make -f Makefile.avr MCU=atmega8 F_CPU=1000000 clean $(OUTPUT)

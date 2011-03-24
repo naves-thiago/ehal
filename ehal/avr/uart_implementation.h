@@ -24,4 +24,5 @@
 	|| defined (ehal_atmega88) \
 	|| defined (ehal_atmega168) \
 	|| defined (ehal_atmega328)
+#else
 #endif

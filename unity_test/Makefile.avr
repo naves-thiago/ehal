@@ -9,7 +9,7 @@ MCU = atmega8
 F_CPU = 1000000
 FORMAT = ihex
 TARGET = $(MCU)-port
-SRC = port.c
+SRC = main.c hd44780.c
 
 ASRC = 
 OPT = s
