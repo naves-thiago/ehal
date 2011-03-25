@@ -117,7 +117,7 @@ int	uart_write (void *id, char *ptr, int sz);
  * @param sz - number of bytes to read.
  * @return Number successfuly readed.
  ******************************************************************************/
-int	uart_read (void *id, unsigned char *ptr, int sz);
+int	uart_read (void *id, char *ptr, int sz);
 
 #endif
 
