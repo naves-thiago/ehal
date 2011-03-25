@@ -21,7 +21,7 @@ int uart_write (void *unused, char *ptr, int sz)
 
 	if (tx_is_iddle () && queue_deq (&uart_tx, &data))
 		UDR0=data;
-	/* TODO: Sleep the CPU here. */
+
 	while (!queue_isempty (&uart_tx) && !tx_is_iddle ()){
 		cpu_sleep (sleep_mode_iddle);
 	}
