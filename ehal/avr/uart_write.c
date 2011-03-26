@@ -2,7 +2,7 @@
 #include "queue.h"
 #include "uart.h"
 #include "cpu.h"
-#include "uart_implementation.h"
+#include "uart_internal.h"
 
 extern struct queue uart_tx;
 

@@ -1,5 +1,6 @@
 #include "queue.h"
 #include "cpu.h"
+#include "uart_internal.h"
 
 extern struct queue uart_rx;
 

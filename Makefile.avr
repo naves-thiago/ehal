@@ -26,7 +26,6 @@ SPECIFIC_PATH=ehal/avr
 
 CDEBUG =-gdwarf-2
 CWARN =-Wall -Wstrict-prototypes
-# optimization for compiling all the .c at the same time
 CTUNING=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 -ffunction-sections -fno-inline-small-functions -fno-split-wide-types \
 -fno-tree-scev-cprop -fdata-sections -Wl,--relax,--gc-sections
