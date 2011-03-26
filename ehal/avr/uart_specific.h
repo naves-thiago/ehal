@@ -13,6 +13,7 @@
 	|| defined (ehal_atmega328)
 
 #define NUM_UARTS	1
+/*
 #elif	defined (ehal_atmega168p)
 
 #define NUM_UARTS	0
@@ -27,6 +28,7 @@
 
 #define NUM_UARTS	0
 #else
+*/
 #error MCU not defined.
 #endif
 
