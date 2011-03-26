@@ -2,12 +2,14 @@
 #include "cpu.h"
 #include "uart_internal.h"
 
-extern struct queue uart_rx;
+extern uint8_t uart_rx_buff;
+extern uint8_t uart_rx_head;
+extern uint8_t uart_rx_tail;
 
 int uart_read (void *unused, unsigned char *ptr, int sz)
 {
 	while (sz){
-		if (queue_deq (&uart_rx, ptr)){
+		if (sz && (uart_rx_head != uart_rx_tail)){
 			sz--;
 			ptr++;
 		} else {

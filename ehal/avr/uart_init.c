@@ -15,8 +15,15 @@
 #endif
 
 /* Queue */
-static uint8_t tx_buff[TX_BUFF_SZ];
-static uint8_t rx_buff[RX_BUFF_SZ];
+char uart_tx_buff[TX_BUFF_SZ];
+char uart_rx_buff[RX_BUFF_SZ];
+
+uint8_t uart_tx_head;
+uint8_t uart_tx_tail;
+
+uint8_t uart_rx_head;
+uint8_t uart_rx_tail;
+
 struct queue uart_tx, uart_rx;
 
 void *uart_init (int id)
@@ -30,22 +37,26 @@ void *uart_init (int id)
 		| (1<<TXEN0)
 		| (1<<TXCIE0)
 		| (1<<RXCIE0);
-	uart_setbaud (0, B9600);
+	calcbaud (9600);
 
-	queue_init (&uart_tx, tx_buff, TX_BUFF_SZ);
-	queue_init (&uart_rx, rx_buff, RX_BUFF_SZ);
+	uart_rx_head = 0;
+	uart_rx_tail = 0;
+
+	uart_tx_head = 0;
+	uart_tx_tail = 0;
+
 	return (void *)1;
 }
 
 ISR (USART_RX_vect)
 {
-	queue_enq (&uart_rx, UDR0);
+	uart_rx_tail = (uart_rx_tail+1) & (RX_BUFF_SZ-1);
+	uart_rx_buff[uart_rx_tail] = UDR0;
 }
 
 ISR (USART_TX_vect)
 {
-	unsigned char c;
-	if (queue_isempty (&uart_tx)) return;
-	queue_deq (&uart_tx, &c);
-	UDR0 = c;
+	if (uart_tx_head == uart_tx_tail) return;
+	uart_tx_head = (uart_tx_head+1) & (RX_BUFF_SZ-1);
+	UDR0 = uart_tx_buff[uart_tx_head];
 }

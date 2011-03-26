@@ -44,7 +44,7 @@ enum uart_stopbits {
 #error undefined NUM_UARTS
 #endif
 
-/** Get a hdl from an id.
+/** Initializes TX, RX and returns a hdl from an id.
  * Puts the uart into the default state: 9600 8N1
  *
  * @param id - index of uart from 0 to @ref NUM_UARTS.

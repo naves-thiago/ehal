@@ -20,17 +20,6 @@
 #define U2X_ON
 #endif
 
-static inline void calcbaud (uint32_t baud)
-{
-#ifndef U2X_ON
-	UBRR0H = ((F_CPU/(8UL*baud)) -1) >> 8;
-	UBRR0L = (F_CPU/(8UL*baud)) -1;
-#else
-	UBRR0H = ((F_CPU/(16UL*baud)) -1) >> 8;
-	UBRR0L = (F_CPU/(16UL*baud)) -1;
-#endif
-}
-
 #define ENTRY(_baud) B ## _baud: calcbaud (_baud)
 void uart_setbaud (void *unused, enum uart_baud_rate baud)
 {
