@@ -8,17 +8,17 @@
  * (8 bits example)
  *
  * #define	CPU_SIZE	8
- * #define	CPU_TYPE	u08
+ * typedef uint8_t	cpu_t;
  *
  * (16 bits example)
  *
  * #define	CPU_SIZE	16
- * #define	CPU_TYPE	u16
+ * typedef uint16_t	cpu_t;
  *
  * (32 bits example)
  *
  * #define	CPU_SIZE	32
- * #define	CPU_TYPE	u32
+ * typedef uint32_t	cpu_t;
  */
 
 #ifdef EHAL_GLOBAL
@@ -29,16 +29,13 @@
 #include "cpu_specific.h"
 
 #ifndef CPU_SIZE
-#define CPU_SIZE <defined at cpu_specific.h>
 /** Number of bits of the processor word. */
+#define CPU_SIZE <defined at cpu_specific.h>
 #error Undefined CPU_SIZE (at cpu_specific.h)
 #endif
 
-#ifndef CPU_TYPE
-#define CPU_TYPE <defined at cpu_specific.h>
-/** The C type that represents CPU_SIZE */
-#error Undefined CPU_TYPE (at cpu_specific.h)
-#endif
+/** SLEEP mode to pass to cpu_sleep. */
+enum sleep_mode { sleep_mode_none, sleep_mode_iddle };
 
 /** Put the CPU into a init state, configure PLL and remaping the IO pins */
 void	cpu_init (void);
@@ -48,6 +45,9 @@ void	cpu_gie	(void);
 
 /** Global Interrupts Disable. Use it to enter critical areas of code. */
 void	cpu_gid	(void);
+
+/** Put the CPU in sleep mode, for energy saving. */
+void	cpu_sleep (enum sleep_mode);
 
 #endif
 /** @} */

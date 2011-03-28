@@ -12,7 +12,6 @@ F_CPU=80000000
 endif
 
 OPTIMIZATION = s
-LSCRIPT=LPC17xx.ld
 
 # Final name
 LIB=libehal-$(MCU)-$(F_CPU).a
@@ -46,6 +45,7 @@ $(CSTANDARD) $(CEXTRA) $(INCLUDE_DIR)
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
+CPU=					\
 
 PORT=					\
 	$(SPECIFIC_PATH)/port_init.c	\
@@ -56,18 +56,23 @@ PORT=					\
 	$(GENERIC_PATH)/port.h
 
 ifeq ($(MCU),lpc1768)
+RESOURCES+=$(CPU)
 RESOURCES+=$(PORT)
 endif
 
-# .c + .h
+# .s + .c + .h
 RESOURCES+= $(PORTABLE_PATH)/tinytypes.h
 
 # .h only
 INC=$(filter %.h, $(RESOURCES))
 # .c only
 SRC=$(filter %.c, $(RESOURCES))
+# .s only
+ASM=$(filter %.s, $(RESOURCES))
+
 # one object file per MCU
-OBJ=$(SRC:%.c=%-$(MCU)-$(F_CPU).o)
+OBJ+=$(SRC:%.c=%-$(MCU)-$(F_CPU).o)
+OBJ+=$(ASM:%.s=%-$(MCU)-$(F_CPU).o)
 
 .PHONY: all install clean
 all: $(LIB) .$(MCU)-$(F_CPU).d
@@ -81,6 +86,10 @@ $(LIB): $(OBJ)
 	$(AR) rcs $@ $^
 
 %-$(MCU)-$(F_CPU).o : %.c
+	$(CC) -MM $(CFLAGS) -MQ $@ $< >> .$(MCU)-$(F_CPU).d
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%-$(MCU)-$(F_CPU).o : %.s
 	$(CC) -MM $(CFLAGS) -MQ $@ $< >> .$(MCU)-$(F_CPU).d
 	$(CC) $(CFLAGS) -c $< -o $@
 

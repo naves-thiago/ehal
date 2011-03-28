@@ -1,3 +1,6 @@
+*.dsn
+*.SDF
+*.PWI
 *.elf
 *.hex
 lib*.a

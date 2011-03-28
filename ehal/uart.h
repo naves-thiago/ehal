@@ -44,7 +44,7 @@ enum uart_stopbits {
 #error undefined NUM_UARTS
 #endif
 
-/** Get a hdl from an id.
+/** Initializes TX, RX and returns a hdl from an id.
  * Puts the uart into the default state: 9600 8N1
  *
  * @param id - index of uart from 0 to @ref NUM_UARTS.
@@ -109,7 +109,7 @@ enum uart_parity uart_getparity (void *id);
  * @param sz - number of bytes from ptr to write.
  * @return Actual number of written bytes.
  ******************************************************************************/
-int	uart_write (void *id, unsigned char *ptr, int sz);
+int	uart_write (void *id, char *ptr, int sz);
 
 /** Reads sz bytes into ptr.
  * @param id - index of uart from 0 to @ref NUM_UARTS.
@@ -117,7 +117,7 @@ int	uart_write (void *id, unsigned char *ptr, int sz);
  * @param sz - number of bytes to read.
  * @return Number successfuly readed.
  ******************************************************************************/
-int	uart_read (void *id, unsigned char *ptr, int sz);
+int	uart_read (void *id, char *ptr, int sz);
 
 #endif
 

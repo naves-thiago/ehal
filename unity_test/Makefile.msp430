@@ -9,7 +9,7 @@ MCU = msp430x2013
 F_CPU = 8000000
 FORMAT = ihex
 TARGET = $(MCU)-port
-SRC = port.c
+SRC = hd44780.c main.c
 
 ASRC = 
 OPT = s

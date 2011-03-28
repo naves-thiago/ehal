@@ -9,7 +9,7 @@ MCU = atmega8
 F_CPU = 1000000
 FORMAT = ihex
 TARGET = $(MCU)-port
-SRC = port.c
+SRC = main.c hd44780.c
 
 ASRC = 
 OPT = s
@@ -33,7 +33,7 @@ CSTANDARD = -std=gnu99
 CDEFS =-DF_CPU=$(F_CPU)
 
 # Place -I options here
-CINCS =
+CINCS = -I../ehal -I../ehal/portable -I../ehal/avr
 
 
 CDEBUG = -g$(DEBUG)
@@ -140,25 +140,23 @@ ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 # Default target.
 all: build
 
-build: elf hex eep size
+build: elf hex size
 
 elf: $(TARGET).elf
 hex: $(TARGET).hex
-eep: $(TARGET).eep
 lss: $(TARGET).lss 
 sym: $(TARGET).sym
 
 
 # Program the device.  
-program: $(TARGET).hex $(TARGET).eep
+program: $(TARGET).hex
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
 # Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.
 COFFCONVERT=$(OBJCOPY) --debugging \
 --change-section-address .data-0x800000 \
 --change-section-address .bss-0x800000 \
---change-section-address .noinit-0x800000 \
---change-section-address .eeprom-0x810000 
+--change-section-address .noinit-0x800000
 
 .SUFFIXES: .elf .hex
 
