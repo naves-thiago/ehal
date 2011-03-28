@@ -14,3 +14,14 @@ void *port_init (unsigned int id)
   return port_mem_block[id];
 }
 
+int port_get_id (void *port)
+{
+  int i, sz;
+  sz = ARRAY_SIZE(port_mem_block);
+  for (i=0; i < sz; i++)
+    if (port_mem_block[i] == port)
+      return i;
+
+  return -1; // Not found
+}
+
