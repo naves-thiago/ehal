@@ -18,7 +18,7 @@ struct port_mem_block {
 typedef u32 port_t;
 
 #if defined (ehal_lpc1768)
-#define NUM_PORTS	2
+#define NPORT	2
 #endif
 
 #endif
