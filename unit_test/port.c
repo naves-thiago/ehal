@@ -7,9 +7,7 @@
 
 int main (void)
 {
-	void *p;
-
-	p = port_init (0);
+	void *p = port_init (0);
 
 	port_setdir (p, ALL_PINS, 0x0F);
 	while (1){
