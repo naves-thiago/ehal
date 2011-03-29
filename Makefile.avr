@@ -93,10 +93,18 @@ RESOURCES+=$(UART)
 RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega88)
+RESOURCES+=$(CPU)
 RESOURCES+=$(UART)
 RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega168)
+RESOURCES+=$(CPU)
+RESOURCES+=$(UART)
+RESOURCES+=$(PORT)
+endif
+ifeq ($(MCU),atmega328)
+RESOURCES+=$(CPU)
+RESOURCES+=$(UART)
 RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega16)
