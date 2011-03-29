@@ -15,16 +15,14 @@
 #endif
 
 /* Queue */
-char uart_tx_buff[TX_BUFF_SZ];
-char uart_rx_buff[RX_BUFF_SZ];
+char uart_tx_buff[UART_TX_BUFF_SZ];
+char uart_rx_buff[UART_RX_BUFF_SZ];
 
-uint8_t uart_tx_head;
-uint8_t uart_tx_tail;
+int uart_tx_head;
+int uart_tx_tail;
 
-uint8_t uart_rx_head;
-uint8_t uart_rx_tail;
-
-struct queue uart_tx, uart_rx;
+int uart_rx_head;
+int uart_rx_tail;
 
 void *uart_init (int id)
 {
@@ -50,13 +48,13 @@ void *uart_init (int id)
 
 ISR (USART_RX_vect)
 {
-	uart_rx_tail = (uart_rx_tail+1) & (RX_BUFF_SZ-1);
+	uart_rx_tail = (uart_rx_tail+1) & (UART_RX_BUFF_SZ-1);
 	uart_rx_buff[uart_rx_tail] = UDR0;
 }
 
 ISR (USART_TX_vect)
 {
 	if (uart_tx_head == uart_tx_tail) return;
-	uart_tx_head = (uart_tx_head+1) & (RX_BUFF_SZ-1);
+	uart_tx_head = (uart_tx_head+1) & (UART_RX_BUFF_SZ-1);
 	UDR0 = uart_tx_buff[uart_tx_head];
 }
