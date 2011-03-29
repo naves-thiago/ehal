@@ -16,9 +16,9 @@
 /** Mask with all pins. */
 #define ALL_PINS	((port_t)-1)
 
-#ifndef NUM_PORTS
+#ifndef NPORT
 /** Maximum number of ports. */
-#define NUM_PORTS <defined in port_specific.h>
+#define NPORT <defined in port_specific.h>
 #error Undefined Number of ports
 #endif
 
@@ -26,7 +26,7 @@
  * That is: no pullup, no pulldown and as input.
  * @param id - The number of the port to work with.
  * @return The port pointer to be passed to the other functions or NULL.
- * @note index goes from 0 to @ref NUM_PORTS.
+ * @note index goes from 0 to @ref NPORT.
  * ****************************************************************************/
 void *port_init (unsigned int id);
 
