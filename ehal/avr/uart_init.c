@@ -26,7 +26,7 @@ int uart_rx_tail;
 
 void *uart_init (int id)
 {
-	if (id >= NUM_UARTS) return NULL;
+	if (id >= NUART) return NULL;
 	UCSR0C = 3<<UCSZ00;
 #ifndef U2X_OFF
 	UCSR0A |= (1<<U2X0);
