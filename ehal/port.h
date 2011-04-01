@@ -22,8 +22,15 @@
 #error Undefined Number of ports
 #endif
 
-/** Get a port pointer from an index and puts the port in the default eHAL state.
- * That is: no pullup, no pulldown and as input.
+/** Get the port handler from a id number. But Don't do anything else.
+ * @param id - The number of the port to work with.
+ * @return The port pointer to be passed to the other functions or NULL.
+ * @note index goes from 0 to @ref NPORT.
+ * ****************************************************************************/
+void *port_getbyid (unsigned int id);
+
+/** Get a port handler from a id number. Also put the port in the default eHAL
+ * state. That is: no pullup, no pulldown and as input.
  * @param id - The number of the port to work with.
  * @return The port pointer to be passed to the other functions or NULL.
  * @note index goes from 0 to @ref NPORT.

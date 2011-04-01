@@ -20,6 +20,7 @@ avr:
 	make -f Makefile.avr MCU=atmega8 F_CPU=8000000 all $(OUTPUT)
 	make -f Makefile.avr MCU=atmega88 F_CPU=1000000 all $(OUTPUT)
 	make -f Makefile.avr MCU=atmega88 F_CPU=8000000 all $(OUTPUT)
+	make -f Makefile.avr MCU=atmega328 F_CPU=1000000 all $(OUTPUT)
 
 avr-install:
 	make -f Makefile.avr MCU=attiny25 F_CPU=1000000 install $(OUTPUT)
@@ -27,6 +28,7 @@ avr-install:
 	make -f Makefile.avr MCU=atmega8 F_CPU=8000000 install $(OUTPUT)
 	make -f Makefile.avr MCU=atmega88 F_CPU=1000000 install $(OUTPUT)
 	make -f Makefile.avr MCU=atmega88 F_CPU=8000000 install $(OUTPUT)
+	make -f Makefile.avr MCU=atmega328 F_CPU=1000000 install $(OUTPUT)
 #	make -f Makefile.avr MCU=atmega164p	install	$(OUTPUT)
 #	make -f Makefile.avr MCU=atmega88	install	$(OUTPUT)
 #	make -f Makefile.avr MCU=atmega168	install	$(OUTPUT)
@@ -39,6 +41,7 @@ avr-clean:
 	make -f Makefile.avr MCU=atmega8 F_CPU=8000000 clean $(OUTPUT)
 	make -f Makefile.avr MCU=atmega88 F_CPU=1000000 clean $(OUTPUT)
 	make -f Makefile.avr MCU=atmega88 F_CPU=8000000 clean $(OUTPUT)
+	make -f Makefile.avr MCU=atmega328 F_CPU=1000000 clean $(OUTPUT)
 
 ############################ MSP430  ####################################
 msp430:

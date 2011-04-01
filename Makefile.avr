@@ -50,11 +50,12 @@ CPU=						\
 	$(SPECIFIC_PATH)/cpu_specific.h		\
 	$(GENERIC_PATH)/cpu.h
 PORT=						\
-	$(SPECIFIC_PATH)/port_init.c		\
-	$(SPECIFIC_PATH)/port_write.c		\
-	$(SPECIFIC_PATH)/port_read.c		\
-	$(SPECIFIC_PATH)/port_setdir.c		\
-	$(SPECIFIC_PATH)/port_getdir.c		\
+	$(SPECIFIC_PATH)/port/port_getbyid.c	\
+	$(SPECIFIC_PATH)/port/port_init.c	\
+	$(SPECIFIC_PATH)/port/port_write.c	\
+	$(SPECIFIC_PATH)/port/port_read.c	\
+	$(SPECIFIC_PATH)/port/port_setdir.c	\
+	$(SPECIFIC_PATH)/port/port_getdir.c	\
 	$(SPECIFIC_PATH)/port_specific.h	\
 	$(GENERIC_PATH)/port.h
 UART=						\
@@ -110,7 +111,7 @@ RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega328)
 RESOURCES+=$(CPU)
-RESOURCES+=$(UART)
+RESOURCES+=$(SINGLE_UART)
 RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega16)
