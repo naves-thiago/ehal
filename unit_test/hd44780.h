@@ -1,6 +1,6 @@
-/** @file
- * @defgroup hd44780 HD44780 display driver
- * @{
+/** \@file
+ * \@defgroup hd44780 HD44780 display driver
+ * \@{
 */
 
 #include <stdio.h>
