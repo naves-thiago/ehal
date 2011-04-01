@@ -43,10 +43,10 @@ include portable.d
 
 # Specific
 CPU=						\
-	$(SPECIFIC_PATH)/cpu_init.c		\
-	$(SPECIFIC_PATH)/cpu_sleep.c		\
-	$(SPECIFIC_PATH)/cpu_gie.c		\
-	$(SPECIFIC_PATH)/cpu_gid.c		\
+	$(SPECIFIC_PATH)/cpu/cpu_init.c		\
+	$(SPECIFIC_PATH)/cpu/cpu_sleep.c	\
+	$(SPECIFIC_PATH)/cpu/cpu_gie.c		\
+	$(SPECIFIC_PATH)/cpu/cpu_gid.c		\
 	$(SPECIFIC_PATH)/cpu_specific.h		\
 	$(GENERIC_PATH)/cpu.h
 PORT=						\

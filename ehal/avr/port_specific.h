@@ -34,4 +34,4 @@ typedef u08 port_t;
 #endif
 
 
-#endif
+#endif /* PORT_SPECIFIC_H */
