@@ -109,7 +109,7 @@ enum uart_parity uart_getparity (void *id);
  * @param sz - number of bytes from ptr to write.
  * @return Actual number of written bytes.
  ******************************************************************************/
-int	uart_write (void *id, char *ptr, int sz);
+int	uart_write (void *id, const char *ptr, int sz);
 
 /** Reads sz bytes into ptr.
  * @param id - index of uart from 0 to @ref NUART.

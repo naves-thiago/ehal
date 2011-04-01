@@ -9,7 +9,7 @@
 
 /* Atmega8 implementation is the same as 48, 88, 168, 328, just need the
  * redefinition of the register names. */
-#if defined (ehal_atmega8)
+#if defined (atmega8)
 #define RXIE0	RXIE
 #define RXEN0	RXEN
 #define TXEN0	TXEN
@@ -32,11 +32,11 @@
 #define USART_RX_vect	USART_RXC_vect
 #endif
 
-#if defined (ehal_atmega8) \
-	|| defined (ehal_atmega48) \
-	|| defined (ehal_atmega88) \
-	|| defined (ehal_atmega168) \
-	|| defined (ehal_atmega328)
+#if defined (atmega8) \
+	|| defined (atmega48) \
+	|| defined (atmega88) \
+	|| defined (atmega168) \
+	|| defined (atmega328)
 static inline void calcbaud (uint32_t baud)
 {
 #ifndef U2X_ON

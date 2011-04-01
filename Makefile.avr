@@ -32,7 +32,7 @@ CTUNING=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 
 INCLUDE_DIR=-I./$(GENERIC_PATH) -I./$(SPECIFIC_PATH) -I./$(PORTABLE_PATH)
 
-CFLAGS=-mmcu=$(MCU) -Dehal_$(MCU) -DF_CPU=$(F_CPU)\
+CFLAGS=-mmcu=$(MCU) -D$(MCU) -DF_CPU=$(F_CPU)\
        $(CDEBUG) $(CDEFS) $(CINCS) -Os $(CWARN) $(CSTANDARD) \
        $(CEXTRA) $(INCLUDE_DIR) -g
 
@@ -63,8 +63,14 @@ UART=						\
 	$(SPECIFIC_PATH)/uart_write.c		\
 	$(SPECIFIC_PATH)/uart_read.c		\
 	$(SPECIFIC_PATH)/uart_specific.h	\
-	$(GENERIC_PATH)/uart.h			\
-	$(QUEUE)
+	$(GENERIC_PATH)/uart.h
+SINGLE_UART=						\
+	$(SPECIFIC_PATH)/single_uart/uart_init.c	\
+	$(SPECIFIC_PATH)/single_uart/uart_setbaud.c	\
+	$(SPECIFIC_PATH)/single_uart/uart_write.c	\
+	$(SPECIFIC_PATH)/single_uart/uart_read.c	\
+	$(SPECIFIC_PATH)/uart_specific.h		\
+	$(GENERIC_PATH)/uart.h
 SPIM=						\
 	$(SPECIFIC_PATH)/spim.c			\
 	$(SPECIFIC_PATH)/spim_specific.h	\
@@ -89,17 +95,17 @@ RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega8)
 RESOURCES+=$(CPU)
-RESOURCES+=$(UART)
+RESOURCES+=$(SINGLE_UART)
 RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega88)
 RESOURCES+=$(CPU)
-RESOURCES+=$(UART)
+RESOURCES+=$(SINGLE_UART)
 RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega168)
 RESOURCES+=$(CPU)
-RESOURCES+=$(UART)
+RESOURCES+=$(SINGLE_UART)
 RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega328)

@@ -7,46 +7,35 @@
 #define BIND_INDEX_WITH_PORT(BLOCK_START)\
 	(struct port_mem_block *)&PIN ## BLOCK_START
 
-#if defined (ehal_attiny25)	\
-	|| (ehal_attiny45)	\
-	|| (ehal_attiny85)
-struct port_mem_block *port_mem_block[] = {
+static struct port_mem_block *port_mem_block[] = {
+#if defined (attiny25)	\
+	|| (attiny45)	\
+	|| (attiny85)
 	BIND_INDEX_WITH_PORT (B),
-};
-#elif defined (ehal_atmega8)	\
-	|| defined (ehal_atmega48)	\
-	|| defined (ehal_atmega88)	\
-	|| defined (ehal_atmega168)	\
-	|| defined (ehal_atmega328)
-struct port_mem_block *port_mem_block[] = {
+#elif defined (atmega8)	\
+	|| defined (atmega48)	\
+	|| defined (atmega88)	\
+	|| defined (atmega168)	\
+	|| defined (atmega328)
 	BIND_INDEX_WITH_PORT (B),
 	BIND_INDEX_WITH_PORT (C),
 	BIND_INDEX_WITH_PORT (D),
-};
-#elif	defined (ehal_atmega168p)
-struct port_mem_block *port_mem_block[] = {
+#elif	defined (atmega168p)
 	BIND_INDEX_WITH_PORT (B),
 	BIND_INDEX_WITH_PORT (C),
 	BIND_INDEX_WITH_PORT (D),
-};
-
-#elif defined (ehal_atmega16)	\
-	|| defined (ehal_atmega32)
-struct port_mem_block *port_mem_block[] = {
+#elif defined (atmega16)	\
+	|| defined (atmega32)
 	BIND_INDEX_WITH_PORT (A),
 	BIND_INDEX_WITH_PORT (B),
 	BIND_INDEX_WITH_PORT (C),
 	BIND_INDEX_WITH_PORT (D),
-};
-#elif defined (ehal_atmega164p)
-struct port_mem_block *port_mem_block[] = {
+#elif defined (atmega164p)
 	BIND_INDEX_WITH_PORT (A),
 	BIND_INDEX_WITH_PORT (B),
 	BIND_INDEX_WITH_PORT (C),
 	BIND_INDEX_WITH_PORT (D),
-};
-#elif defined (ehal_atmega128)
-struct port_mem_block *port_mem_block[] = {
+#elif defined (atmega128)
 	BIND_INDEX_WITH_PORT (A),
 	BIND_INDEX_WITH_PORT (B),
 	BIND_INDEX_WITH_PORT (C),
@@ -54,8 +43,8 @@ struct port_mem_block *port_mem_block[] = {
 	BIND_INDEX_WITH_PORT (E),
 	BIND_INDEX_WITH_PORT (F),
 	BIND_INDEX_WITH_PORT (G),
-};
 #endif
+};
 
 void *port_init (unsigned int id)
 {
