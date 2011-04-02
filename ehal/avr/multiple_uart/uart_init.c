@@ -4,57 +4,79 @@
 #include "uart.h"
 #include "uart_internal.h"
 
-/* Must be a power of 2 */
-#ifndef TX_BUFF_SZ
-#define TX_BUFF_SZ 0x20
+struct uart_dev uart_dev[NUART];
+
+struct uart_mem_block *uart_mem_block[NUART] = {
+#ifndef USART0_OFF
+	(struct uart_mem_block*)0xC0,
 #endif
-
-/* Must be a power of 2 */
-#ifndef RX_BUFF_SZ
-#define RX_BUFF_SZ 0x20
+#ifndef USART1_OFF
+	(struct uart_mem_block*)0xC8,
 #endif
+};
 
-/* Queue */
-char uart_tx_buff[UART_TX_BUFF_SZ];
-char uart_rx_buff[UART_RX_BUFF_SZ];
+static struct uart_dev *uart_dev_init (unsigned int id)
+{
+	struct uart_dev *d=NULL;
+	d = &uart_dev[id];
+	d->u = uart_mem_block[id];
+	d->readed = 0;
+	d->written = 0;
+	d->rx_head = 0;
+	d->tx_head = 0;
+	d->rx_tail = 0;
+	d->tx_tail = 0;
 
-int uart_tx_head;
-int uart_tx_tail;
-
-int uart_rx_head;
-int uart_rx_tail;
+	return d;
+}
 
 void *uart_init (int id)
 {
+	struct uart_dev *d;
 	if (id >= NUART) return NULL;
-	UCSR0C = 3<<UCSZ00;
+	d = uart_dev_init (id);
 #ifndef U2X_OFF
-	UCSR0A |= (1<<U2X0);
+	d->u->ucsra = _BV (U2X0);
+#endif 
+	d->u->ucsrc = 3<<UCSZ00;
+	d->u->ucsrb = _BV (RXEN0)
+		| _BV (TXEN0)
+		| _BV (TXCIE0)
+		| _BV (RXCIE0);
+	calcbaud (d->u, 9600);
+	return d;
+}
+
+#ifndef USART0_OFF
+ISR (USART0_RX_vect)
+{
+	uint8_t i = uart_dev[0].rx_tail;
+	i = (i+1) & (UART_RX_BUFF_SZ-1);
+	uart_dev[0].rx_buff[i] = UDR0;
+	uart_dev[0].rx_tail = i;
+}
+
+ISR (USART0_TX_vect)
+{
+	if (uart_dev[0].tx_head == uart_dev[0].tx_tail) return;
+	uart_dev[0].tx_head = (uart_dev[0].tx_head+1) & (UART_RX_BUFF_SZ-1);
+	UDR0 = uart_dev[0].tx_buff[uart_dev[0].tx_head];
+}
 #endif
-	UCSR0B = (1<<RXEN0)
-		| (1<<TXEN0)
-		| (1<<TXCIE0)
-		| (1<<RXCIE0);
-	calcbaud (9600);
 
-	uart_rx_head = 0;
-	uart_rx_tail = 0;
-
-	uart_tx_head = 0;
-	uart_tx_tail = 0;
-
-	return (void *)1;
-}
-
-ISR (USART_RX_vect)
+#ifndef USART1_OFF
+ISR (USART1_RX_vect)
 {
-	uart_rx_tail = (uart_rx_tail+1) & (UART_RX_BUFF_SZ-1);
-	uart_rx_buff[uart_rx_tail] = UDR0;
+	uint8_t i = uart_dev[1].rx_tail;
+	i = (i+1) & (UART_RX_BUFF_SZ-1);
+	uart_dev[1].rx_buff[i] = UDR1;
+	uart_dev[1].rx_tail = i;
 }
 
-ISR (USART_TX_vect)
+ISR (USART1_TX_vect)
 {
-	if (uart_tx_head == uart_tx_tail) return;
-	uart_tx_head = (uart_tx_head+1) & (UART_RX_BUFF_SZ-1);
-	UDR0 = uart_tx_buff[uart_tx_head];
+	if (uart_dev[1].tx_head == uart_dev[1].tx_tail) return;
+	uart_dev[1].tx_head = (uart_dev[1].tx_head+1) & (UART_RX_BUFF_SZ-1);
+	UDR1 = uart_dev[1].tx_buff[uart_dev[1].tx_head];
 }
+#endif

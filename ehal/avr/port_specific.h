@@ -28,6 +28,9 @@ typedef u08 port_t;
 #elif defined (atmega164p)
 
 #define NPORT	4
+#elif defined (atmega324p)
+
+#define NPORT	4
 #elif defined (atmega128)
 
 #define NPORT	7

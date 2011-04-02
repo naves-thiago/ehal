@@ -9,7 +9,7 @@ static inline bool tx_is_ready (struct uart_mem_block *u)
 	return u->ucsra & _BV (UDRE0);
 }
 
-int uart_write (void *_u, const char *ptr, int sz)
+int uart_writenb (void *_u, const char *ptr, int sz)
 {
 	struct uart_dev *u = _u;
 	if (sz == 0) return 0;
@@ -24,9 +24,5 @@ int uart_write (void *_u, const char *ptr, int sz)
 		u->tx_head = (u->tx_head+1) & (UART_RX_BUFF_SZ-1);
 		u->u->udr = u->tx_buff[u->tx_head];
 	}
-	while (u->tx_head != u->tx_tail){
-		cpu_sleep (sleep_mode_iddle);
-	}
-
 	return u->written;
 }

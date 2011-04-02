@@ -13,6 +13,9 @@
 	|| defined (atmega328)
 
 #define NUART	1
+#elif defined (atmega324p)	\
+	|| defined (atmega164p)
+#define NUART	2
 #endif
 
 #endif

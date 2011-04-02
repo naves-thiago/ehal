@@ -20,18 +20,18 @@
 #define U2X_ON
 #endif
 
-#define ENTRY(_baud) B ## _baud: calcbaud (_baud)
-void uart_setbaud (void *unused, enum uart_baud_rate baud)
+#define ENTRY(_u, _baud) B ## _baud: calcbaud (_u, _baud)
+void uart_setbaud (void *u, enum uart_baud_rate baud)
 {
 	switch(baud){
-	case ENTRY(  1200); break;
-	case ENTRY(  2400); break;
-	case ENTRY(  4800); break;
+	case ENTRY( u, 1200); break;
+	case ENTRY( u, 2400); break;
+	case ENTRY( u, 4800); break;
 	default: break;
-	case ENTRY(  9600); break;
-	case ENTRY( 19200); break;
-	case ENTRY( 38400); break;
-	case ENTRY(115200); break;
+	case ENTRY( u, 9600); break;
+	case ENTRY( u, 19200); break;
+	case ENTRY( u, 38400); break;
+	case ENTRY( u, 115200); break;
 	}
 }
 #undef ENTRY

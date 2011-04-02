@@ -58,18 +58,22 @@ PORT=						\
 	$(SPECIFIC_PATH)/port/port_getdir.c	\
 	$(SPECIFIC_PATH)/port_specific.h	\
 	$(GENERIC_PATH)/port.h
-UART=						\
-	$(SPECIFIC_PATH)/uart_init.c		\
-	$(SPECIFIC_PATH)/uart_setbaud.c		\
-	$(SPECIFIC_PATH)/uart_write.c		\
-	$(SPECIFIC_PATH)/uart_read.c		\
-	$(SPECIFIC_PATH)/uart_specific.h	\
+MULTIPLE_UART=						\
+	$(SPECIFIC_PATH)/multiple_uart/uart_init.c	\
+	$(SPECIFIC_PATH)/multiple_uart/uart_setbaud.c	\
+	$(SPECIFIC_PATH)/multiple_uart/uart_write.c	\
+	$(SPECIFIC_PATH)/multiple_uart/uart_read.c	\
+	$(SPECIFIC_PATH)/multiple_uart/uart_writenb.c	\
+	$(SPECIFIC_PATH)/multiple_uart/uart_readnb.c	\
+	$(SPECIFIC_PATH)/uart_specific.h		\
 	$(GENERIC_PATH)/uart.h
 SINGLE_UART=						\
 	$(SPECIFIC_PATH)/single_uart/uart_init.c	\
 	$(SPECIFIC_PATH)/single_uart/uart_setbaud.c	\
 	$(SPECIFIC_PATH)/single_uart/uart_write.c	\
 	$(SPECIFIC_PATH)/single_uart/uart_read.c	\
+	$(SPECIFIC_PATH)/single_uart/uart_writenb.c	\
+	$(SPECIFIC_PATH)/single_uart/uart_readnb.c	\
 	$(SPECIFIC_PATH)/uart_specific.h		\
 	$(GENERIC_PATH)/uart.h
 SPIM=						\
@@ -78,13 +82,16 @@ SPIM=						\
 	$(GENERIC_PATH)/spim.h
 
 # TODO: complete me ...
-USI_SRC=
-I2C_SRC=
-ADC_SRC=
-UART_SRC=
+SPIS=
+I2CM=
+I2CS=
+USI_SPIM=
+USI_SPIS=
+USI_I2CM=
+USI_I2CS=
+ADC=
 PWM=
 RTC=
-INT=
 CCP=
 ETH=
 DMA=
@@ -124,7 +131,14 @@ ifeq ($(MCU),atmega128)
 RESOURCES+=$(PORT)
 endif
 ifeq ($(MCU),atmega164p)
+RESOURCES+=$(CPU)
 RESOURCES+=$(PORT)
+RESOURCES+=$(MULTIPLE_UART)
+endif
+ifeq ($(MCU),atmega324p)
+RESOURCES+=$(CPU)
+RESOURCES+=$(PORT)
+RESOURCES+=$(MULTIPLE_UART)
 endif
 
 # .c + .h

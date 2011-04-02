@@ -20,13 +20,16 @@
 #ifndef EHAL_GLOBAL_H
 #define EHAL_GLOBAL_H
 
-/* PORT */
-#define PORT_ONCHANGE	/* one of the masked pins has changed */
+/*******************************************************************************
+ * AVR OPTIONS
+ ******************************************************************************/
+/* Option to turn of the x2 feature of avr uart. */
+// #define U2X_OFF
 
-/* UART */
-#define UART_ONNRX	/* rx queue have n bytes */
-#define UART_ONNTX	/* tx queue have n bytes */
-#define UART_ONCNTRL	/* rx added a control char into queue */
-#define UART_ONGOTC	/* rx just added char c into queue */
+/* Option to turn off an uart */
+// #define USART0_OFF
+// #define USART1_OFF
+// ...
+
 
 #endif
