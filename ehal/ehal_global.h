@@ -28,7 +28,7 @@
 
 /* Option to turn off an uart */
 // #define USART0_OFF
-// #define USART1_OFF
+#define USART1_OFF
 // ...
 
 

@@ -34,7 +34,7 @@ INCLUDE_DIR=-I./$(GENERIC_PATH) -I./$(SPECIFIC_PATH) -I./$(PORTABLE_PATH)
 
 CFLAGS=-mmcu=$(MCU) -D$(MCU) -DF_CPU=$(F_CPU)\
        $(CDEBUG) $(CDEFS) $(CINCS) -Os $(CWARN) $(CSTANDARD) \
-       $(CEXTRA) $(INCLUDE_DIR) -g
+       $(CEXTRA) $(INCLUDE_DIR) -g -DEHAL_GLOBAL
 
 # Resources definition. No need to change, change the ifeq of specific MCUs.
 
