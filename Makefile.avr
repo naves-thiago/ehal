@@ -58,23 +58,23 @@ PORT=						\
 	$(SPECIFIC_PATH)/port/port_getdir.c	\
 	$(SPECIFIC_PATH)/port_specific.h	\
 	$(GENERIC_PATH)/port.h
-MULTIPLE_UART=						\
+MULTIPLE_UART=					\
 	$(SPECIFIC_PATH)/usart/m_uart_init.c	\
 	$(SPECIFIC_PATH)/usart/m_uart_setbaud.c	\
 	$(SPECIFIC_PATH)/usart/m_uart_write.c	\
 	$(SPECIFIC_PATH)/usart/m_uart_read.c	\
 	$(SPECIFIC_PATH)/usart/m_uart_writenb.c	\
 	$(SPECIFIC_PATH)/usart/m_uart_readnb.c	\
-	$(SPECIFIC_PATH)/usart_specific.h		\
+	$(SPECIFIC_PATH)/usart_specific.h	\
 	$(GENERIC_PATH)/uart.h
-SINGLE_UART=						\
+SINGLE_UART=					\
 	$(SPECIFIC_PATH)/usart/s_uart_init.c	\
 	$(SPECIFIC_PATH)/usart/s_uart_setbaud.c	\
 	$(SPECIFIC_PATH)/usart/s_uart_write.c	\
 	$(SPECIFIC_PATH)/usart/s_uart_read.c	\
 	$(SPECIFIC_PATH)/usart/s_uart_writenb.c	\
 	$(SPECIFIC_PATH)/usart/s_uart_readnb.c	\
-	$(SPECIFIC_PATH)/usart_specific.h		\
+	$(SPECIFIC_PATH)/usart_specific.h	\
 	$(GENERIC_PATH)/uart.h
 SPIM=						\
 	$(SPECIFIC_PATH)/spim.c			\
