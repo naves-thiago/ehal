@@ -10,27 +10,28 @@ Introduction
 ------------
 
 * eHAL stands for embedded hardware abstraction layer. The idea is to create an
-API as simple as arduino's but versatile enought to run on many diferent MCUs
-ranging from 8 to 32 bits.
+API as simple but versatile enought to run on many diferent MCUs 8, 16, 32 bits
+with diferent needs. 
 * This file contains a brief on the organization of the repository and some
-general info, so before start asking please read it, if its not here please ask
-it :).
+general info, take your time to read it. If there are any questions just ring a
+bell at http://groups.google.com/group/embedded_hal that surely someone will
+answer it.
 
 Doc
 ----
 
 The documentation of the implementation, that means (not tutorials) is provided
-by Doxygen.
-
-Firstly install it by your package manager or from their website, and the run:
+by Doxygen. Doxygen is a way to embed documentation on the comments of source
+code. In '.h' on this case. More info at:
+http://www.stack.nl/~dimitri/doxygen/index.html
 
 ----
 doxygen
 ----
-on the project root folder, a *pages/* folder will be created with the doc.
-Again, this doc is intended to be a manual and API reference, not a tutorial.
 
-The tutorial is on the way, will come with the unity testing suit.
+After installing it, you can generate a local html or pdf version. For this:
+On the project root folder, a *pages/* folder will be created with the doc.
+Again, this doc is intended to be a manual and API reference, not a tutorial.
 
 How to help
 -----------

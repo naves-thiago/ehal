@@ -2,7 +2,7 @@
 #include <avr/interrupt.h>
 #include "queue.h"
 #include "uart.h"
-#include "uart_internal.h"
+#include "m_uart_internal.h"
 
 struct uart_dev uart_dev[NUART];
 

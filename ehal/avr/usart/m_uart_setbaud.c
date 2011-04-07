@@ -2,7 +2,7 @@
 #include <avr/interrupt.h>
 #include "queue.h"
 #include "uart.h"
-#include "uart_internal.h"
+#include "m_uart_internal.h"
 
 /* Must be a power of 2 */
 #ifndef TX_BUFF
