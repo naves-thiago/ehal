@@ -19,7 +19,6 @@
 #define PARITY_FORCED_1                 (2 << 4)
 #define PARITY_FORCED_0                 (3 << 4)
 
-#define DLAB_ENABLE                     (1 << 7)
 #define FIFO_ENABLE                     (1 << 0)
 #define RBR_IRQ_ENABLE                  (1 << 0)
 #define THRE_IRQ_ENABLE                 (1 << 1)
@@ -32,7 +31,6 @@
 #define M_STOP_BIT                      (1 << 2)
 #define M_PARITY_EN                     (1 << 3)
 #define M_PARITY_TYPE                   (3 << 4)
-#define M_DLAB_EN                       (1 << 7)
 #define M_FIFO_EN                       (1 << 0)
 
 #define M_RDA_INTERRUPT                 (2 << 1)
